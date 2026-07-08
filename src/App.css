@@ -294,14 +294,14 @@
 
 .suds-to-gold {
   background:
-    radial-gradient(circle at 9% 0%, #f5a709 0 38px, transparent 40px),
-    radial-gradient(circle at 20% 0%, #f5a709 0 24px, transparent 26px),
-    radial-gradient(circle at 32% 0%, #f5a709 0 36px, transparent 38px),
-    radial-gradient(circle at 45% 0%, #f5a709 0 26px, transparent 28px),
-    radial-gradient(circle at 58% 0%, #f5a709 0 42px, transparent 44px),
-    radial-gradient(circle at 70% 0%, #f5a709 0 30px, transparent 32px),
-    radial-gradient(circle at 82% 0%, #f5a709 0 40px, transparent 42px),
-    radial-gradient(circle at 94% 0%, #f5a709 0 28px, transparent 30px),
+    radial-gradient(circle at 9% 0%, #fff 0 38px, transparent 40px),
+    radial-gradient(circle at 20% 0%, #fff 0 24px, transparent 26px),
+    radial-gradient(circle at 32% 0%, #fff 0 36px, transparent 38px),
+    radial-gradient(circle at 45% 0%, #fff 0 26px, transparent 28px),
+    radial-gradient(circle at 58% 0%, #fff 0 42px, transparent 44px),
+    radial-gradient(circle at 70% 0%, #fff 0 30px, transparent 32px),
+    radial-gradient(circle at 82% 0%, #fff 0 40px, transparent 42px),
+    radial-gradient(circle at 94% 0%, #fff 0 28px, transparent 30px),
     linear-gradient(to bottom, #fff 0 48%, #f5a709 48% 100%);
 }
 
