@@ -273,6 +273,44 @@ function TermsOfUsePage() {
 function SiteFooter() {
   return (
     <div className="footer-area full">
+      <div className="social-footer inner" aria-label="Social links">
+        <a href="https://discord.gg/RuKDwG7Xxa" target="_blank" rel="noreferrer">
+          Discord
+        </a>{' '}
+        |{' '}
+        <a
+          href="https://www.youtube.com/channel/UCTPpFNZezP6Y5lV1wvaLNoQ"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Youtube
+        </a>{' '}
+        |{' '}
+        <a
+          href="https://www.facebook.com/beercheergame/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          facebook
+        </a>{' '}
+        |{' '}
+        <a
+          href="https://www.instagram.com/beercheergame/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          instagram
+        </a>{' '}
+        |{' '}
+        <a
+          href="https://www.twitter.com/beercheergame/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          twitter
+        </a>
+      </div>
+
       <footer id="colophon" className="site-footer inner" role="contentinfo">
         <div className="footer-box full">
           © BEER * CHEER | All Right Reserved | View our{' '}

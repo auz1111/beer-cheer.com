@@ -366,6 +366,22 @@
   color: #fff;
 }
 
+.social-footer {
+  padding: 1rem 1rem 0.9rem;
+  text-align: center;
+  font-size: 0.92rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.social-footer a {
+  color: #ffe49d;
+  text-decoration: none;
+}
+
+.social-footer a:hover {
+  text-decoration: underline;
+}
+
 .site-footer {
   padding: 1.5rem 1rem;
   text-align: center;
@@ -645,5 +661,10 @@
 
   .site-footer {
     font-size: 0.86rem;
+  }
+
+  .social-footer {
+    font-size: 0.82rem;
+    line-height: 1.8;
   }
 }
