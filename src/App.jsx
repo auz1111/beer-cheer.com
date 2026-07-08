@@ -303,11 +303,11 @@ function SiteFooter() {
         </a>{' '}
         |{' '}
         <a
-          href="https://www.twitter.com/beercheergame/"
+          href="https://x.com/beercheergame"
           target="_blank"
           rel="noreferrer"
         >
-          twitter
+          X.com
         </a>
       </div>
 
