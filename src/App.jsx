@@ -136,48 +136,59 @@ function HomePage() {
         <div className="inner flex-container">
           <div className="full-width-col">
             <article className="entry-content">
-              <div className="responsive-video">
-                <iframe
-                  src="https://www.youtube.com/embed/hCs3cS8HLRE?si=3P7wR_ck9cXunRFX"
-                  title="Beer Cheer trailer"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                ></iframe>
+              <div className="video-zone">
+                <div className="responsive-video">
+                  <iframe
+                    src="https://www.youtube.com/embed/hCs3cS8HLRE?si=3P7wR_ck9cXunRFX"
+                    title="Beer Cheer trailer"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  ></iframe>
+                </div>
               </div>
 
-              <p>
-                <span className="rainbow-text">BEER CHEER</span> is a competitive and
-                skill-based game where players compete to pass bottles through a
-                production bottling line before time is up!
-              </p>
+              <div className="suds-transition suds-to-white" aria-hidden="true"></div>
 
-              <p>
-                Be prepared to keep bottles from tipping over or exploding from too much
-                carbonation. Be quick to remove BAD beer from the line, and keep the beer
-                fans from disapproving. Some bottles require caps and others require
-                filling. Be strategic and achieve the highest score!
-              </p>
+              <section className="text-zone" aria-label="Game description">
+                <p>
+                  <span className="rainbow-text">BEER CHEER</span> is a competitive and
+                  skill-based game where players compete to pass bottles through a
+                  production bottling line before time is up!
+                </p>
 
-              <p>
-                The game is based on the busy and bursting beer industry and puts a fun
-                and challenging spin on the industry&apos;s bottling line. Explore breweries
-                around the world while helping keep the bottling line running smooth.
-              </p>
+                <p>
+                  Be prepared to keep bottles from tipping over or exploding from too
+                  much carbonation. Be quick to remove BAD beer from the line, and keep
+                  the beer fans from disapproving. Some bottles require caps and others
+                  require filling. Be strategic and achieve the highest score!
+                </p>
 
-              <section className="merch-gallery" aria-label="Beer Cheer merchandise">
-                {merchItems.map((item) => (
-                  <a
-                    key={item.img}
-                    href={item.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="merch-card"
-                    aria-label={item.label}
-                  >
-                    <img src={item.img} alt={item.label} loading="lazy" />
-                  </a>
-                ))}
+                <p>
+                  The game is based on the busy and bursting beer industry and puts a
+                  fun and challenging spin on the industry&apos;s bottling line. Explore
+                  breweries around the world while helping keep the bottling line running
+                  smooth.
+                </p>
+              </section>
+
+              <div className="suds-transition suds-to-gold" aria-hidden="true"></div>
+
+              <section className="merch-zone" aria-label="Beer Cheer merchandise">
+                <section className="merch-gallery" aria-label="Beer Cheer merchandise">
+                  {merchItems.map((item) => (
+                    <a
+                      key={item.img}
+                      href={item.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="merch-card"
+                      aria-label={item.label}
+                    >
+                      <img src={item.img} alt={item.label} loading="lazy" />
+                    </a>
+                  ))}
+                </section>
               </section>
             </article>
           </div>

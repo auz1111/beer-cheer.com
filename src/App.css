@@ -254,11 +254,55 @@
   text-align: left;
 }
 
-.entry-content p {
+.video-zone {
+  background: transparent;
+}
+
+.text-zone {
+  background: #fff;
+  color: #503409;
+  padding: 1.1rem 2rem 2.4rem;
+}
+
+.text-zone p {
   font-size: 1.14rem;
   line-height: 1.8;
   margin: 1.35rem 0;
-  color: #fff7e8;
+  color: #6a4614;
+}
+
+.merch-zone {
+  background: transparent;
+}
+
+.suds-transition {
+  height: 92px;
+}
+
+.suds-to-white {
+  background:
+    radial-gradient(circle at 8% 100%, #fff 0 40px, transparent 42px),
+    radial-gradient(circle at 20% 100%, #fff 0 28px, transparent 30px),
+    radial-gradient(circle at 31% 100%, #fff 0 36px, transparent 38px),
+    radial-gradient(circle at 43% 100%, #fff 0 24px, transparent 26px),
+    radial-gradient(circle at 55% 100%, #fff 0 40px, transparent 42px),
+    radial-gradient(circle at 68% 100%, #fff 0 32px, transparent 34px),
+    radial-gradient(circle at 80% 100%, #fff 0 44px, transparent 46px),
+    radial-gradient(circle at 92% 100%, #fff 0 30px, transparent 32px),
+    linear-gradient(to bottom, #f5a709 0 52%, #fff 52% 100%);
+}
+
+.suds-to-gold {
+  background:
+    radial-gradient(circle at 9% 0%, #f5a709 0 38px, transparent 40px),
+    radial-gradient(circle at 20% 0%, #f5a709 0 24px, transparent 26px),
+    radial-gradient(circle at 32% 0%, #f5a709 0 36px, transparent 38px),
+    radial-gradient(circle at 45% 0%, #f5a709 0 26px, transparent 28px),
+    radial-gradient(circle at 58% 0%, #f5a709 0 42px, transparent 44px),
+    radial-gradient(circle at 70% 0%, #f5a709 0 30px, transparent 32px),
+    radial-gradient(circle at 82% 0%, #f5a709 0 40px, transparent 42px),
+    radial-gradient(circle at 94% 0%, #f5a709 0 28px, transparent 30px),
+    linear-gradient(to bottom, #fff 0 48%, #f5a709 48% 100%);
 }
 
 .responsive-video {
@@ -281,7 +325,7 @@
 
 .rainbow-text {
   font-size: 1.5em;
-  background-image: linear-gradient(to right, #ffd579, #ffe991, #fff6b6, #ffd27b);
+  background-image: linear-gradient(to right, #d17f00, #f0b02d, #f8d272, #cb7700);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -584,6 +628,14 @@
 
   .entry-content p {
     font-size: 1rem;
+  }
+
+  .text-zone {
+    padding: 1rem 1.2rem 1.8rem;
+  }
+
+  .suds-transition {
+    height: 74px;
   }
 
   .merch-gallery {
