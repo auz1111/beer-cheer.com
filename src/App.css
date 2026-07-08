@@ -237,6 +237,138 @@
   font-size: 1.1em;
 }
 
+.main-content {
+  background-color: #f5a709;
+  color: #fff;
+  padding: 3.5rem 0 4rem;
+}
+
+.inner {
+  width: min(1200px, calc(100% - 3rem));
+  margin: 0 auto;
+}
+
+.entry-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.entry-content p {
+  font-size: 1.14rem;
+  line-height: 1.8;
+  margin: 1.35rem 0;
+  color: #fff7e8;
+}
+
+.responsive-video {
+  position: relative;
+  overflow: hidden;
+  border: 4px solid #855513;
+  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 2rem;
+}
+
+.responsive-video iframe {
+  border: 0;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.rainbow-text {
+  font-size: 1.5em;
+  background-image: linear-gradient(to right, #ffd579, #ffe991, #fff6b6, #ffd27b);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-weight: 700;
+}
+
+.merch-gallery {
+  margin-top: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.merch-card {
+  display: block;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #a06a14;
+  border: 2px solid #875406;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.merch-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.28);
+}
+
+.merch-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.footer-area {
+  background-color: #7b4f0f;
+  border-top: 8px solid #b87918;
+  color: #fff;
+}
+
+.site-footer {
+  padding: 1.5rem 1rem;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+.site-footer a {
+  color: #ffd972;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+.legal-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #120c05 0%, #291b0e 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.legal-inner {
+  width: min(980px, calc(100% - 3rem));
+  margin: 0 auto;
+  padding: 4rem 0 3rem;
+  flex: 1;
+}
+
+.legal-inner h1 {
+  font-size: clamp(1.9rem, 3vw, 2.8rem);
+  margin: 0 0 1.3rem;
+}
+
+.legal-inner h2 {
+  margin: 2rem 0 0.6rem;
+  font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+}
+
+.legal-inner p {
+  margin: 0;
+  color: #efe5d3;
+  line-height: 1.75;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -344,6 +476,10 @@
   .featured-cta {
     padding: 26% 1em 70%;
   }
+
+  .merch-gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 @media screen and (max-width: 800px) {
@@ -440,5 +576,22 @@
 
   .link-button {
     display: inline-block;
+  }
+
+  .main-content {
+    padding: 2.5rem 0 3rem;
+  }
+
+  .entry-content p {
+    font-size: 1rem;
+  }
+
+  .merch-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.7rem;
+  }
+
+  .site-footer {
+    font-size: 0.86rem;
   }
 }
