@@ -1,0 +1,444 @@
+@import url('https://fonts.googleapis.com/css2?family=Michroma&family=Roboto:wght@300;400;500;700&display=swap');
+
+.beer-cheer-site {
+  overflow-x: hidden;
+  font-family: 'Michroma', sans-serif;
+  color: #fff;
+}
+
+.header-area {
+  position: relative;
+  background-color: #babcbe;
+  background-image: url('/legacy/images/bendbeerbottles-feature-img-3.jpg');
+  background-size: contain;
+  background-repeat: repeat;
+  height: 750px;
+}
+
+.pattern {
+  background-repeat: repeat;
+  height: 100%;
+}
+
+#masthead {
+  position: relative;
+  padding: 0;
+}
+
+#branding-band {
+  min-height: 100px;
+  padding: 1em;
+  width: 100%;
+  z-index: 99999;
+}
+
+.site-branding {
+  float: none;
+  width: 1000px;
+  margin: auto;
+  position: relative;
+}
+
+.site-title {
+  margin: 0;
+}
+
+.site-description {
+  display: none;
+}
+
+#masthead .site-branding .site-title {
+  background: url('/legacy/images/beer-cheer-logo-no-gear.png') no-repeat;
+  background-size: 1000px 305px;
+  width: 1000px;
+  height: 305px;
+  position: absolute;
+  top: 20px;
+  z-index: 9999;
+  clip: rect(0px, 2020px, 192px, 0px);
+}
+
+.logo-text {
+  position: absolute;
+  text-indent: -99999px;
+  width: 100%;
+  height: 100%;
+}
+
+.featured-cta {
+  color: #fff;
+  text-align: center;
+  padding: 300px 5em 1em;
+}
+
+.featured-cta .wp-block-heading {
+  font-size: 2em;
+  margin-bottom: 0.4em;
+}
+
+.featured-cta .wp-block-paragraph {
+  font-size: 1.2em;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.site-title-gear {
+  background: url('/legacy/images/beer-cheer-gear-1.png') no-repeat;
+  background-size: 300px 300px;
+  width: 300px;
+  height: 300px;
+  display: block;
+  z-index: 0;
+  position: absolute;
+  top: 20px;
+  left: 330px;
+  transform-origin: center center;
+  animation: spin 46s linear infinite;
+}
+
+.site-title-gear-2 {
+  background: url('/legacy/images/beer-cheer-gear-2.png') no-repeat;
+  background-size: 125px 125px;
+  width: 125px;
+  height: 125px;
+  display: block;
+  z-index: 10;
+  position: absolute;
+  top: 139px;
+  left: 414px;
+  transform-origin: center center;
+  animation: spin-gear-2 46s linear infinite;
+}
+
+.beer-bottle {
+  background-size: 90px 300px !important;
+  width: 90px;
+  height: 300px;
+  z-index: 11;
+  position: absolute;
+  top: 456px;
+  left: -90px;
+  animation: move-beer-bottle 10s linear infinite;
+}
+
+#beer-bottle-1 {
+  background: url('/legacy/images/beer-cheer-bottle-1.png') no-repeat;
+  animation-delay: 0s !important;
+}
+
+#beer-bottle-2 {
+  background: url('/legacy/images/beer-cheer-bottle-2.png') no-repeat;
+  animation-delay: 2s !important;
+}
+
+#beer-bottle-3 {
+  background: url('/legacy/images/beer-cheer-bottle-3.png') no-repeat;
+  animation-delay: 3.5s !important;
+}
+
+#beer-bottle-4 {
+  background: url('/legacy/images/beer-cheer-bottle-4.png') no-repeat;
+  animation-delay: 5.6s !important;
+}
+
+#beer-bottle-5 {
+  background: url('/legacy/images/beer-cheer-bottle-4.png') no-repeat;
+  animation-delay: 6.6s !important;
+}
+
+.moving-bottle.paused {
+  animation-play-state: paused !important;
+}
+
+#conveyor-belt {
+  background-color: #babcbe;
+  background-image: url('/legacy/images/conveyor-belt.png');
+  background-repeat: repeat;
+  width: 100vw;
+  height: 102px;
+  display: block;
+  position: absolute;
+  z-index: 10;
+  top: 680px;
+  animation: move-bg 4.3s linear infinite;
+}
+
+#large-header {
+  z-index: 0;
+  position: relative;
+  background-color: #000;
+  height: 360px;
+}
+
+#bubble-canvas {
+  z-index: -1;
+  width: 100%;
+}
+
+.email-signup {
+  text-align: center;
+  color: #fff;
+  position: absolute;
+  width: 100%;
+  top: 10px;
+}
+
+.widget-title {
+  font-size: 3em;
+  margin-bottom: 0.3em;
+}
+
+.textwidget {
+  margin-bottom: 32px;
+  font-size: 1.2em;
+}
+
+.link-button {
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  outline: none;
+  font-family: 'Michroma', sans-serif;
+  font-size: 16px;
+  text-shadow: -2px 2px 0 rgba(0, 0, 0, 0.2);
+  font-weight: 700;
+  transition: all 0.1s linear;
+  background: linear-gradient(to bottom, #b37312, #794d0b);
+  box-shadow: -1px 0 1px #b37312, 0 1px 1px #b37312, -2px 1px 1px #b37312,
+    -1px 2px 1px #b37312, -3px 2px 1px #584938, -2px 3px 1px #584938,
+    -4px 3px 1px #584938, -3px 4px 1px #493c2e, -5px 4px 1px #493c2e,
+    -4px 5px 1px #493c2e, -6px 5px 1px #493c2e;
+}
+
+.link-button:active {
+  box-shadow: none;
+  transform: translate3d(-6px, 6px, 0);
+}
+
+.hero-footer {
+  text-align: center;
+  color: #fff;
+  padding: 3rem 1rem 5rem;
+  border-top: 6px solid #d98e11;
+  background-color: #000;
+  background-image: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.4) 0 2px, transparent 3px),
+    radial-gradient(circle at 80% 60%, rgba(255, 255, 255, 0.25) 0 1px, transparent 2px),
+    radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.2) 0 1px, transparent 2px);
+  background-size: 240px 240px, 180px 180px, 120px 120px;
+}
+
+.hero-footer h3 {
+  font-size: 2em;
+  margin: 0 0 1rem;
+}
+
+.hero-footer p {
+  margin: 0;
+  font-size: 1.1em;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-gear-2 {
+  0% {
+    transform: rotate(360deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes move-beer-bottle {
+  0% {
+    transform: translateX(-120px);
+  }
+
+  100% {
+    transform: translateX(calc(100vw + 90px));
+  }
+}
+
+@keyframes move-bg {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+@media screen and (max-width: 1120px) {
+  #masthead .site-branding .site-title {
+    background-size: 900px 274px;
+    width: 900px;
+    height: 274px;
+    clip: rect(0px, 900px, 172px, 0px);
+  }
+
+  .site-branding {
+    width: 900px;
+  }
+
+  .site-title-gear {
+    background-size: 280px 280px;
+    width: 280px;
+    height: 280px;
+    left: 292px;
+  }
+
+  .site-title-gear-2 {
+    background-size: 115px 115px;
+    width: 115px;
+    height: 115px;
+    top: 125px;
+    left: 372px;
+  }
+
+  .header-area {
+    background-size: cover;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  #masthead .site-branding .site-title {
+    background-size: 700px 213px;
+    width: 700px;
+    height: 213px;
+    clip: rect(0px, 900px, 134px, 0px);
+  }
+
+  .site-branding {
+    width: 700px;
+  }
+
+  .site-title-gear {
+    background-size: 220px 220px;
+    width: 220px;
+    height: 220px;
+    left: 226px;
+  }
+
+  .site-title-gear-2 {
+    background-size: 90px 90px;
+    width: 90px;
+    height: 90px;
+    top: 102px;
+    left: 289px;
+  }
+
+  #conveyor-belt {
+    top: 694px !important;
+    animation-direction: reverse !important;
+  }
+
+  .featured-cta {
+    padding: 26% 1em 70%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  #masthead .site-branding .site-title {
+    background: url('/legacy/images/beer-cheer-logo-vert-no-gears.png') no-repeat;
+    background-size: 380px 411px;
+    width: 380px;
+    height: 411px;
+    clip: rect(0px, 701px, 758px, 0px);
+  }
+
+  .site-branding {
+    width: 380px;
+  }
+
+  .featured-cta {
+    padding: 54% 1em 70%;
+  }
+
+  .widget-title {
+    font-size: 2em;
+  }
+
+  .site-title-gear {
+    background-size: 340px 340px;
+    width: 340px;
+    height: 340px;
+    top: 26px;
+    left: 20px;
+  }
+
+  .site-title-gear-2 {
+    background-size: 140px 140px;
+    width: 140px;
+    height: 140px;
+    top: 157px;
+    left: 120px;
+  }
+
+  .beer-bottle {
+    top: 466px;
+  }
+}
+
+@media screen and (max-width: 660px) {
+  .featured-cta {
+    padding: 64% 1em 70%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .site-branding {
+    width: 300px;
+  }
+
+  #masthead .site-branding .site-title {
+    background-size: 300px 324px;
+    width: 300px;
+    height: 324px;
+  }
+
+  .site-title-gear {
+    background-size: 280px 280px;
+    width: 280px;
+    height: 280px;
+    top: 24px;
+    left: 8px;
+  }
+
+  .site-title-gear-2 {
+    background-size: 110px 110px;
+    width: 110px;
+    height: 110px;
+    top: 129px;
+    left: 95px;
+  }
+
+  .beer-bottle {
+    animation: move-beer-bottle 5s linear infinite !important;
+  }
+
+  .beer-bottles .beer-bottle:nth-child(2n) {
+    display: none;
+  }
+
+  .widget-title {
+    font-size: 1.5em;
+  }
+
+  .textwidget {
+    font-size: 1em;
+    padding: 0 0.8rem;
+  }
+
+  .link-button {
+    display: inline-block;
+  }
+}
