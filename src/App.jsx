@@ -199,12 +199,36 @@ function HomePage() {
     }
   }, [])
 
+  const setLegacyMotionDirection = (direction) => {
+    const conveyor = document.getElementById('conveyor-belt')
+    const bottleNodes = Array.from(document.querySelectorAll('.beer-bottle'))
+    const motionTargets = conveyor ? [...bottleNodes, conveyor] : bottleNodes
+
+    motionTargets.forEach((target) => {
+      if (target.classList?.contains('paused')) {
+        return
+      }
+
+      const animations = target.getAnimations ? target.getAnimations() : []
+      animations.forEach((animation) => {
+        const baseRate = Math.abs(animation.playbackRate || 1) || 1
+        animation.playbackRate = direction < 0 ? -baseRate : baseRate
+
+        if (animation.playState !== 'running') {
+          animation.play()
+        }
+      })
+    })
+  }
+
   const handleLogoPressStart = () => {
     logoPressedRef.current = true
+    setLegacyMotionDirection(-1)
   }
 
   const handleLogoPressEnd = () => {
     logoPressedRef.current = false
+    setLegacyMotionDirection(1)
   }
 
   return (
