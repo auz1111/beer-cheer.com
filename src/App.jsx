@@ -1498,7 +1498,7 @@ function AdminTopMenu({ showLogout = false }) {
     <header className="admin-topbar" role="banner">
       <div className="admin-topbar-inner">
         <div className="admin-topbar-left">
-          <Link to="/" className="admin-topbar-brand" aria-label="Back to Beer Cheer home">
+          <Link to="/admin" className="admin-topbar-brand" aria-label="Go to admin dashboard">
             Beer Cheer Admin
           </Link>
           <Link to="/admin/blogs" className="admin-topbar-link">
@@ -1613,13 +1613,10 @@ function AdminLoginPage() {
 }
 
 function AdminEditorPage() {
-  const [title, setTitle] = useState('')
-  const [excerpt, setExcerpt] = useState('')
-  const [content, setContent] = useState('')
   const [authChecked, setAuthChecked] = useState(false)
   const [isAuthed, setIsAuthed] = useState(false)
-  const [submitting, setSubmitting] = useState(false)
-  const [message, setMessage] = useState('')
+  const [loadingDashboard, setLoadingDashboard] = useState(true)
+  const [posts, setPosts] = useState([])
   const [error, setError] = useState('')
 
   useEffect(() => {
@@ -1660,49 +1657,50 @@ function AdminEditorPage() {
     }
   }, [])
 
-  async function handleCreatePost(event) {
-    event.preventDefault()
-    setSubmitting(true)
-    setError('')
-    setMessage('')
+  useEffect(() => {
+    let cancelled = false
 
-    const token = localStorage.getItem(ADMIN_TOKEN_KEY)
-    if (!token) {
-      setError('You are not logged in.')
-      setSubmitting(false)
-      return
-    }
-
-    try {
-      const response = await fetch(apiUrl('/api/blog-create-post'), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-admin-token': token,
-        },
-        body: JSON.stringify({
-          title,
-          excerpt,
-          content,
-        }),
-      })
-
-      const data = await parseJsonSafe(response)
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to create post')
+    async function loadDashboardData() {
+      const token = localStorage.getItem(ADMIN_TOKEN_KEY)
+      if (!token) {
+        if (!cancelled) {
+          setLoadingDashboard(false)
+        }
+        return
       }
 
-      setTitle('')
-      setExcerpt('')
-      setContent('')
-      setMessage(`Post published: ${data.post.title}`)
-    } catch (err) {
-      setError(err.message || 'Failed to create post')
-    } finally {
-      setSubmitting(false)
+      try {
+        const response = await fetch(apiUrl('/api/blog-posts'), {
+          headers: {
+            'x-admin-token': token,
+          },
+        })
+        const data = await parseJsonSafe(response)
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to load dashboard data')
+        }
+
+        if (!cancelled) {
+          setPosts(Array.isArray(data.posts) ? data.posts : [])
+          setLoadingDashboard(false)
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message || 'Failed to load dashboard data')
+          setLoadingDashboard(false)
+        }
+      }
     }
-  }
+
+    if (isAuthed) {
+      loadDashboardData()
+    }
+
+    return () => {
+      cancelled = true
+    }
+  }, [isAuthed])
 
   if (!authChecked) {
     return (
@@ -1732,41 +1730,43 @@ function AdminEditorPage() {
             />
           </Link>
 
-          <h1>Create Blog Post</h1>
-          <p>Write and publish a new post to the Beer Cheer blog feed.</p>
+          <div className="admin-dashboard-header">
+            <h1>Admin Dashboard</h1>
+            <p>Review your blog activity and jump to management tools.</p>
+          </div>
 
-          <form className="blog-auth-form" onSubmit={handleCreatePost}>
-            <label htmlFor="post-title">Title</label>
-            <input
-              id="post-title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
-
-            <label htmlFor="post-excerpt">Excerpt (optional)</label>
-            <input
-              id="post-excerpt"
-              value={excerpt}
-              onChange={(e) => setExcerpt(e.target.value)}
-            />
-
-            <label htmlFor="post-content">Content</label>
-            <textarea
-              id="post-content"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              rows={10}
-              required
-            />
-
-            <button type="submit" className="blog-btn" disabled={submitting}>
-              {submitting ? 'Publishing...' : 'Publish Post'}
-            </button>
-          </form>
-
-          {message && <p className="blog-success">{message}</p>}
+          {loadingDashboard && <p>Loading dashboard...</p>}
           {error && <p className="blog-error">{error}</p>}
+
+          {!loadingDashboard && !error && (
+            <div className="admin-dashboard-grid">
+              <section className="admin-dashboard-card admin-dashboard-stat">
+                <h2>Total Posts</h2>
+                <p>{posts.length}</p>
+              </section>
+
+              <section className="admin-dashboard-card admin-dashboard-stat">
+                <h2>Latest Publish</h2>
+                <p>{posts[0]?.publishedAt ? formatPublishDate(posts[0].publishedAt) : 'No posts yet'}</p>
+              </section>
+
+              <section className="admin-dashboard-card admin-dashboard-actions-card">
+                <h2>Blog Management</h2>
+                <p>Browse, edit, and review all posts from a single list.</p>
+                <Link to="/admin/blogs" className="admin-blogs-action admin-blogs-action-primary">
+                  Open Blogs Dashboard
+                </Link>
+              </section>
+
+              <section className="admin-dashboard-card admin-dashboard-actions-card">
+                <h2>Public Site</h2>
+                <p>Open the live blog feed and verify post formatting.</p>
+                <Link to="/blog" className="admin-blogs-action admin-blogs-action-secondary">
+                  View Public Blog
+                </Link>
+              </section>
+            </div>
+          )}
 
           <div className="blog-admin-actions">
             <Link to="/admin/blogs" className="blog-admin-link">Manage Blogs</Link>
@@ -1895,7 +1895,7 @@ function AdminBlogsPage() {
             </div>
             <div className="admin-blogs-actions" aria-label="Admin blog actions">
               <Link to="/admin" className="admin-blogs-action admin-blogs-action-primary">
-                Create New Post
+                Dashboard
               </Link>
               <Link to="/blog" className="admin-blogs-action admin-blogs-action-secondary">
                 View Public Blog
