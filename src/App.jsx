@@ -77,6 +77,10 @@ async function parseJsonSafe(response) {
 
 function getLoginErrorMessage(response, data, err) {
   if (response) {
+    if (response.status === 404) {
+      return 'Login API not found. Deployment may still be in progress.'
+    }
+
     if (response.status === 401) {
       return 'Invalid credentials. Check your username and password.'
     }
