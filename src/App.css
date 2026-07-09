@@ -481,6 +481,17 @@
   flex: 1;
 }
 
+@media screen and (max-width: 640px) {
+  .legal-inner {
+    width: min(980px, calc(100% - 2rem));
+  }
+
+  .blog-auth-wrap {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+}
+
 .legal-logo-link {
   display: inline-block;
   margin: 0 0 1.35rem;
