@@ -735,6 +735,50 @@
   resize: vertical;
 }
 
+.admin-quill-wrap {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.admin-quill-wrap .ql-toolbar.ql-snow {
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(20, 12, 5, 0.95);
+}
+
+.admin-quill-wrap .ql-container.ql-snow {
+  border: 0;
+  color: #fff;
+  min-height: 280px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+}
+
+.admin-quill-wrap .ql-editor {
+  min-height: 280px;
+  line-height: 1.7;
+}
+
+.admin-quill-wrap .ql-snow .ql-stroke {
+  stroke: #ffd88a;
+}
+
+.admin-quill-wrap .ql-snow .ql-fill {
+  fill: #ffd88a;
+}
+
+.admin-quill-wrap .ql-snow .ql-picker {
+  color: #ffd88a;
+}
+
+.admin-editor-note {
+  margin: 0.35rem 0 0 !important;
+  color: #f4d38f !important;
+  font-size: 0.9rem;
+}
+
 .blog-auth-form input:focus,
 .blog-auth-form select:focus,
 .blog-auth-form textarea:focus {

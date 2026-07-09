@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { BrowserRouter, Link, Navigate, Route, Routes, useParams } from 'react-router-dom'
 import './App.css'
+import 'quill/dist/quill.snow.css'
 import { initLegacyBubbleCanvas } from './legacy/bubble'
 import { initLegacyBottleAnimations } from './legacy/bottles'
 
@@ -2005,6 +2006,93 @@ function AdminBlogDetailsPage() {
   const [submitting, setSubmitting] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+  const [editorReady, setEditorReady] = useState(false)
+  const [editorError, setEditorError] = useState('')
+  const editorHostRef = useRef(null)
+  const quillRef = useRef(null)
+
+  useEffect(() => {
+    let disposed = false
+
+    async function initEditor() {
+      if (loadingPost) {
+        return
+      }
+
+      if (!editorHostRef.current || quillRef.current) {
+        return
+      }
+
+      try {
+        await import('quill/dist/quill.js')
+
+        if (disposed || !editorHostRef.current) {
+          return
+        }
+
+        const Quill = window.Quill
+        if (typeof Quill !== 'function') {
+          throw new Error('Quill constructor is unavailable on window')
+        }
+
+        // React StrictMode can mount/unmount twice in dev; clear stale editor DOM before re-init.
+        editorHostRef.current.innerHTML = ''
+
+        const editor = new Quill(editorHostRef.current, {
+          theme: 'snow',
+          modules: {
+            toolbar: [
+              [{ header: [2, 3, false] }],
+              ['bold', 'italic', 'underline', 'strike'],
+              [{ list: 'ordered' }, { list: 'bullet' }],
+              ['link', 'image', 'blockquote', 'code-block'],
+              [{ align: [] }],
+              ['clean'],
+            ],
+          },
+        })
+
+        editor.on('text-change', () => {
+          setContent(editor.root.innerHTML)
+        })
+
+        quillRef.current = editor
+        setEditorReady(true)
+        setEditorError('')
+      } catch (quillError) {
+        console.error('Quill init failed', quillError)
+        if (!disposed) {
+          const message = String(quillError?.message || '')
+          const details = message ? ` (${message})` : ''
+          setEditorError(`HTML editor unavailable. Using plain textarea mode${details}.`)
+        }
+      }
+    }
+
+    initEditor()
+
+    return () => {
+      disposed = true
+      quillRef.current = null
+      setEditorReady(false)
+    }
+  }, [loadingPost])
+
+  useEffect(() => {
+    if (!editorReady || !quillRef.current) {
+      return
+    }
+
+    const current = quillRef.current.root.innerHTML
+    const next = content || ''
+    if (current !== next) {
+      try {
+        quillRef.current.clipboard.dangerouslyPasteHTML(0, next, 'silent')
+      } catch {
+        quillRef.current.root.innerHTML = next
+      }
+    }
+  }, [content, editorReady])
 
   useEffect(() => {
     let cancelled = false
@@ -2083,6 +2171,12 @@ function AdminBlogDetailsPage() {
     const token = localStorage.getItem(ADMIN_TOKEN_KEY)
     if (!token) {
       setError('You are not logged in.')
+      setSubmitting(false)
+      return
+    }
+
+    if (!String(content || '').trim()) {
+      setError('Content is required.')
       setSubmitting(false)
       return
     }
@@ -2168,13 +2262,21 @@ function AdminBlogDetailsPage() {
               />
 
               <label htmlFor="update-post-content">Content</label>
-              <textarea
-                id="update-post-content"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                rows={10}
-                required
-              />
+              {editorError ? (
+                <textarea
+                  id="update-post-content"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  rows={10}
+                  required
+                />
+              ) : (
+                <div className="admin-quill-wrap" id="update-post-content">
+                  <div ref={editorHostRef} className="admin-quill-editor" />
+                </div>
+              )}
+              {!editorError && !editorReady && <p className="admin-editor-note">Loading editor...</p>}
+              {editorError && <p className="blog-error">{editorError}</p>}
 
               <button type="submit" className="blog-btn" disabled={submitting}>
                 {submitting ? 'Updating...' : 'Update Blog'}
@@ -2184,11 +2286,6 @@ function AdminBlogDetailsPage() {
 
           {message && <p className="blog-success">{message}</p>}
           {error && <p className="blog-error">{error}</p>}
-
-          <div className="blog-admin-actions">
-            <Link to="/admin/blogs" className="blog-admin-link">Back to All Blogs</Link>
-            <Link to="/admin" className="blog-admin-link">Create New Post</Link>
-          </div>
         </div>
       </div>
       <SiteFooter />
