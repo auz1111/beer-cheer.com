@@ -53,7 +53,6 @@ const merchItems = [
 ]
 
 const ADMIN_TOKEN_KEY = 'beerCheerAdminToken'
-const DEFAULT_REMOTE_API_BASE = 'https://www.beer-cheer.com'
 
 function getApiBase() {
   const configured = import.meta.env.VITE_API_BASE_URL
@@ -61,11 +60,8 @@ function getApiBase() {
     return String(configured).replace(/\/$/, '')
   }
 
-  if (typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname)) {
-    // Local Vite dev server does not host Azure Functions routes by default.
-    return DEFAULT_REMOTE_API_BASE
-  }
-
+  // Default to same-origin API paths.
+  // In local dev, Vite proxy can forward /api to production or another API host.
   return ''
 }
 
@@ -146,7 +142,7 @@ function getLoginErrorMessage(response, data, err) {
   }
 
   if (err?.name === 'TypeError') {
-    return 'Server unavailable. Please check API deployment and try again.'
+    return 'Unable to reach API. If running locally, restart npm run dev so /api proxy is active.'
   }
 
   return err?.message || 'Login failed. Please try again.'
