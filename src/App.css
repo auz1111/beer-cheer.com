@@ -188,6 +188,19 @@
   box-sizing: border-box;
 }
 
+.email-signup .inner {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.email-signup .widget_text {
+  width: min(1100px, calc(100% - 2rem));
+  margin: 0 auto;
+  text-align: center;
+}
+
 .widget-title {
   font-size: 3em;
   margin: 0 0 0.45em;
@@ -199,6 +212,8 @@
   font-size: 1.2em;
   max-width: 760px;
   line-height: 1.4;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .link-button {
