@@ -1487,6 +1487,37 @@ function BlogPage() {
   )
 }
 
+function AdminTopMenu({ showLogout = false }) {
+  function handleTopbarLogout() {
+    localStorage.removeItem(ADMIN_TOKEN_KEY)
+    window.location.href = '/admin/login'
+  }
+
+  return (
+    <header className="admin-topbar" role="banner">
+      <div className="admin-topbar-inner">
+        <div className="admin-topbar-left">
+          <Link to="/" className="admin-topbar-brand" aria-label="Back to Beer Cheer home">
+            Beer Cheer Admin
+          </Link>
+          <Link to="/blog" className="admin-topbar-link">
+            Blogs
+          </Link>
+        </div>
+        {showLogout ? (
+          <button type="button" className="blog-btn admin-topbar-login" onClick={handleTopbarLogout}>
+            Logout
+          </button>
+        ) : (
+          <Link to="/admin/login" className="blog-btn admin-topbar-login">
+            Login
+          </Link>
+        )}
+      </div>
+    </header>
+  )
+}
+
 function AdminLoginPage() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -1529,6 +1560,7 @@ function AdminLoginPage() {
 
   return (
     <div className="legal-page">
+      <AdminTopMenu />
       <div className="legal-inner blog-auth-wrap">
         <div className="blog-auth-panel">
           <Link to="/" className="legal-logo-link" aria-label="Back to Beer Cheer home">
@@ -1671,11 +1703,6 @@ function AdminEditorPage() {
     }
   }
 
-  function handleLogout() {
-    localStorage.removeItem(ADMIN_TOKEN_KEY)
-    window.location.href = '/admin/login'
-  }
-
   if (!authChecked) {
     return (
       <div className="legal-page">
@@ -1693,6 +1720,7 @@ function AdminEditorPage() {
 
   return (
     <div className="legal-page">
+      <AdminTopMenu showLogout />
       <div className="legal-inner blog-auth-wrap">
         <div className="blog-auth-panel">
           <Link to="/" className="legal-logo-link" aria-label="Back to Beer Cheer home">
@@ -1739,12 +1767,6 @@ function AdminEditorPage() {
           {message && <p className="blog-success">{message}</p>}
           {error && <p className="blog-error">{error}</p>}
 
-          <div className="blog-admin-actions">
-            <Link to="/blog" className="blog-admin-link">View Blog</Link>
-            <button type="button" className="blog-btn blog-btn-muted" onClick={handleLogout}>
-              Logout
-            </button>
-          </div>
         </div>
       </div>
       <SiteFooter />
