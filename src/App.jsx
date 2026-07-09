@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Link, Navigate, Route, Routes, useParams } from 'react-router-dom'
 import './App.css'
 import { initLegacyBubbleCanvas } from './legacy/bubble'
 import { initLegacyBottleAnimations } from './legacy/bottles'
@@ -1783,13 +1783,10 @@ function AdminBlogsPage() {
   const [isAuthed, setIsAuthed] = useState(false)
   const [posts, setPosts] = useState([])
   const [loadingPosts, setLoadingPosts] = useState(true)
-  const [selectedPostId, setSelectedPostId] = useState('')
-  const [title, setTitle] = useState('')
-  const [excerpt, setExcerpt] = useState('')
-  const [content, setContent] = useState('')
-  const [submitting, setSubmitting] = useState(false)
-  const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [expandedPostId, setExpandedPostId] = useState(null)
+  const postsPerPage = 10
 
   useEffect(() => {
     let cancelled = false
@@ -1831,13 +1828,6 @@ function AdminBlogsPage() {
         if (!cancelled) {
           const loadedPosts = Array.isArray(postsData.posts) ? postsData.posts : []
           setPosts(loadedPosts)
-          if (loadedPosts.length > 0) {
-            const first = loadedPosts[0]
-            setSelectedPostId(first.id)
-            setTitle(first.title || '')
-            setExcerpt(first.excerpt || '')
-            setContent(first.content || '')
-          }
           setIsAuthed(true)
           setAuthChecked(true)
           setLoadingPosts(false)
@@ -1858,81 +1848,16 @@ function AdminBlogsPage() {
     }
   }, [])
 
-  function handleSelectPost(postId) {
-    setSelectedPostId(postId)
-    setMessage('')
-    setError('')
+  const totalPages = Math.max(1, Math.ceil(posts.length / postsPerPage))
+  const safePage = Math.min(currentPage, totalPages)
+  const startIndex = (safePage - 1) * postsPerPage
+  const visiblePosts = posts.slice(startIndex, startIndex + postsPerPage)
 
-    const selectedPost = posts.find((post) => post.id === postId)
-    if (!selectedPost) {
-      setTitle('')
-      setExcerpt('')
-      setContent('')
-      return
+  useEffect(() => {
+    if (currentPage !== safePage) {
+      setCurrentPage(safePage)
     }
-
-    setTitle(selectedPost.title || '')
-    setExcerpt(selectedPost.excerpt || '')
-    setContent(selectedPost.content || '')
-  }
-
-  async function handleUpdatePost(event) {
-    event.preventDefault()
-    setSubmitting(true)
-    setError('')
-    setMessage('')
-
-    const token = localStorage.getItem(ADMIN_TOKEN_KEY)
-    if (!token) {
-      setError('You are not logged in.')
-      setSubmitting(false)
-      return
-    }
-
-    if (!selectedPostId) {
-      setError('Please select a blog post to update.')
-      setSubmitting(false)
-      return
-    }
-
-    try {
-      const response = await fetch(apiUrl('/api/blog-update-post'), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-admin-token': token,
-        },
-        body: JSON.stringify({
-          id: selectedPostId,
-          title,
-          excerpt,
-          content,
-        }),
-      })
-
-      const data = await parseJsonSafe(response)
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to update post')
-      }
-
-      const updatedPost = data.post || {
-        id: selectedPostId,
-        title,
-        excerpt,
-        content,
-      }
-
-      setPosts((current) =>
-        current.map((post) => (post.id === selectedPostId ? { ...post, ...updatedPost } : post))
-      )
-      setMessage(`Post updated: ${updatedPost.title || title}`)
-    } catch (err) {
-      setError(err.message || 'Failed to update post')
-    } finally {
-      setSubmitting(false)
-    }
-  }
+  }, [currentPage, safePage])
 
   if (!authChecked) {
     return (
@@ -1962,67 +1887,307 @@ function AdminBlogsPage() {
             />
           </Link>
 
-          <h1>Admin Blogs</h1>
-          <p>Select a blog post, update it, then save changes.</p>
+          <div className="admin-blogs-header">
+            <div className="admin-blogs-header-copy">
+              <h1>Admin Blogs</h1>
+              <p>All blog posts are listed below. Click Edit to open the details page.</p>
+            </div>
+            <div className="admin-blogs-actions" aria-label="Admin blog actions">
+              <Link to="/admin" className="admin-blogs-action admin-blogs-action-primary">
+                Create New Post
+              </Link>
+              <Link to="/blog" className="admin-blogs-action admin-blogs-action-secondary">
+                View Public Blog
+              </Link>
+            </div>
+          </div>
 
-          <form className="blog-auth-form" onSubmit={handleUpdatePost}>
-            <label htmlFor="admin-post-select">Choose Blog</label>
-            <select
-              id="admin-post-select"
-              value={selectedPostId}
-              onChange={(e) => handleSelectPost(e.target.value)}
-              disabled={loadingPosts || posts.length === 0}
-            >
-              {posts.length === 0 ? (
-                <option value="">No blog posts found</option>
-              ) : (
-                posts.map((post) => (
-                  <option key={post.id} value={post.id}>
-                    {post.title || '(Untitled)'}
-                  </option>
-                ))
-              )}
-            </select>
+          {loadingPosts && <p>Loading posts...</p>}
+          {!loadingPosts && posts.length === 0 && !error && <p>No blog posts found.</p>}
+          {error && <p className="blog-error">{error}</p>}
 
-            <label htmlFor="update-post-title">Title</label>
-            <input
-              id="update-post-title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
+          {!loadingPosts && posts.length > 0 && (
+            <div className="admin-blog-list">
+              {visiblePosts.map((post) => {
+                const isExpanded = expandedPostId === post.id
+
+                return (
+                <article key={post.id} className="admin-blog-list-item">
+                  <div className="admin-blog-list-top">
+                    <div className="admin-blog-list-heading">
+                      <h2 className="admin-blog-list-title">{post.title || '(Untitled)'}</h2>
+                      <p className="admin-blog-list-date">
+                        Published {formatPublishDate(post.publishedAt)}
+                      </p>
+                    </div>
+                    <div className="admin-blog-list-controls">
+                      <Link
+                        to={`/admin/blogs/${post.id}`}
+                        className="blog-btn admin-edit-btn"
+                        aria-label="Edit blog post"
+                        title="Edit"
+                      >
+                        <span className="admin-edit-icon" aria-hidden="true">&#9998;</span>
+                      </Link>
+                      <button
+                        type="button"
+                        className="admin-caret-btn"
+                        onClick={() => setExpandedPostId(isExpanded ? null : post.id)}
+                        aria-expanded={isExpanded}
+                        aria-label={isExpanded ? 'Collapse post content' : 'Expand post content'}
+                        title={isExpanded ? 'Collapse' : 'Expand'}
+                      >
+                        <span className="admin-caret-icon" aria-hidden="true">
+                          {isExpanded ? '▴' : '▾'}
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                  {isExpanded && (
+                    <div className="admin-blog-list-copy">
+                      {post.excerpt && (
+                        <div
+                          className="admin-blog-list-excerpt"
+                          dangerouslySetInnerHTML={{ __html: toRenderableHtml(post.excerpt) }}
+                        />
+                      )}
+                      {post.content && (
+                        <div
+                          className="blog-content admin-blog-list-content"
+                          dangerouslySetInnerHTML={{ __html: toRenderableHtml(post.content) }}
+                        />
+                      )}
+                    </div>
+                  )}
+                </article>
+                )
+              })}
+            </div>
+          )}
+
+          {!loadingPosts && !error && posts.length > postsPerPage && (
+            <nav className="blog-pagination" aria-label="Admin blog pagination">
+              <button
+                type="button"
+                className="blog-btn blog-btn-muted"
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={safePage === 1}
+              >
+                Previous
+              </button>
+              <span className="blog-page-indicator">Page {safePage} of {totalPages}</span>
+              <button
+                type="button"
+                className="blog-btn blog-btn-muted"
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={safePage === totalPages}
+              >
+                Next
+              </button>
+            </nav>
+          )}
+
+        </div>
+      </div>
+      <SiteFooter />
+    </div>
+  )
+}
+
+function AdminBlogDetailsPage() {
+  const { postId } = useParams()
+  const [authChecked, setAuthChecked] = useState(false)
+  const [isAuthed, setIsAuthed] = useState(false)
+  const [loadingPost, setLoadingPost] = useState(true)
+  const [title, setTitle] = useState('')
+  const [excerpt, setExcerpt] = useState('')
+  const [content, setContent] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadPostDetails() {
+      const token = localStorage.getItem(ADMIN_TOKEN_KEY)
+      if (!token) {
+        if (!cancelled) {
+          setAuthChecked(true)
+          setIsAuthed(false)
+          setLoadingPost(false)
+        }
+        return
+      }
+
+      try {
+        const authResponse = await fetch(apiUrl('/api/auth-me'), {
+          headers: {
+            'x-admin-token': token,
+          },
+        })
+
+        if (!authResponse.ok) {
+          if (!cancelled) {
+            setAuthChecked(true)
+            setIsAuthed(false)
+            setLoadingPost(false)
+          }
+          return
+        }
+
+        const postsResponse = await fetch(apiUrl('/api/blog-posts'))
+        const postsData = await parseJsonSafe(postsResponse)
+
+        if (!postsResponse.ok) {
+          throw new Error(postsData.message || 'Failed to load posts')
+        }
+
+        const loadedPosts = Array.isArray(postsData.posts) ? postsData.posts : []
+        const selectedPost = loadedPosts.find((post) => post.id === postId)
+
+        if (!selectedPost) {
+          throw new Error('Blog post not found')
+        }
+
+        if (!cancelled) {
+          setTitle(selectedPost.title || '')
+          setExcerpt(selectedPost.excerpt || '')
+          setContent(selectedPost.content || '')
+          setAuthChecked(true)
+          setIsAuthed(true)
+          setLoadingPost(false)
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message || 'Failed to load blog post')
+          setAuthChecked(true)
+          setIsAuthed(true)
+          setLoadingPost(false)
+        }
+      }
+    }
+
+    loadPostDetails()
+    return () => {
+      cancelled = true
+    }
+  }, [postId])
+
+  async function handleUpdatePost(event) {
+    event.preventDefault()
+    setSubmitting(true)
+    setError('')
+    setMessage('')
+
+    const token = localStorage.getItem(ADMIN_TOKEN_KEY)
+    if (!token) {
+      setError('You are not logged in.')
+      setSubmitting(false)
+      return
+    }
+
+    try {
+      const response = await fetch(apiUrl('/api/blog-update-post'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-token': token,
+        },
+        body: JSON.stringify({
+          id: postId,
+          title,
+          excerpt,
+          content,
+        }),
+      })
+
+      const data = await parseJsonSafe(response)
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to update post')
+      }
+
+      const updatedTitle = data.post?.title || title
+      setMessage(`Post updated: ${updatedTitle}`)
+    } catch (err) {
+      setError(err.message || 'Failed to update post')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  if (!authChecked) {
+    return (
+      <div className="legal-page">
+        <div className="legal-inner">
+          <h1>Edit Blog</h1>
+          <p>Checking session...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!isAuthed) {
+    return <Navigate to="/admin/login" replace />
+  }
+
+  return (
+    <div className="legal-page">
+      <AdminTopMenu showLogout />
+      <div className="legal-inner blog-auth-wrap">
+        <div className="blog-auth-panel">
+          <Link to="/" className="legal-logo-link" aria-label="Back to Beer Cheer home">
+            <img
+              src="/legacy/images/beer-cheer-logo-no-gear.png"
+              alt="Beer Cheer"
+              className="legal-logo"
             />
+          </Link>
 
-            <label htmlFor="update-post-excerpt">Excerpt (optional)</label>
-            <input
-              id="update-post-excerpt"
-              value={excerpt}
-              onChange={(e) => setExcerpt(e.target.value)}
-            />
+          <h1>Edit Blog Post</h1>
+          <p>Update the post details and save changes.</p>
 
-            <label htmlFor="update-post-content">Content</label>
-            <textarea
-              id="update-post-content"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              rows={10}
-              required
-            />
+          {loadingPost ? (
+            <p>Loading post details...</p>
+          ) : (
+            <form className="blog-auth-form" onSubmit={handleUpdatePost}>
+              <label htmlFor="update-post-title">Title</label>
+              <input
+                id="update-post-title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
 
-            <button
-              type="submit"
-              className="blog-btn"
-              disabled={submitting || posts.length === 0 || !selectedPostId}
-            >
-              {submitting ? 'Updating...' : 'Update Blog'}
-            </button>
-          </form>
+              <label htmlFor="update-post-excerpt">Excerpt (optional)</label>
+              <input
+                id="update-post-excerpt"
+                value={excerpt}
+                onChange={(e) => setExcerpt(e.target.value)}
+              />
+
+              <label htmlFor="update-post-content">Content</label>
+              <textarea
+                id="update-post-content"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                rows={10}
+                required
+              />
+
+              <button type="submit" className="blog-btn" disabled={submitting}>
+                {submitting ? 'Updating...' : 'Update Blog'}
+              </button>
+            </form>
+          )}
 
           {message && <p className="blog-success">{message}</p>}
           {error && <p className="blog-error">{error}</p>}
 
           <div className="blog-admin-actions">
+            <Link to="/admin/blogs" className="blog-admin-link">Back to All Blogs</Link>
             <Link to="/admin" className="blog-admin-link">Create New Post</Link>
-            <Link to="/blog" className="blog-admin-link">View Public Blog</Link>
           </div>
         </div>
       </div>
@@ -2109,6 +2274,7 @@ function App() {
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin" element={<AdminEditorPage />} />
         <Route path="/admin/blogs" element={<AdminBlogsPage />} />
+        <Route path="/admin/blogs/:postId" element={<AdminBlogDetailsPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/terms-of-use" element={<TermsOfUsePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
