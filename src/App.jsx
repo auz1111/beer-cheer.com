@@ -1413,7 +1413,7 @@ function AdminLoginPage() {
     setMessage('')
 
     try {
-      const response = await fetch('/api/admin-login', {
+      const response = await fetch('/api/auth-login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1505,7 +1505,7 @@ function AdminEditorPage() {
       }
 
       try {
-        const response = await fetch('/api/admin-me', {
+        const response = await fetch('/api/auth-me', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

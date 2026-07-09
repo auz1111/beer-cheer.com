@@ -27,8 +27,8 @@ This project now includes a basic blog system with:
 
 ### API Endpoints
 
-- `POST /api/admin-login` -> validates `ADMIN_USERNAME` + `ADMIN_PASSWORD`, returns JWT
-- `GET /api/admin-me` -> validates admin JWT
+- `POST /api/auth-login` -> validates `ADMIN_USERNAME` + `ADMIN_PASSWORD`, returns JWT
+- `GET /api/auth-me` -> validates admin JWT
 - `GET /api/blog-posts` -> returns published posts from Cosmos DB
 - `POST /api/blog-create-post` -> creates post (requires admin JWT)
 - `GET /api/health` -> basic API health and Cosmos connectivity probe
