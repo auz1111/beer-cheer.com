@@ -83,10 +83,9 @@ function HomePage() {
               </div>
 
               <div className="featured-cta">
-                <h2 className="wp-block-heading">Play NOW to Win!</h2>
+                <h2 className="wp-block-heading">Play NOW!</h2>
                 <p className="wp-block-paragraph">
-                  BEER * CHEER is now in Open Testing for Android. Join us to win cool
-                  prizes from your local brewery and Beer Cheer swag!
+                  BEER * CHEER is on Google Play for Android.
                 </p>
               </div>
             </header>
@@ -109,20 +108,26 @@ function HomePage() {
         <div className="email-signup">
           <div className="inner">
             <aside className="widget_text widget widget_custom_html">
-              <h3 className="widget-title">Play now to win prizes!</h3>
+              <h3 className="widget-title">Get The App On Google Play</h3>
               <div className="textwidget custom-html-widget">
-                Join our Open Testing Phase II from June 22 - July 22, 2024 to win!
+                Download BEER * CHEER for Android and start bottling your way to the
+                highest score.
                 <br />
                 <br />
                 <div>
                   <p className="has-text-align-center">
                     <a
-                      href="https://beer-cheer.com/beer-cheer-open-testing/"
-                      className="link-button button4"
+                      href="https://play.google.com/store/apps/details?id=com.pushupz.app"
+                      className="link-button button4 google-play-badge-link"
                       target="_blank"
                       rel="noreferrer"
+                      aria-label="Get it on Google Play"
                     >
-                      Join us!
+                      <img
+                        src="/branding/google-play-badge.png"
+                        className="google-play-badge"
+                        alt="Get it on Google Play"
+                      />
                     </a>
                   </p>
                 </div>
