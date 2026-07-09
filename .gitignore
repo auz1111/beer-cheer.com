@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Unity WebGL exports (generated build artifacts)
+public/unity-build/
+public/unity-build-2/

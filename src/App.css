@@ -622,6 +622,46 @@
   color: #1a1106;
 }
 
+.unity-wrap {
+  max-width: 980px;
+}
+
+.unity-shell {
+  margin-top: 1.2rem;
+  border: 1px solid rgba(255, 216, 138, 0.28);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(10, 6, 2, 0.85);
+}
+
+.unity-frame {
+  display: block;
+  width: 100%;
+  min-height: min(78vh, 760px);
+  border: 0;
+  background: #000;
+}
+
+.unity-placeholder {
+  margin-top: 1.2rem;
+  padding: 1rem;
+  border: 1px dashed rgba(255, 216, 138, 0.34);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.unity-placeholder h2 {
+  margin: 0;
+}
+
+.unity-placeholder p {
+  margin-top: 0.7rem !important;
+}
+
+.unity-placeholder strong {
+  color: #ffe0a1;
+}
+
 .blog-card {
   border-top: 1px solid rgba(255, 255, 255, 0.16);
   padding-top: 1rem;

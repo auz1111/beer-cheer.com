@@ -50,7 +50,7 @@ const merchItems = [
     href: 'https://www.teepublic.com/hoodie/55770147-beer-cheer-logo',
     img: '/merch/hoodie.webp',
     label: 'Beer Cheer Hoodie',
-  },
+  }
 ]
 
 const ADMIN_TOKEN_KEY = 'beerCheerAdminToken'
@@ -1565,6 +1565,136 @@ function BlogPage() {
   )
 }
 
+function UnityPage() {
+  const [status, setStatus] = useState('checking')
+  const [missingFiles, setMissingFiles] = useState([])
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function checkBuild() {
+      const requiredFiles = [
+        { path: '/unity-build/index.html', expectedType: 'text/html' },
+        { path: '/unity-build/StreamingAssets/aa/settings.json', expectedType: 'application/json' },
+      ]
+
+      try {
+        const checks = await Promise.all(
+          requiredFiles.map(async (file) => {
+            try {
+              const response = await fetch(file.path, {
+                method: 'GET',
+                cache: 'no-store',
+              })
+              const contentType = (response.headers.get('content-type') || '').toLowerCase()
+              const looksLikeSpaFallback = contentType.includes('text/html') && file.expectedType !== 'text/html'
+              const typeMatches = file.expectedType === 'text/html' || contentType.includes(file.expectedType)
+              return { path: file.path, ok: response.ok && !looksLikeSpaFallback && typeMatches }
+            } catch {
+              return { path: file.path, ok: false }
+            }
+          }),
+        )
+
+        const missing = checks.filter((item) => !item.ok).map((item) => item.path)
+
+        if (!cancelled) {
+          setMissingFiles(missing)
+          if (missing.length === 0) {
+            setStatus('ready')
+          } else if (missing.includes('/unity-build/index.html')) {
+            setStatus('missing')
+          } else {
+            setStatus('incomplete')
+          }
+        }
+      } catch {
+        if (!cancelled) {
+          setMissingFiles(requiredFiles.map((file) => file.path))
+          setStatus('missing')
+        }
+      }
+    }
+
+    checkBuild()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  return (
+    <div className="legal-page">
+      <div className="legal-inner unity-wrap">
+        <Link to="/" className="legal-logo-link" aria-label="Back to Beer Cheer home">
+          <img
+            src="/legacy/images/beer-cheer-logo-no-gear.png"
+            alt="Beer Cheer"
+            className="legal-logo"
+          />
+        </Link>
+
+        <h1>Unity Web Version</h1>
+        <p>
+          Yes, you can host your Unity WebGL build on this site. This page is ready to load
+          your exported build from <strong>/unity-build/index.html</strong>.
+        </p>
+
+        {status === 'checking' && <p>Checking for Unity build files...</p>}
+
+        {status === 'ready' && (
+          <div className="unity-shell">
+            <iframe
+              title="Beer Cheer Unity Web"
+              src="/unity-build/index.html"
+              className="unity-frame"
+              allowFullScreen
+            />
+          </div>
+        )}
+
+        {status === 'incomplete' && (
+          <div className="unity-placeholder">
+            <h2>Unity Build Is Incomplete</h2>
+            <p>
+              The build folder exists, but some required files are missing. Your current errors are
+              caused by this file not being present:
+              <strong> /unity-build/StreamingAssets/aa/settings.json</strong>.
+            </p>
+            {missingFiles.length > 0 && (
+              <p>
+                Missing files: {missingFiles.join(', ')}
+              </p>
+            )}
+            <p>
+              In Unity, run Addressables build, then make a fresh WebGL build and copy the entire
+              export output into <strong>public/unity-build/</strong>, preserving all subfolders.
+            </p>
+          </div>
+        )}
+
+        {status === 'missing' && (
+          <div className="unity-placeholder">
+            <h2>Build Not Published Yet</h2>
+            <p>
+              Export your game from Unity as WebGL, then copy the exported files into
+              <strong> public/unity-build/</strong> so this URL exists:
+              <strong> /unity-build/index.html</strong>.
+            </p>
+            <p>
+              Once those files are in place and deployed, this page will automatically render
+              the web version.
+            </p>
+            <a href="/unity-build/index.html" className="admin-blogs-action admin-blogs-action-primary">
+              Open Unity Build URL
+            </a>
+          </div>
+        )}
+      </div>
+      <SiteFooter />
+    </div>
+  )
+}
+
 function AdminTopMenu({ showLogout = false }) {
   function handleTopbarLogout() {
     localStorage.removeItem(ADMIN_TOKEN_KEY)
@@ -2417,6 +2547,7 @@ function SiteFooter() {
           <Link to="/privacy-policy">Privacy Policy</Link> |{' '}
           <Link to="/terms-of-use">Terms of Use</Link> |{' '}
           <Link to="/blog">Blog</Link> |{' '}
+          <Link to="/unity">Unity</Link> |{' '}
           <a
             href="https://www.teepublic.com/user/beer-cheer"
             target="_blank"
@@ -2449,6 +2580,7 @@ function App() {
         <Route path="/admin" element={<AdminEditorPage />} />
         <Route path="/admin/blogs" element={<AdminBlogsPage />} />
         <Route path="/admin/blogs/:postId" element={<AdminBlogDetailsPage />} />
+        <Route path="/unity" element={<UnityPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/terms-of-use" element={<TermsOfUsePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
