@@ -53,6 +53,27 @@ const merchItems = [
 ]
 
 const ADMIN_TOKEN_KEY = 'beerCheerAdminToken'
+const DEFAULT_REMOTE_API_BASE = 'https://www.beer-cheer.com'
+
+function getApiBase() {
+  const configured = import.meta.env.VITE_API_BASE_URL
+  if (configured) {
+    return String(configured).replace(/\/$/, '')
+  }
+
+  if (typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname)) {
+    // Local Vite dev server does not host Azure Functions routes by default.
+    return DEFAULT_REMOTE_API_BASE
+  }
+
+  return ''
+}
+
+const API_BASE = getApiBase()
+
+function apiUrl(path) {
+  return `${API_BASE}${path}`
+}
 
 function formatPublishDate(value) {
   try {
@@ -103,6 +124,9 @@ async function parseJsonSafe(response) {
 function getLoginErrorMessage(response, data, err) {
   if (response) {
     if (response.status === 404) {
+      if (typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname)) {
+        return 'Local API not found. Set VITE_API_BASE_URL or run SWA CLI with the api folder.'
+      }
       return 'Login API not found. Deployment may still be in progress.'
     }
 
@@ -1364,7 +1388,7 @@ function BlogPage() {
       setError('')
 
       try {
-        const response = await fetch('/api/blog-posts')
+        const response = await fetch(apiUrl('/api/blog-posts'))
         if (!response.ok) {
           throw new Error('Failed to load posts')
         }
@@ -1481,7 +1505,7 @@ function AdminLoginPage() {
     setMessage('')
 
     try {
-      const response = await fetch('/api/auth-login', {
+      const response = await fetch(apiUrl('/api/auth-login'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1573,7 +1597,7 @@ function AdminEditorPage() {
       }
 
       try {
-        const response = await fetch('/api/auth-me', {
+        const response = await fetch(apiUrl('/api/auth-me'), {
           headers: {
             'x-admin-token': token,
           },
@@ -1611,7 +1635,7 @@ function AdminEditorPage() {
     }
 
     try {
-      const response = await fetch('/api/blog-create-post', {
+      const response = await fetch(apiUrl('/api/blog-create-post'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
