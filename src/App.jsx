@@ -62,6 +62,31 @@ function formatPublishDate(value) {
   }
 }
 
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+function toRenderableHtml(value) {
+  const raw = String(value || '')
+  const trimmed = raw.trim()
+
+  if (!trimmed) {
+    return ''
+  }
+
+  // Legacy imported posts already contain rendered HTML; new admin posts are often plain text.
+  if (/[<][a-z!/]/i.test(trimmed)) {
+    return raw
+  }
+
+  return escapeHtml(raw).replace(/\r?\n/g, '<br />')
+}
+
 async function parseJsonSafe(response) {
   const text = await response.text()
   if (!text) {
@@ -1387,10 +1412,18 @@ function BlogPage() {
 
         {!loading && !error && posts.map((post) => (
           <article key={post.id} className="blog-card">
-            <h2>{post.title}</h2>
+            <h2 dangerouslySetInnerHTML={{ __html: toRenderableHtml(post.title) }} />
             <p className="blog-date">Published {formatPublishDate(post.publishedAt)}</p>
-            {post.excerpt && <p className="blog-excerpt">{post.excerpt}</p>}
-            <div className="blog-content">{post.content}</div>
+            {post.excerpt && (
+              <div
+                className="blog-excerpt"
+                dangerouslySetInnerHTML={{ __html: toRenderableHtml(post.excerpt) }}
+              />
+            )}
+            <div
+              className="blog-content"
+              dangerouslySetInnerHTML={{ __html: toRenderableHtml(post.content) }}
+            />
           </article>
         ))}
       </div>
