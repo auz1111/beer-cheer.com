@@ -75,6 +75,30 @@ async function parseJsonSafe(response) {
   }
 }
 
+function getLoginErrorMessage(response, data, err) {
+  if (response) {
+    if (response.status === 401) {
+      return 'Invalid credentials. Check your username and password.'
+    }
+
+    if (response.status === 503) {
+      return data.message || 'Login service is not configured yet.'
+    }
+
+    if (response.status >= 500) {
+      return 'Server unavailable. Please try again in a minute.'
+    }
+
+    return data.message || 'Login failed. Please try again.'
+  }
+
+  if (err?.name === 'TypeError') {
+    return 'Server unavailable. Please check API deployment and try again.'
+  }
+
+  return err?.message || 'Login failed. Please try again.'
+}
+
 function HomePage() {
   useEffect(() => {
     const cleanupBubble = initLegacyBubbleCanvas()
@@ -1396,7 +1420,7 @@ function AdminLoginPage() {
       const data = await parseJsonSafe(response)
 
       if (!response.ok) {
-        throw new Error(data.message || 'Login failed')
+        throw new Error(getLoginErrorMessage(response, data))
       }
 
       localStorage.setItem(ADMIN_TOKEN_KEY, data.token)
@@ -1405,7 +1429,7 @@ function AdminLoginPage() {
         window.location.href = '/admin'
       }, 400)
     } catch (err) {
-      setError(err.message || 'Login failed')
+      setError(getLoginErrorMessage(null, null, err))
     } finally {
       setSubmitting(false)
     }

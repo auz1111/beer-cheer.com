@@ -3,12 +3,16 @@ const { signAdminToken, isAdminPasswordValid } = require("../shared/auth")
 
 module.exports = async function (context, req) {
   const { username, password } = req.body || {}
+  const expectedUsername = process.env.ADMIN_USERNAME || "admin"
+  const expectedPassword = process.env.ADMIN_PASSWORD
 
   if (!username || !password) {
     return json(context, 400, { message: "username and password are required" })
   }
 
-  const expectedUsername = process.env.ADMIN_USERNAME || "admin"
+  if (!expectedPassword) {
+    return json(context, 503, { message: "Admin login is not configured on the server" })
+  }
 
   if (username !== expectedUsername || !isAdminPasswordValid(password)) {
     return json(context, 401, { message: "Invalid credentials" })
