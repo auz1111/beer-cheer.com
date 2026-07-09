@@ -717,6 +717,7 @@
 }
 
 .blog-auth-form input,
+.blog-auth-form select,
 .blog-auth-form textarea {
   box-sizing: border-box;
   width: 100%;
@@ -735,6 +736,7 @@
 }
 
 .blog-auth-form input:focus,
+.blog-auth-form select:focus,
 .blog-auth-form textarea:focus {
   outline: 2px solid rgba(255, 216, 138, 0.9);
   border-color: rgba(255, 216, 138, 0.9);

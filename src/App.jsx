@@ -1500,7 +1500,7 @@ function AdminTopMenu({ showLogout = false }) {
           <Link to="/" className="admin-topbar-brand" aria-label="Back to Beer Cheer home">
             Beer Cheer Admin
           </Link>
-          <Link to="/blog" className="admin-topbar-link">
+          <Link to="/admin/blogs" className="admin-topbar-link">
             Blogs
           </Link>
         </div>
@@ -1767,6 +1767,263 @@ function AdminEditorPage() {
           {message && <p className="blog-success">{message}</p>}
           {error && <p className="blog-error">{error}</p>}
 
+          <div className="blog-admin-actions">
+            <Link to="/admin/blogs" className="blog-admin-link">Manage Blogs</Link>
+          </div>
+
+        </div>
+      </div>
+      <SiteFooter />
+    </div>
+  )
+}
+
+function AdminBlogsPage() {
+  const [authChecked, setAuthChecked] = useState(false)
+  const [isAuthed, setIsAuthed] = useState(false)
+  const [posts, setPosts] = useState([])
+  const [loadingPosts, setLoadingPosts] = useState(true)
+  const [selectedPostId, setSelectedPostId] = useState('')
+  const [title, setTitle] = useState('')
+  const [excerpt, setExcerpt] = useState('')
+  const [content, setContent] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function checkAuth() {
+      const token = localStorage.getItem(ADMIN_TOKEN_KEY)
+      if (!token) {
+        if (!cancelled) {
+          setAuthChecked(true)
+          setIsAuthed(false)
+          setLoadingPosts(false)
+        }
+        return
+      }
+
+      try {
+        const response = await fetch(apiUrl('/api/auth-me'), {
+          headers: {
+            'x-admin-token': token,
+          },
+        })
+
+        if (!response.ok) {
+          if (!cancelled) {
+            setIsAuthed(false)
+            setAuthChecked(true)
+            setLoadingPosts(false)
+          }
+          return
+        }
+
+        const postsResponse = await fetch(apiUrl('/api/blog-posts'))
+        const postsData = await parseJsonSafe(postsResponse)
+
+        if (!postsResponse.ok) {
+          throw new Error(postsData.message || 'Failed to load posts')
+        }
+
+        if (!cancelled) {
+          const loadedPosts = Array.isArray(postsData.posts) ? postsData.posts : []
+          setPosts(loadedPosts)
+          if (loadedPosts.length > 0) {
+            const first = loadedPosts[0]
+            setSelectedPostId(first.id)
+            setTitle(first.title || '')
+            setExcerpt(first.excerpt || '')
+            setContent(first.content || '')
+          }
+          setIsAuthed(true)
+          setAuthChecked(true)
+          setLoadingPosts(false)
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message || 'Failed to load blog posts')
+          setIsAuthed(true)
+          setAuthChecked(true)
+          setLoadingPosts(false)
+        }
+      }
+    }
+
+    checkAuth()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  function handleSelectPost(postId) {
+    setSelectedPostId(postId)
+    setMessage('')
+    setError('')
+
+    const selectedPost = posts.find((post) => post.id === postId)
+    if (!selectedPost) {
+      setTitle('')
+      setExcerpt('')
+      setContent('')
+      return
+    }
+
+    setTitle(selectedPost.title || '')
+    setExcerpt(selectedPost.excerpt || '')
+    setContent(selectedPost.content || '')
+  }
+
+  async function handleUpdatePost(event) {
+    event.preventDefault()
+    setSubmitting(true)
+    setError('')
+    setMessage('')
+
+    const token = localStorage.getItem(ADMIN_TOKEN_KEY)
+    if (!token) {
+      setError('You are not logged in.')
+      setSubmitting(false)
+      return
+    }
+
+    if (!selectedPostId) {
+      setError('Please select a blog post to update.')
+      setSubmitting(false)
+      return
+    }
+
+    try {
+      const response = await fetch(apiUrl('/api/blog-update-post'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-admin-token': token,
+        },
+        body: JSON.stringify({
+          id: selectedPostId,
+          title,
+          excerpt,
+          content,
+        }),
+      })
+
+      const data = await parseJsonSafe(response)
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to update post')
+      }
+
+      const updatedPost = data.post || {
+        id: selectedPostId,
+        title,
+        excerpt,
+        content,
+      }
+
+      setPosts((current) =>
+        current.map((post) => (post.id === selectedPostId ? { ...post, ...updatedPost } : post))
+      )
+      setMessage(`Post updated: ${updatedPost.title || title}`)
+    } catch (err) {
+      setError(err.message || 'Failed to update post')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  if (!authChecked) {
+    return (
+      <div className="legal-page">
+        <div className="legal-inner">
+          <h1>Admin Blogs</h1>
+          <p>Checking session...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!isAuthed) {
+    return <Navigate to="/admin/login" replace />
+  }
+
+  return (
+    <div className="legal-page">
+      <AdminTopMenu showLogout />
+      <div className="legal-inner blog-auth-wrap">
+        <div className="blog-auth-panel">
+          <Link to="/" className="legal-logo-link" aria-label="Back to Beer Cheer home">
+            <img
+              src="/legacy/images/beer-cheer-logo-no-gear.png"
+              alt="Beer Cheer"
+              className="legal-logo"
+            />
+          </Link>
+
+          <h1>Admin Blogs</h1>
+          <p>Select a blog post, update it, then save changes.</p>
+
+          <form className="blog-auth-form" onSubmit={handleUpdatePost}>
+            <label htmlFor="admin-post-select">Choose Blog</label>
+            <select
+              id="admin-post-select"
+              value={selectedPostId}
+              onChange={(e) => handleSelectPost(e.target.value)}
+              disabled={loadingPosts || posts.length === 0}
+            >
+              {posts.length === 0 ? (
+                <option value="">No blog posts found</option>
+              ) : (
+                posts.map((post) => (
+                  <option key={post.id} value={post.id}>
+                    {post.title || '(Untitled)'}
+                  </option>
+                ))
+              )}
+            </select>
+
+            <label htmlFor="update-post-title">Title</label>
+            <input
+              id="update-post-title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
+
+            <label htmlFor="update-post-excerpt">Excerpt (optional)</label>
+            <input
+              id="update-post-excerpt"
+              value={excerpt}
+              onChange={(e) => setExcerpt(e.target.value)}
+            />
+
+            <label htmlFor="update-post-content">Content</label>
+            <textarea
+              id="update-post-content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              rows={10}
+              required
+            />
+
+            <button
+              type="submit"
+              className="blog-btn"
+              disabled={submitting || posts.length === 0 || !selectedPostId}
+            >
+              {submitting ? 'Updating...' : 'Update Blog'}
+            </button>
+          </form>
+
+          {message && <p className="blog-success">{message}</p>}
+          {error && <p className="blog-error">{error}</p>}
+
+          <div className="blog-admin-actions">
+            <Link to="/admin" className="blog-admin-link">Create New Post</Link>
+            <Link to="/blog" className="blog-admin-link">View Public Blog</Link>
+          </div>
         </div>
       </div>
       <SiteFooter />
@@ -1851,6 +2108,7 @@ function App() {
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin" element={<AdminEditorPage />} />
+        <Route path="/admin/blogs" element={<AdminBlogsPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/terms-of-use" element={<TermsOfUsePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
