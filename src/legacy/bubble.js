@@ -94,12 +94,14 @@ export function initLegacyBubbleCanvas() {
   }
 
   const onScroll = () => {
-    animateHeader = window.scrollY <= height
+    const rect = largeHeader.getBoundingClientRect()
+    animateHeader = rect.bottom > 0 && rect.top < window.innerHeight
   }
 
   const onResize = () => {
     setCanvasSize()
     populateCircles()
+    onScroll()
   }
 
   const animate = () => {
