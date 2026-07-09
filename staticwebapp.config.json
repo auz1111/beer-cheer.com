@@ -1,7 +1,7 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/assets/*", "/legacy/*"]
+    "exclude": ["/assets/*", "/legacy/*", "/api/*"]
   },
   "responseOverrides": {
     "404": {

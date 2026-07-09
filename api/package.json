@@ -1,0 +1,10 @@
+{
+  "name": "beer-cheer-api",
+  "private": true,
+  "version": "1.0.0",
+  "type": "commonjs",
+  "dependencies": {
+    "@azure/cosmos": "^4.3.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

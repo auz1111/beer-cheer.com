@@ -15,6 +15,49 @@ Build for production:
 npm run build
 ```
 
+## Blog + Admin + Cosmos DB
+
+This project now includes a basic blog system with:
+
+- Public blog page: `/blog`
+- Admin login page: `/admin/login`
+- Admin post editor: `/admin`
+- Serverless API in `api/` (Azure Functions)
+- Cosmos DB storage for posts
+
+### API Endpoints
+
+- `POST /api/admin-login` -> validates `ADMIN_USERNAME` + `ADMIN_PASSWORD`, returns JWT
+- `GET /api/admin-me` -> validates admin JWT
+- `GET /api/blog-posts` -> returns published posts from Cosmos DB
+- `POST /api/blog-create-post` -> creates post (requires admin JWT)
+
+### Required Environment Variables
+
+Configure these in Azure Static Web Apps -> Environment variables (or local Functions settings):
+
+- `COSMOS_ENDPOINT`
+- `COSMOS_KEY`
+- `COSMOS_DATABASE` (default: `beercheer`)
+- `COSMOS_POSTS_CONTAINER` (default: `posts`)
+- `ADMIN_USERNAME` (default: `admin`)
+- `ADMIN_PASSWORD` (required)
+- `JWT_SECRET` (strong secret for signing tokens)
+
+Local sample file: `api/local.settings.sample.json`
+
+### Cosmos DB Notes
+
+- Use Azure Cosmos DB for NoSQL.
+- The API auto-creates database/container if missing.
+- Current container partition key is `/type`.
+- Blog documents are stored with `type: "post"`.
+
+### Deploy Notes
+
+- `.github/workflows/azure-static-web-apps.yml` now sets `api_location: "api"`.
+- `staticwebapp.config.json` excludes `/api/*` from SPA rewrite fallback.
+
 ## Project Notes
 
 - Legacy top-section images are stored in `public/legacy/images`.

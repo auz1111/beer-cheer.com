@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom'
 import './App.css'
 import { initLegacyBubbleCanvas } from './legacy/bubble'
@@ -51,6 +51,16 @@ const merchItems = [
     label: 'Beer Cheer Hoodie',
   },
 ]
+
+const ADMIN_TOKEN_KEY = 'beerCheerAdminToken'
+
+function formatPublishDate(value) {
+  try {
+    return new Date(value).toLocaleString()
+  } catch {
+    return value
+  }
+}
 
 function HomePage() {
   useEffect(() => {
@@ -1267,25 +1277,326 @@ function TermsOfUsePage() {
             </a>
           </p>
         </section>
+      </div>
+      <SiteFooter />
+    </div>
+  )
+}
+
+function BlogPage() {
+  const [posts, setPosts] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadPosts() {
+      setLoading(true)
+      setError('')
+
+      try {
+        const response = await fetch('/api/blog-posts')
+        if (!response.ok) {
+          throw new Error('Failed to load posts')
+        }
+
+        const data = await response.json()
+        if (!cancelled) {
+          setPosts(Array.isArray(data.posts) ? data.posts : [])
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message || 'Failed to load posts')
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false)
+        }
+      }
+    }
+
+    loadPosts()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  return (
+    <div className="legal-page">
+      <div className="legal-inner">
+        <Link to="/" className="legal-logo-link" aria-label="Back to Beer Cheer home">
+          <img
+            src="/legacy/images/beer-cheer-logo-no-gear.png"
+            alt="Beer Cheer"
+            className="legal-logo"
+          />
+        </Link>
+
+        <div className="blog-header">
+          <h1>Beer Cheer Blog</h1>
+          <Link to="/admin/login" className="blog-admin-link">Admin Login</Link>
+        </div>
+
+        {loading && <p>Loading posts...</p>}
+        {error && <p className="blog-error">{error}</p>}
+        {!loading && !error && posts.length === 0 && (
+          <p>No blog posts yet. Check back soon.</p>
+        )}
+
+        {!loading && !error && posts.map((post) => (
+          <article key={post.id} className="blog-card">
+            <h2>{post.title}</h2>
+            <p className="blog-date">Published {formatPublishDate(post.publishedAt)}</p>
+            {post.excerpt && <p className="blog-excerpt">{post.excerpt}</p>}
+            <div className="blog-content">{post.content}</div>
+          </article>
+        ))}
+      </div>
+      <SiteFooter />
+    </div>
+  )
+}
+
+function AdminLoginPage() {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+
+  async function handleSubmit(event) {
+    event.preventDefault()
+    setSubmitting(true)
+    setError('')
+    setMessage('')
+
+    try {
+      const response = await fetch('/api/admin-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed')
+      }
+
+      localStorage.setItem(ADMIN_TOKEN_KEY, data.token)
+      setMessage('Login successful. You can now create blog posts.')
+      setTimeout(() => {
+        window.location.href = '/admin'
+      }, 400)
+    } catch (err) {
+      setError(err.message || 'Login failed')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <div className="legal-page">
+      <div className="legal-inner blog-auth-wrap">
+        <h1>Admin Login</h1>
+        <p>Use your admin credentials to create and publish blog posts.</p>
+
+        <form className="blog-auth-form" onSubmit={handleSubmit}>
+          <label htmlFor="admin-username">Username</label>
+          <input
+            id="admin-username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            autoComplete="username"
+            required
+          />
+
+          <label htmlFor="admin-password">Password</label>
+          <input
+            id="admin-password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+            required
+          />
+
+          <button type="submit" className="blog-btn" disabled={submitting}>
+            {submitting ? 'Signing in...' : 'Sign In'}
+          </button>
+        </form>
+
+        {message && <p className="blog-success">{message}</p>}
+        {error && <p className="blog-error">{error}</p>}
         <p>
-          Content is provided for general information and promotional purposes for Beer
-          Cheer. Availability and content may change without notice.
+          <Link to="/blog">Back to Blog</Link>
         </p>
-        <h2>External Services</h2>
-        <p>
-          Links to third-party websites are provided for convenience. Beer Cheer is not
-          responsible for external content, policies, or transactions.
-        </p>
-        <h2>Intellectual Property</h2>
-        <p>
-          Beer Cheer branding, visuals, and related content are protected by applicable
-          intellectual property laws and may not be reused without permission.
-        </p>
-        <h2>Limitation of Liability</h2>
-        <p>
-          The website is provided on an "as is" basis without warranties of any kind.
-          Beer Cheer is not liable for damages resulting from use of this site.
-        </p>
+      </div>
+      <SiteFooter />
+    </div>
+  )
+}
+
+function AdminEditorPage() {
+  const [title, setTitle] = useState('')
+  const [excerpt, setExcerpt] = useState('')
+  const [content, setContent] = useState('')
+  const [authChecked, setAuthChecked] = useState(false)
+  const [isAuthed, setIsAuthed] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function checkAuth() {
+      const token = localStorage.getItem(ADMIN_TOKEN_KEY)
+      if (!token) {
+        if (!cancelled) {
+          setAuthChecked(true)
+          setIsAuthed(false)
+        }
+        return
+      }
+
+      try {
+        const response = await fetch('/api/admin-me', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+
+        if (!cancelled) {
+          setIsAuthed(response.ok)
+          setAuthChecked(true)
+        }
+      } catch {
+        if (!cancelled) {
+          setIsAuthed(false)
+          setAuthChecked(true)
+        }
+      }
+    }
+
+    checkAuth()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  async function handleCreatePost(event) {
+    event.preventDefault()
+    setSubmitting(true)
+    setError('')
+    setMessage('')
+
+    const token = localStorage.getItem(ADMIN_TOKEN_KEY)
+    if (!token) {
+      setError('You are not logged in.')
+      setSubmitting(false)
+      return
+    }
+
+    try {
+      const response = await fetch('/api/blog-create-post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title,
+          excerpt,
+          content,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to create post')
+      }
+
+      setTitle('')
+      setExcerpt('')
+      setContent('')
+      setMessage(`Post published: ${data.post.title}`)
+    } catch (err) {
+      setError(err.message || 'Failed to create post')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  function handleLogout() {
+    localStorage.removeItem(ADMIN_TOKEN_KEY)
+    window.location.href = '/admin/login'
+  }
+
+  if (!authChecked) {
+    return (
+      <div className="legal-page">
+        <div className="legal-inner">
+          <h1>Admin</h1>
+          <p>Checking session...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!isAuthed) {
+    return <Navigate to="/admin/login" replace />
+  }
+
+  return (
+    <div className="legal-page">
+      <div className="legal-inner blog-auth-wrap">
+        <h1>Create Blog Post</h1>
+        <p>Write and publish a new post to the Beer Cheer blog feed.</p>
+
+        <form className="blog-auth-form" onSubmit={handleCreatePost}>
+          <label htmlFor="post-title">Title</label>
+          <input
+            id="post-title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+
+          <label htmlFor="post-excerpt">Excerpt (optional)</label>
+          <input
+            id="post-excerpt"
+            value={excerpt}
+            onChange={(e) => setExcerpt(e.target.value)}
+          />
+
+          <label htmlFor="post-content">Content</label>
+          <textarea
+            id="post-content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            rows={10}
+            required
+          />
+
+          <button type="submit" className="blog-btn" disabled={submitting}>
+            {submitting ? 'Publishing...' : 'Publish Post'}
+          </button>
+        </form>
+
+        {message && <p className="blog-success">{message}</p>}
+        {error && <p className="blog-error">{error}</p>}
+
+        <div className="blog-admin-actions">
+          <Link to="/blog" className="blog-admin-link">View Blog</Link>
+          <button type="button" className="blog-btn blog-btn-muted" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
       </div>
       <SiteFooter />
     </div>
@@ -1338,6 +1649,7 @@ function SiteFooter() {
           © BEER * CHEER | All Right Reserved | View our{' '}
           <Link to="/privacy-policy">Privacy Policy</Link> |{' '}
           <Link to="/terms-of-use">Terms of Use</Link> |{' '}
+          <Link to="/blog">Blog</Link> |{' '}
           <a
             href="https://www.teepublic.com/user/beer-cheer"
             target="_blank"
@@ -1365,6 +1677,9 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/beer-cheer-open-testing" element={<OpenTestingPage />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route path="/admin" element={<AdminEditorPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/terms-of-use" element={<TermsOfUsePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
