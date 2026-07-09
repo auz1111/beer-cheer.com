@@ -1530,39 +1530,49 @@ function AdminLoginPage() {
   return (
     <div className="legal-page">
       <div className="legal-inner blog-auth-wrap">
-        <h1>Admin Login</h1>
-        <p>Use your admin credentials to create and publish blog posts.</p>
+        <div className="blog-auth-panel">
+          <Link to="/" className="legal-logo-link" aria-label="Back to Beer Cheer home">
+            <img
+              src="/legacy/images/beer-cheer-logo-no-gear.png"
+              alt="Beer Cheer"
+              className="legal-logo"
+            />
+          </Link>
 
-        <form className="blog-auth-form" onSubmit={handleSubmit}>
-          <label htmlFor="admin-username">Username</label>
-          <input
-            id="admin-username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            autoComplete="username"
-            required
-          />
+          <h1>Admin Login</h1>
+          <p>Use your admin credentials to create and publish blog posts.</p>
 
-          <label htmlFor="admin-password">Password</label>
-          <input
-            id="admin-password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="current-password"
-            required
-          />
+          <form className="blog-auth-form" onSubmit={handleSubmit}>
+            <label htmlFor="admin-username">Username</label>
+            <input
+              id="admin-username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              autoComplete="username"
+              required
+            />
 
-          <button type="submit" className="blog-btn" disabled={submitting}>
-            {submitting ? 'Signing in...' : 'Sign In'}
-          </button>
-        </form>
+            <label htmlFor="admin-password">Password</label>
+            <input
+              id="admin-password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+              required
+            />
 
-        {message && <p className="blog-success">{message}</p>}
-        {error && <p className="blog-error">{error}</p>}
-        <p>
-          <Link to="/blog">Back to Blog</Link>
-        </p>
+            <button type="submit" className="blog-btn" disabled={submitting}>
+              {submitting ? 'Signing in...' : 'Sign In'}
+            </button>
+          </form>
+
+          {message && <p className="blog-success">{message}</p>}
+          {error && <p className="blog-error">{error}</p>}
+          <p className="blog-back-link-row">
+            <Link to="/blog">Back to Blog</Link>
+          </p>
+        </div>
       </div>
       <SiteFooter />
     </div>
@@ -1684,47 +1694,57 @@ function AdminEditorPage() {
   return (
     <div className="legal-page">
       <div className="legal-inner blog-auth-wrap">
-        <h1>Create Blog Post</h1>
-        <p>Write and publish a new post to the Beer Cheer blog feed.</p>
+        <div className="blog-auth-panel">
+          <Link to="/" className="legal-logo-link" aria-label="Back to Beer Cheer home">
+            <img
+              src="/legacy/images/beer-cheer-logo-no-gear.png"
+              alt="Beer Cheer"
+              className="legal-logo"
+            />
+          </Link>
 
-        <form className="blog-auth-form" onSubmit={handleCreatePost}>
-          <label htmlFor="post-title">Title</label>
-          <input
-            id="post-title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
+          <h1>Create Blog Post</h1>
+          <p>Write and publish a new post to the Beer Cheer blog feed.</p>
 
-          <label htmlFor="post-excerpt">Excerpt (optional)</label>
-          <input
-            id="post-excerpt"
-            value={excerpt}
-            onChange={(e) => setExcerpt(e.target.value)}
-          />
+          <form className="blog-auth-form" onSubmit={handleCreatePost}>
+            <label htmlFor="post-title">Title</label>
+            <input
+              id="post-title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
 
-          <label htmlFor="post-content">Content</label>
-          <textarea
-            id="post-content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            rows={10}
-            required
-          />
+            <label htmlFor="post-excerpt">Excerpt (optional)</label>
+            <input
+              id="post-excerpt"
+              value={excerpt}
+              onChange={(e) => setExcerpt(e.target.value)}
+            />
 
-          <button type="submit" className="blog-btn" disabled={submitting}>
-            {submitting ? 'Publishing...' : 'Publish Post'}
-          </button>
-        </form>
+            <label htmlFor="post-content">Content</label>
+            <textarea
+              id="post-content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              rows={10}
+              required
+            />
 
-        {message && <p className="blog-success">{message}</p>}
-        {error && <p className="blog-error">{error}</p>}
+            <button type="submit" className="blog-btn" disabled={submitting}>
+              {submitting ? 'Publishing...' : 'Publish Post'}
+            </button>
+          </form>
 
-        <div className="blog-admin-actions">
-          <Link to="/blog" className="blog-admin-link">View Blog</Link>
-          <button type="button" className="blog-btn blog-btn-muted" onClick={handleLogout}>
-            Logout
-          </button>
+          {message && <p className="blog-success">{message}</p>}
+          {error && <p className="blog-error">{error}</p>}
+
+          <div className="blog-admin-actions">
+            <Link to="/blog" className="blog-admin-link">View Blog</Link>
+            <button type="button" className="blog-btn blog-btn-muted" onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
         </div>
       </div>
       <SiteFooter />
