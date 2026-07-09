@@ -62,6 +62,19 @@ function formatPublishDate(value) {
   }
 }
 
+async function parseJsonSafe(response) {
+  const text = await response.text()
+  if (!text) {
+    return {}
+  }
+
+  try {
+    return JSON.parse(text)
+  } catch {
+    return {}
+  }
+}
+
 function HomePage() {
   useEffect(() => {
     const cleanupBubble = initLegacyBubbleCanvas()
@@ -1301,7 +1314,7 @@ function BlogPage() {
           throw new Error('Failed to load posts')
         }
 
-        const data = await response.json()
+        const data = await parseJsonSafe(response)
         if (!cancelled) {
           setPosts(Array.isArray(data.posts) ? data.posts : [])
         }
@@ -1380,7 +1393,7 @@ function AdminLoginPage() {
         body: JSON.stringify({ username, password }),
       })
 
-      const data = await response.json()
+      const data = await parseJsonSafe(response)
 
       if (!response.ok) {
         throw new Error(data.message || 'Login failed')
@@ -1515,7 +1528,7 @@ function AdminEditorPage() {
         }),
       })
 
-      const data = await response.json()
+      const data = await parseJsonSafe(response)
 
       if (!response.ok) {
         throw new Error(data.message || 'Failed to create post')
