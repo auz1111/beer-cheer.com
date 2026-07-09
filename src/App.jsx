@@ -1353,6 +1353,8 @@ function BlogPage() {
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const postsPerPage = 3
 
   useEffect(() => {
     let cancelled = false
@@ -1388,6 +1390,17 @@ function BlogPage() {
     }
   }, [])
 
+  const totalPages = Math.max(1, Math.ceil(posts.length / postsPerPage))
+  const safePage = Math.min(currentPage, totalPages)
+  const startIndex = (safePage - 1) * postsPerPage
+  const visiblePosts = posts.slice(startIndex, startIndex + postsPerPage)
+
+  useEffect(() => {
+    if (currentPage !== safePage) {
+      setCurrentPage(safePage)
+    }
+  }, [currentPage, safePage])
+
   return (
     <div className="legal-page">
       <div className="legal-inner">
@@ -1410,7 +1423,7 @@ function BlogPage() {
           <p>No blog posts yet. Check back soon.</p>
         )}
 
-        {!loading && !error && posts.map((post) => (
+        {!loading && !error && visiblePosts.map((post) => (
           <article key={post.id} className="blog-card">
             <h2 dangerouslySetInnerHTML={{ __html: toRenderableHtml(post.title) }} />
             <p className="blog-date">Published {formatPublishDate(post.publishedAt)}</p>
@@ -1426,6 +1439,28 @@ function BlogPage() {
             />
           </article>
         ))}
+
+        {!loading && !error && posts.length > postsPerPage && (
+          <nav className="blog-pagination" aria-label="Blog pagination">
+            <button
+              type="button"
+              className="blog-btn blog-btn-muted"
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={safePage === 1}
+            >
+              Previous
+            </button>
+            <span className="blog-page-indicator">Page {safePage} of {totalPages}</span>
+            <button
+              type="button"
+              className="blog-btn blog-btn-muted"
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={safePage === totalPages}
+            >
+              Next
+            </button>
+          </nav>
+        )}
       </div>
       <SiteFooter />
     </div>

@@ -708,6 +708,19 @@
   gap: 1rem;
 }
 
+.blog-pagination {
+  margin-top: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.blog-page-indicator {
+  color: #f7d99f;
+  font-size: 0.95rem;
+}
+
 .blog-error {
   color: #ffb3b3 !important;
   margin-top: 1rem !important;
