@@ -7,47 +7,47 @@ import { initLegacyBottleAnimations } from './legacy/bottles'
 const merchItems = [
   {
     href: 'https://www.teepublic.com/t-shirt/55768516-beer-cheers?store_id=154632',
-    img: 'https://beer-cheer.com/wp-content/uploads/2023/12/beer-cheer-tishirt-tyedye-1.webp',
+    img: '/merch/tie-dye-tee.webp',
     label: 'Beer Cheer Tie-Dye Tee',
   },
   {
     href: 'https://www.teepublic.com/poster-and-art/55770008-beer-cheer',
-    img: 'https://beer-cheer.com/wp-content/uploads/2023/12/beer-cheer-wall-art.webp',
+    img: '/merch/wall-art.webp',
     label: 'Beer Cheer Wall Art',
   },
   {
     href: 'https://www.teepublic.com/t-shirt/55770147-beer-cheer-logo?store_id=154632',
-    img: 'https://beer-cheer.com/wp-content/uploads/2023/12/beer-cheer-tshirt-pink.webp',
+    img: '/merch/pink-tee.webp',
     label: 'Beer Cheer Pink Tee',
   },
   {
     href: 'https://www.teepublic.com/mug/55770008-beer-cheer',
-    img: 'https://beer-cheer.com/wp-content/uploads/2023/12/beer-cheer-mug-1.webp',
+    img: '/merch/mug.webp',
     label: 'Beer Cheer Mug',
   },
   {
     href: 'https://www.teepublic.com/sticker/55770482-beer-cheer-logo-dark',
-    img: 'https://beer-cheer.com/wp-content/uploads/2023/12/beer-cheer-sticker.webp',
+    img: '/merch/sticker.webp',
     label: 'Beer Cheer Sticker',
   },
   {
     href: 'https://www.teepublic.com/t-shirt/55770008-beer-cheer',
-    img: 'https://beer-cheer.com/wp-content/uploads/2023/12/beer-cheer-tshirt-purple.jpg',
+    img: '/merch/purple-tee.jpg',
     label: 'Beer Cheer Purple Tee',
   },
   {
     href: 'https://www.teepublic.com/t-shirt/55768516-beer-cheers?store_id=154632',
-    img: 'https://beer-cheer.com/wp-content/uploads/2023/12/beer-cheer-tshirt-2.webp',
+    img: '/merch/shirt.webp',
     label: 'Beer Cheer Shirt',
   },
   {
     href: 'https://www.teepublic.com/sticker/55770008-beer-cheer',
-    img: 'https://beer-cheer.com/wp-content/uploads/2023/12/beer-cheer-sticker-1.webp',
+    img: '/merch/sticker-alt.webp',
     label: 'Beer Cheer Sticker Alt',
   },
   {
     href: 'https://www.teepublic.com/hoodie/55770147-beer-cheer-logo',
-    img: 'https://beer-cheer.com/wp-content/uploads/2023/12/beer-cheer-hoodie-black.webp',
+    img: '/merch/hoodie.webp',
     label: 'Beer Cheer Hoodie',
   },
 ]
