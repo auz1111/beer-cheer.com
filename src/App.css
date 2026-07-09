@@ -514,9 +514,38 @@
   line-height: 1.75;
 }
 
+.legal-meta {
+  margin: 0 0 1.1rem !important;
+  color: #f7d99f !important;
+  font-size: 0.98rem;
+}
+
 .legal-inner ul {
   margin: 0.8rem 0 1.6rem 1.3rem;
   padding: 0;
+}
+
+.legal-toc {
+  margin: 0.8rem 0 1.8rem 1.4rem;
+  padding: 0;
+}
+
+.legal-toc li {
+  margin: 0.3rem 0;
+}
+
+.legal-section {
+  margin: 0 0 1.7rem;
+  padding: 0.85rem 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.legal-section:first-of-type {
+  margin-top: 0.3rem;
+}
+
+.legal-section p + p {
+  margin-top: 0.9rem;
 }
 
 .legal-inner li {

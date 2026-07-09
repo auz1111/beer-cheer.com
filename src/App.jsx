@@ -1003,12 +1003,270 @@ function TermsOfUsePage() {
   return (
     <div className="legal-page">
       <div className="legal-inner">
+        <Link to="/" className="legal-logo-link" aria-label="Back to Beer Cheer home">
+          <img
+            src="/legacy/images/beer-cheer-logo-no-gear.png"
+            alt="Beer Cheer"
+            className="legal-logo"
+          />
+        </Link>
+
         <h1>Terms of Use</h1>
         <p>
-          By using this website, you agree to these terms. If you do not agree, please
-          do not use the site.
+          These Terms of Use set out the agreement between Digital Thoughts Media
+          (DTM) and each user. They govern your use of Beer Cheer websites, online
+          game features, mobile experiences, and related services.
         </p>
-        <h2>Website Content</h2>
+
+        <p>
+          By using the Services, you accept these Terms and the Privacy Policy. If
+          you do not agree, do not use the Services.
+        </p>
+
+        <h2>Table of Contents</h2>
+        <ol className="legal-toc">
+          <li><a href="#terms-1">1. Description of Services and Limited License</a></li>
+          <li><a href="#terms-2">2. Account</a></li>
+          <li><a href="#terms-3">3. Use of Services and Rules of Conduct</a></li>
+          <li><a href="#terms-4">4. Terms Specific to Minors</a></li>
+          <li><a href="#terms-5">5. Intellectual Property Rights</a></li>
+          <li><a href="#terms-6">6. User Generated Content</a></li>
+          <li><a href="#terms-7">7. Reporting Unlawful Content</a></li>
+          <li><a href="#terms-8">8. Technical Protection and DRM</a></li>
+          <li><a href="#terms-9">9. Merchant Services</a></li>
+          <li><a href="#terms-10">10. Forums and Discussion Areas</a></li>
+          <li><a href="#terms-11">11. Promotions</a></li>
+          <li><a href="#terms-12">12. Advertising and Third Parties</a></li>
+          <li><a href="#terms-13">13. Beta Tests</a></li>
+          <li><a href="#terms-14">14. Liability and Warranty Disclaimer</a></li>
+          <li><a href="#terms-15">15. Indemnification</a></li>
+          <li><a href="#terms-16">16. Termination</a></li>
+          <li><a href="#terms-17">17. Updates to Services and Terms</a></li>
+          <li><a href="#terms-18">18. Privacy Policy</a></li>
+          <li><a href="#terms-19">19. Virtual Items and Currency</a></li>
+          <li><a href="#terms-20">20. Applicable Law and Dispute Resolution</a></li>
+          <li><a href="#terms-21">21. Health and Safety</a></li>
+          <li><a href="#terms-22">22. Software and Tools</a></li>
+          <li><a href="#terms-23">23. Mobile Terms</a></li>
+          <li><a href="#terms-24">24. California Notice</a></li>
+          <li><a href="#terms-25">25. Miscellaneous</a></li>
+        </ol>
+
+        <section className="legal-section" id="terms-1">
+          <h2>1. Description of Services and Limited License</h2>
+          <p>
+            DTM provides Services for personal, non-commercial use. Subject to these
+            Terms, you receive a limited, non-exclusive, non-transferable license to
+            access and use those Services.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-2">
+          <h2>2. Account</h2>
+          <p>
+            Some Services require account creation. You must provide accurate
+            information, keep it current, and protect your account credentials.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-3">
+          <h2>3. Use of Services and Rules of Conduct</h2>
+          <p>
+            You agree not to misuse the Services through unlawful conduct,
+            harassment, cheating tools, hacking, spam, impersonation, or other
+            disruptive or abusive behavior.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-4">
+          <h2>4. Terms Specific to Minors</h2>
+          <p>
+            If you are a minor, use of the Services requires parent or legal guardian
+            authorization and supervision as applicable by law.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-5">
+          <h2>5. Intellectual Property Rights</h2>
+          <p>
+            Service content, including text, artwork, logos, marks, and software, is
+            owned by DTM or its licensors and protected by intellectual property
+            laws.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-6">
+          <h2>6. User Generated Content</h2>
+          <p>
+            You remain responsible for content you submit. By posting UGC, you grant
+            DTM broad rights to host, display, reproduce, adapt, and distribute it in
+            connection with the Services.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-7">
+          <h2>7. Reporting Unlawful Content</h2>
+          <p>
+            You may report content believed to be unlawful or in violation of these
+            Terms. DTM may remove or disable content at its discretion.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-8">
+          <h2>8. Technical Protection and DRM</h2>
+          <p>
+            Certain features may require DRM, online authentication, or persistent
+            connectivity. DTM may modify or retire online features with notice when
+            required.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-9">
+          <h2>9. Merchant Services</h2>
+          <p>
+            Purchases offered through DTM stores or partners may be subject to
+            additional sale and payment terms.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-10">
+          <h2>10. Forums and Discussion Areas</h2>
+          <p>
+            Forum and social areas may be public. You are responsible for what you
+            post, and DTM may moderate or remove violating content.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-11">
+          <h2>11. Promotions</h2>
+          <p>
+            Sweepstakes, contests, and similar activities may include additional
+            rules that apply in addition to these Terms.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-12">
+          <h2>12. Advertising and Third Parties</h2>
+          <p>
+            Links and promotions to third-party websites or services are provided for
+            convenience. DTM is not responsible for third-party content,
+            transactions, or policies.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-13">
+          <h2>13. Beta Tests</h2>
+          <p>
+            Beta features are provided as-is and may be confidential, unstable, or
+            changed without notice.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-14">
+          <h2>14. Liability and Warranty Disclaimer</h2>
+          <p>
+            Services are provided as-is and as-available, without warranties to the
+            fullest extent permitted by law. Liability limitations apply as described
+            in the full legacy terms.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-15">
+          <h2>15. Indemnification</h2>
+          <p>
+            You agree to indemnify DTM and its affiliates for claims and losses
+            resulting from your breach of these Terms or misuse of the Services.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-16">
+          <h2>16. Termination</h2>
+          <p>
+            DTM may suspend or terminate access for violations or for other reasons
+            permitted by law. You may also request account termination.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-17">
+          <h2>17. Updates to Services and Terms</h2>
+          <p>
+            DTM may revise these Terms and the Services over time. Continued use
+            after updates means acceptance of the revised terms.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-18">
+          <h2>18. Privacy Policy</h2>
+          <p>
+            Your use of the Services is also governed by the Privacy Policy, which is
+            incorporated into these Terms.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-19">
+          <h2>19. Virtual Items and Currency</h2>
+          <p>
+            Virtual currency, points, subscriptions, and digital items may be offered
+            under additional terms and are generally non-refundable unless required by
+            law.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-20">
+          <h2>20. Applicable Law and Dispute Resolution</h2>
+          <p>
+            Disputes are governed by applicable U.S./California law and may be
+            subject to notice and arbitration procedures described in the legacy
+            terms.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-21">
+          <h2>21. Health and Safety</h2>
+          <p>
+            Play responsibly, take regular breaks, and stop use immediately if you
+            experience concerning physical symptoms.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-22">
+          <h2>22. Software and Tools</h2>
+          <p>
+            DTM may provide updates, utilities, and tools needed for Service use.
+            Compatibility may vary by device, OS, and network conditions.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-23">
+          <h2>23. Mobile Terms</h2>
+          <p>
+            Mobile access may require a compatible device, data plan, and bill-payer
+            permission for purchases.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-24">
+          <h2>24. California Notice</h2>
+          <p>
+            California residents may use the consumer assistance channels listed in
+            the legacy terms.
+          </p>
+        </section>
+
+        <section className="legal-section" id="terms-25">
+          <h2>25. Miscellaneous</h2>
+          <p>
+            If any provision is unenforceable, remaining provisions stay in effect.
+            These Terms and incorporated policies form the full agreement governing
+            your use of the Services.
+          </p>
+          <p>
+            Legacy source:{' '}
+            <a href="https://beercheer.wpengine.com/terms-of-use/" target="_blank" rel="noreferrer">
+              beercheer.wpengine.com/terms-of-use
+            </a>
+          </p>
+        </section>
         <p>
           Content is provided for general information and promotional purposes for Beer
           Cheer. Availability and content may change without notice.
