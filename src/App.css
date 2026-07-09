@@ -481,6 +481,23 @@
   flex: 1;
 }
 
+.legal-logo-link {
+  display: inline-block;
+  margin: 0 0 1.35rem;
+  border-radius: 8px;
+}
+
+.legal-logo-link:focus-visible {
+  outline: 3px solid #ffe8af;
+  outline-offset: 4px;
+}
+
+.legal-logo {
+  display: block;
+  width: min(100%, 420px);
+  height: auto;
+}
+
 .legal-inner h1 {
   font-size: clamp(1.9rem, 3vw, 2.8rem);
   margin: 0 0 1.3rem;
@@ -495,6 +512,33 @@
   margin: 0;
   color: #efe5d3;
   line-height: 1.75;
+}
+
+.legal-inner ul {
+  margin: 0.8rem 0 1.6rem 1.3rem;
+  padding: 0;
+}
+
+.legal-inner li {
+  margin: 0.35rem 0;
+  color: #efe5d3;
+}
+
+.legal-inner a {
+  color: #ffd88a;
+  text-decoration: underline;
+  text-decoration-color: #ffcf6a;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+
+.legal-inner a:visited {
+  color: #ffcf9a;
+}
+
+.legal-inner a:hover,
+.legal-inner a:focus-visible {
+  color: #fff1c8;
 }
 
 .open-testing-page {
