@@ -28,19 +28,37 @@
       }
     },
     {
-      "route": "/unity-build/StreamingAssets/aa/**/*.bin",
+      "route": "/unity-build/StreamingAssets/aa/*.bin",
       "headers": {
         "Content-Type": "application/octet-stream"
       }
     },
     {
-      "route": "/unity-build/StreamingAssets/aa/**/*.bundle",
+      "route": "/unity-build/StreamingAssets/aa/*.bundle",
       "headers": {
         "Content-Type": "application/octet-stream"
       }
     },
     {
-      "route": "/unity-build/StreamingAssets/aa/**/*.hash",
+      "route": "/unity-build/StreamingAssets/aa/*.hash",
+      "headers": {
+        "Content-Type": "text/plain; charset=utf-8"
+      }
+    },
+    {
+      "route": "/unity-build/StreamingAssets/aa/WebGL/*.bin",
+      "headers": {
+        "Content-Type": "application/octet-stream"
+      }
+    },
+    {
+      "route": "/unity-build/StreamingAssets/aa/WebGL/*.bundle",
+      "headers": {
+        "Content-Type": "application/octet-stream"
+      }
+    },
+    {
+      "route": "/unity-build/StreamingAssets/aa/WebGL/*.hash",
       "headers": {
         "Content-Type": "text/plain; charset=utf-8"
       }
