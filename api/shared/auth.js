@@ -12,6 +12,22 @@ function signAdminToken() {
 }
 
 function requireAdmin(context, req) {
+  const customToken = req.headers['x-admin-token'] || req.headers['X-Admin-Token']
+  if (customToken) {
+    try {
+      const decoded = jwt.verify(customToken, getJwtSecret())
+      if (decoded.role !== "admin") {
+        json(context, 403, { message: "Forbidden" })
+        return null
+      }
+
+      return decoded
+    } catch {
+      json(context, 401, { message: "Invalid token" })
+      return null
+    }
+  }
+
   const authHeader = req.headers.authorization || req.headers.Authorization
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     json(context, 401, { message: "Missing bearer token" })

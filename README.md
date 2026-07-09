@@ -31,6 +31,8 @@ This project now includes a basic blog system with:
 - `GET /api/auth-me` -> validates admin JWT
 - `GET /api/blog-posts` -> returns published posts from Cosmos DB
 - `POST /api/blog-create-post` -> creates post (requires admin JWT)
+
+Admin-protected endpoints accept token via `x-admin-token` header (preferred) and `Authorization: Bearer <token>`.
 - `GET /api/health` -> basic API health and Cosmos connectivity probe
 
 ### Required Environment Variables

@@ -1507,7 +1507,7 @@ function AdminEditorPage() {
       try {
         const response = await fetch('/api/auth-me', {
           headers: {
-            Authorization: `Bearer ${token}`,
+            'x-admin-token': token,
           },
         })
 
@@ -1547,7 +1547,7 @@ function AdminEditorPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          'x-admin-token': token,
         },
         body: JSON.stringify({
           title,
