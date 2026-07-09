@@ -205,6 +205,165 @@ function HomePage() {
   )
 }
 
+function OpenTestingPage() {
+  return (
+    <div className="open-testing-page">
+      <div className="open-testing-header-area full">
+        <div className="pattern">
+          <div className="main-page">
+            <header id="masthead" className="site-header" role="banner">
+              <div id="branding-band">
+                <div className="site-branding">
+                  <p className="site-title">
+                    <a href="/" rel="home" aria-label="Beer Cheer home">
+                      <span className="logo-text">Beer Cheer</span>
+                    </a>
+                  </p>
+                  <span className="site-title-gear"></span>
+                  <span className="site-title-gear-2"></span>
+                  <p className="site-description">A crafty little beer game.</p>
+                </div>
+                <div className="clear"></div>
+              </div>
+            </header>
+          </div>
+        </div>
+      </div>
+
+      <div id="navigation-band">
+        <div className="inner navspot">
+          <nav id="site-navigation" className="main-navigation" role="navigation"></nav>
+        </div>
+      </div>
+
+      <main className="open-testing-main">
+        <div className="open-testing-inner">
+          <h1>Beer Cheer Open Testing for Android</h1>
+
+          <p>🍻 Calling all beer enthusiasts and mobile gaming aficionados! 🎮</p>
+
+          <p>
+            Are you ready to dive into the thrilling world of beer production like
+            never before? Say hello to Beer Cheer - a skill based arcade action game
+            that will put your reflexes to the test!
+          </p>
+
+          <p className="open-testing-play-link">
+            <a
+              href="https://play.google.com/store/apps/details?id=com.jeca.bendbeerbottles"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Download Beer Cheer on Google Play"
+            >
+              <img src="/open-testing/android.png" alt="Get it on Google Play" />
+            </a>
+          </p>
+
+          <p>
+            In Beer Cheer, you&apos;ll be at the forefront of the action, racing against
+            the clock to pass bottles through the production line with finesse. But
+            watch out for exploding bottles and pesky quality control issues - only
+            the most agile players will emerge victorious!
+          </p>
+
+          <div className="open-testing-about">
+            <img
+              src="/open-testing/auz-clement.jpg"
+              alt="Auz Clement, Beer Cheer developer"
+            />
+
+            <p>
+              My name is Auz and I am the sole developer of this new up and coming
+              mobile game. This is the first game I have ever released and I am very
+              excited to share it with the world. I am an old school arcade gamer and
+              this crafty lil beer game has been inspired by the likes of the original
+              Tapper and Ice Cold Beer arcade machines. Keep in mind that this is not
+              a AAA blockbuster title created by a well funded studio. This is a small
+              hand crafted mobile game that hopefully you will enjoy. It is great for
+              passing time while on a plane, train, or automobile. It is even great
+              for waiting in long beer lines at the festival!
+            </p>
+          </div>
+
+          <p>
+            So, are you up for the challenge? Join us for the Beer Cheer open beta,
+            running from May 20 to June 22. As a beta tester, you&apos;ll not only help
+            shape the game&apos;s development but also stand a chance to win exclusive
+            Beer Cheer swag and a gift card to a local brewery!
+          </p>
+
+          <p className="open-testing-banner">
+            <img src="/open-testing/beer-cheer-swag.png" alt="Beer Cheer swag" />
+          </p>
+
+          <p>
+            To join the Beer Cheer open testing phase please download the game from
+            the{' '}
+            <a
+              href="https://play.google.com/store/apps/details?id=com.jeca.bendbeerbottles"
+              target="_blank"
+              rel="noreferrer"
+            >
+              google play store here
+            </a>
+            . Make sure to sign in with your Google Play Games account and start
+            playing. We are asking that you play for at least an hour before filling
+            out the required survey. While playing take a few screenshots of your high
+            scores. When you are done playing please complete the required feedback
+            form located{' '}
+            <a
+              href="https://beercheer.wpenginepowered.com/beer-cheer-gameplay-feedback-1/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              here
+            </a>{' '}
+            for your chance to win! The feedback form consist of questions regarding
+            your experience with the game and the first 10 levels/scenes.
+          </p>
+
+          <p>
+            Follow us on Instagram or X @beercheergame to share your screenshots with
+            the hashtag #BeerCheerGame to better your odds with more entries! The
+            player that post a picture with the highest score and their Google Play
+            Games screen name will be eligible for a special prize. You may also leave
+            your feedback here in the comment&apos;s section of this page.
+          </p>
+
+          <p className="open-testing-banner">
+            <img
+              src="/open-testing/beer-cheer-screenshot-1.png"
+              alt="Beer Cheer gameplay screenshot"
+            />
+          </p>
+
+          <p>
+            Looking to connect with fellow players and stay updated on all things Beer
+            Cheer? Need some tips on how to win? Or just want to leave some feedback
+            for Auz then please join our official Discord Open Beta channel{' '}
+            <a
+              href="https://discord.com/channels/1191814149647380561/1240039678087008338"
+              target="_blank"
+              rel="noreferrer"
+            >
+              here
+            </a>{' '}
+            and let the fun begin!
+          </p>
+
+          <p>
+            Don&apos;t miss out on this exciting opportunity to be part of the Beer Cheer
+            community. Cheers to an epic adventure filled with bottles, brews, and
+            lots of cheers! 🍺🎉
+          </p>
+        </div>
+      </main>
+
+      <SiteFooter />
+    </div>
+  )
+}
+
 function PrivacyPolicyPage() {
   return (
     <div className="legal-page">
@@ -347,6 +506,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/beer-cheer-open-testing" element={<OpenTestingPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/terms-of-use" element={<TermsOfUsePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />

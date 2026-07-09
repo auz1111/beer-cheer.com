@@ -383,9 +383,19 @@
 
 .rainbow-text {
   font-size: 1.5em;
-  background-image: linear-gradient(to right, #d17f00, #f0b02d, #f8d272, #cb7700);
+  background-image: linear-gradient(
+    to right,
+    #8a2be2,
+    #4b0082,
+    #1e90ff,
+    #18a558,
+    #ffd60a,
+    #ff8c00,
+    #e63946
+  );
   background-clip: text;
   -webkit-background-clip: text;
+  -moz-background-clip: text;
   color: transparent;
   font-weight: 700;
 }
@@ -485,6 +495,130 @@
   margin: 0;
   color: #efe5d3;
   line-height: 1.75;
+}
+
+.open-testing-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+  color: #232323;
+}
+
+.open-testing-header-area {
+  position: relative;
+  background-color: #babcbe;
+  background-image: url('/legacy/images/bendbeerbottles-feature-img-3.jpg');
+  background-size: contain;
+  background-repeat: repeat;
+  background-position-y: 0;
+  height: auto;
+}
+
+.open-testing-header-area #branding-band {
+  min-height: 520px;
+  padding: 6% 0 0;
+  width: 100%;
+  z-index: 99999;
+}
+
+.open-testing-header-area .site-branding {
+  float: none;
+  width: 1000px;
+  margin: auto;
+  position: relative;
+}
+
+.open-testing-header-area #masthead .site-branding .site-title {
+  top: 20px;
+  clip: rect(0px, 2020px, 192px, 0px);
+  z-index: 9999;
+}
+
+.open-testing-header-area .site-title-gear {
+  top: 20px;
+  left: 330px;
+}
+
+.open-testing-header-area .site-title-gear-2 {
+  top: 139px;
+  left: 414px;
+}
+
+.open-testing-header-area .site-description {
+  display: none;
+}
+
+#navigation-band {
+  background-color: #dd890a;
+  min-height: 60px;
+  padding: 1em;
+  border-bottom: 10px solid #b37312;
+}
+
+#navigation-band .navspot {
+  min-height: 60px;
+  padding: 0;
+}
+
+.clear {
+  clear: both;
+}
+
+.open-testing-main {
+  padding: 2.5rem 0 3rem;
+}
+
+.open-testing-inner {
+  width: min(1100px, calc(100% - 2.5rem));
+  margin: 0 auto;
+  font-family: 'Michroma', sans-serif;
+}
+
+.open-testing-inner h1 {
+  margin: 0 0 1.2rem;
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  color: #111;
+}
+
+.open-testing-inner p {
+  margin: 1rem 0;
+  line-height: 1.7;
+  font-size: 1rem;
+  color: #222;
+}
+
+.open-testing-play-link {
+  text-align: center;
+  margin: 1.3rem 0 1.7rem;
+}
+
+.open-testing-play-link img {
+  width: min(320px, 90vw);
+  height: auto;
+}
+
+.open-testing-about {
+  display: grid;
+  grid-template-columns: minmax(220px, 355px) 1fr;
+  gap: 1.2rem;
+  align-items: start;
+  margin: 1.2rem 0;
+}
+
+.open-testing-about img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.open-testing-banner {
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+.open-testing-banner img {
+  width: min(100%, 1024px);
+  height: auto;
+  border-radius: 8px;
 }
 
 @keyframes spin {
@@ -732,5 +866,149 @@
   .social-footer {
     font-size: 0.82rem;
     line-height: 1.8;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .open-testing-about {
+    grid-template-columns: 1fr;
+  }
+
+  .open-testing-about img {
+    max-width: 420px;
+  }
+}
+
+@media screen and (max-width: 1244px) {
+  .open-testing-header-area #masthead .site-branding .site-title {
+    background-size: 900px 274px;
+    width: 900px;
+    height: 274px;
+    clip: rect(0px, 900px, 172px, 0px);
+  }
+
+  .open-testing-header-area .site-branding {
+    width: 900px;
+  }
+
+  .open-testing-header-area .site-title-gear {
+    background-size: 280px 280px;
+    width: 280px;
+    height: 280px;
+    top: 20px;
+    left: 292px;
+  }
+
+  .open-testing-header-area .site-title-gear-2 {
+    background-size: 115px 115px;
+    width: 115px;
+    height: 115px;
+    top: 125px;
+    left: 372px;
+  }
+
+  .open-testing-header-area {
+    background-size: cover;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .open-testing-header-area #masthead .site-branding .site-title {
+    background-size: 700px 213px;
+    width: 700px;
+    height: 213px;
+    clip: rect(0px, 900px, 134px, 0px);
+  }
+
+  .open-testing-header-area .site-branding {
+    width: 700px;
+  }
+
+  .open-testing-header-area .site-title-gear {
+    background-size: 220px 220px;
+    width: 220px;
+    height: 220px;
+    top: 20px;
+    left: 226px;
+  }
+
+  .open-testing-header-area .site-title-gear-2 {
+    background-size: 90px 90px;
+    width: 90px;
+    height: 90px;
+    top: 102px;
+    left: 289px;
+  }
+
+  .open-testing-header-area {
+    background-size: cover;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .open-testing-header-area #masthead .site-branding .site-title {
+    background: url('/legacy/images/beer-cheer-logo-vert-no-gears.png') no-repeat;
+    background-size: 380px 411px;
+    width: 380px;
+    height: 411px;
+    clip: rect(0px, 701px, 758px, 0px);
+  }
+
+  .open-testing-header-area .site-branding {
+    width: 380px;
+  }
+
+  .open-testing-header-area .site-title-gear {
+    background-size: 340px 340px;
+    width: 340px;
+    height: 340px;
+    top: 26px;
+    left: 20px;
+  }
+
+  .open-testing-header-area .site-title-gear-2 {
+    background-size: 140px 140px;
+    width: 140px;
+    height: 140px;
+    top: 157px;
+    left: 120px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .open-testing-header-area .site-branding {
+    width: 300px;
+  }
+
+  .open-testing-header-area #branding-band {
+    min-height: 420px;
+  }
+
+  .open-testing-header-area #masthead .site-branding .site-title {
+    background: url('/legacy/images/beer-cheer-logo-vert-no-gears.png') no-repeat;
+    background-size: 300px 324px;
+    width: 300px;
+    height: 324px;
+    clip: rect(0px, 701px, 758px, 0px);
+  }
+
+  .open-testing-header-area .site-title-gear {
+    background-size: 280px 280px;
+    width: 280px;
+    height: 280px;
+    top: 24px;
+    left: 8px;
+  }
+
+  .open-testing-header-area .site-title-gear-2 {
+    background-size: 110px 110px;
+    width: 110px;
+    height: 110px;
+    top: 129px;
+    left: 95px;
+  }
+
+  #navigation-band {
+    padding: 0;
   }
 }

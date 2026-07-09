@@ -1,0 +1,1768 @@
+/*
+Theme Name: Beer Cheer
+Theme URI: http://jecadesigns.com/
+Author: Jeca - [Auz]
+Author URI: http://www.jecadesigns.com
+Description: Jeca Wordpress Child Theme for Beer Cheer
+Version: 1.0.1
+Text Domain: jeca
+Tags:
+Template: jeca
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+
+/* Setup the Sprites */
+.sprite-sheet {background-image:url('../beercheer/images/sprite.png'); background-repeat:no-repeat;}
+body{overflow-x: hidden;font-family:'Michroma', sans-serif;}
+
+/*--------------------------------------------------------------
+# Header
+--------------------------------------------------------------*/
+.header-area{
+	background-color:#babcbe;
+	background-image: url("../beercheer/images/bendbeerbottles-feature-img-3.jpg");
+	background-size: contain;
+	background-repeat: repeat;
+}
+
+.subpage .header-area {
+    background-position-y: 0px;
+}
+#masthead{position: relative;padding: 0;}
+#masthead .site-branding h1, #masthead .site-branding .site-title{
+	background: url(../beercheer/images/beer-cheer-logo-no-gear.png) no-repeat;
+    background-size: 1000px 305px;
+    width: 1000px;
+    height: 305px;
+	position: absolute;
+	top:20px;
+	z-index: 9999;
+
+	clip: rect(0px, 2020px, 192px, 0px);
+}
+
+.home .header-area{height:750px;}
+.logo-text {
+    position: absolute;
+    text-indent: -99999px;
+    width: 100%;
+    height: 100%;
+}
+.site-title{margin:0;}
+.site-description{display:none;}
+.site-branding{float: none;width:1000px;margin:auto;position: relative;}
+
+#branding-band{/*background-color: #dd890a;*/min-height: 100px;padding: 1em;/*position: fixed;*/width:100%;z-index: 99999;}
+#branding-band.sticky {
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 9999;
+}
+
+.subpage #branding-band{
+	padding: 6% 0 0%;
+	min-height:520px;
+}
+#navigation-band{background-color: #dd890a;min-height: 60px;padding: 1em;border-bottom: 10px solid #b37312;}
+#navigation-band .inner{padding:0px;}
+
+#navigation-band.sticky, .page-template-page-landing {
+	/*top: 104px!important;*/
+}
+
+.page-template-page-landing #navigation-band{
+	margin-top: 264px;
+}
+
+
+.subpage #navigation-band.sticky {
+    /*top: -160px;*/
+}
+
+.subpage #navigation-band{
+	/*margin-top: 264px;*/
+}
+
+#contact-info{float:right;margin-right:40px;text-align: center;}
+
+#large-header{
+	z-index: 0;
+	position: relative;
+	background-color: #000;
+	height: 360px;
+}
+
+#bubble-canvas{
+	z-index: -1;
+	width: 100%;
+}
+
+#contact-info .top-text{
+	font-size: 1.2em;
+    letter-spacing: .24em;
+    margin-bottom: .2em;
+	display: block;
+	color: #55c1f2;
+}
+
+#contact-info .add-info {
+    font-size: 1em;
+    letter-spacing: .06em;
+    display: block;
+	margin-top: .2em;
+	color: #55c1f2;
+}
+#contact-info .add-info span {
+	color: #df7333;
+}
+
+.featured-cta {
+	color:#fff;
+	text-align: center;
+	padding: 300px 5em 1em;
+}
+.featured-cta h2{
+	font-size:2em;
+}
+
+.featured-cta p{
+	font-size:1.2em;
+}
+.featured-cta h4{
+	font-weight: 300;
+    font-size: 1.4em;
+    margin: 10px;
+    line-height: 1.5em;
+}
+
+
+.pattern {
+	/*
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSJyZ2JhKDAsMCwwLDAuMykiPjwvcmVjdD4KPHJlY3Qgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0icmdiYSgwLDAsMCwwLjk1KSI+PC9yZWN0Pgo8L3N2Zz4=");
+	*/
+	background-repeat: repeat;
+	height:100%;
+}
+
+.circle-bg{
+	float: left;
+    /* border: 1px solid #000; */
+    padding: 0em 0.4em;
+    border-radius: 197px;
+    background-color: rgb(143, 224, 130);
+	font-size: 3em;
+	color:#fff;
+}
+.circle-bg a, .circle-bg a:hover, .circle-bg a:visited{
+	color:#fff;
+}
+.telephone-num {
+	color: #fff;
+    float: left;
+    line-height: 2em;
+    margin-left: 10px;
+    background-color: #f37423;
+    padding: .2em .8em;
+    border-radius: 10px;
+    font-size: 1.8em;
+}
+.telephone-num a, .telephone-num a:hover{
+	color: #fff;
+}
+
+/*https://stackoverflow.com/questions/16344354/how-to-make-blinking-flashing-text-with-css-3*/
+.telephone-num a:hover {
+	animation: blinker 1s linear infinite;
+  }
+
+  .widget .telephone-num {
+	background-color:transparent;
+	float:none;
+	font-size:1em;
+	text-align: left;
+	margin-left: 4em;
+	letter-spacing: .2em;
+}
+.widget .telephone-num .number-text{
+	font-size:1.8em;
+	letter-spacing: 0;
+}
+
+.call-today .fa-icon{
+	float:left;
+	font-size: 3em;
+}
+  
+  @keyframes blinker {  
+	50% { opacity: 0; }
+  }
+/*
+#big-video-wrap{
+  overflow: hidden;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+.vjs-control-bar{display:none;}
+*/
+
+#tagline{position:relative;width:684px;margin:0 auto;top: 120px;}
+
+#top-bar{background-color: #274289;padding: 1em 1.1em .1em;}
+#top-bar p{color:#fff;text-align: center;}
+
+.social-icon{width:20px;height:20px;display:inline-block;}
+.fb-icon{background-position: 0px 0px;}
+.fb-icon:hover{background-position: -18px 0px;}
+.twitter-icon{background-position: -38px 0px;}
+.twitter-icon:hover{background-position: -60px 0px;}
+.youtube-icon{background-position: -82px 0px;}
+.youtube-icon:hover{background-position: -100px 0px;}
+
+.header-area h1{color:#fff;}
+.page-title{text-transform:uppercase;}
+
+
+
+
+.site-title-gear{
+
+	background: url(../beercheer/images/beer-cheer-gear-1.png) no-repeat;
+	background-size: 300px 300px;
+    width: 300px;
+    height: 300px;
+    display: block;
+    z-index: 0;
+	position: absolute;
+    top: 20px;
+    left: 330px;
+    
+
+
+	/* Set the transform origin to the center of the image */
+	transform-origin: center center;
+	/* Rotate the image around the center */
+	animation: spin 46s linear infinite;
+  }
+  
+  @keyframes spin {
+	0% {
+	  transform: rotate(0deg);
+	}
+	100% {
+	  transform: rotate(360deg);
+	}
+  }
+
+  .site-title-gear-2{
+
+	background: url(../beercheer/images/beer-cheer-gear-2.png) no-repeat;
+    background-size: 125px 125px;
+    width: 125px;
+    height: 125px;
+    display: block;
+    z-index: 10;
+    position: absolute;
+	top: 139px;
+    left: 414px;
+    
+
+	/* Set the transform origin to the center of the image */
+	transform-origin: center center;
+	/* Rotate the image around the center */
+	animation: spin-gear-2 46s linear infinite;
+  }
+  
+  @keyframes spin-gear-2 {
+	0% {
+	  transform: rotate(360deg);
+	}
+	100% {
+	  transform: rotate(0deg);
+	}
+  }
+
+
+  .beer-bottle{
+	background-size: 90px 300px !important;
+	width: 90px;
+	height: 300px;
+	z-index: 11;
+	position: absolute;
+	top: 456px;
+	left: -90px;
+	
+	/* Define the animation */
+	animation: move-beer-bottle 10s linear infinite;
+}
+
+
+  #beer-bottle-1 {
+	background: url(../beercheer/images/beer-cheer-bottle-1.png) no-repeat;
+
+	/* Add a delay of 2 seconds */
+	animation-delay: 0s !important;
+  }
+
+  #beer-bottle-2 {
+	background: url(../beercheer/images/beer-cheer-bottle-2.png) no-repeat;
+
+	/* Add a delay of 2 seconds */
+	animation-delay: 2s !important;
+  }
+
+  #beer-bottle-3 {
+	background: url(../beercheer/images/beer-cheer-bottle-3.png) no-repeat;
+
+	/* Add a delay of 2 seconds */
+	animation-delay: 3.5s !important;
+  }
+
+  #beer-bottle-3 {
+	background: url(../beercheer/images/beer-cheer-bottle-3.png) no-repeat;
+
+	/* Add a delay of 2 seconds */
+	animation-delay: 4.6s !important;
+  }
+
+  #beer-bottle-4 {
+	background: url(../beercheer/images/beer-cheer-bottle-4.png) no-repeat;
+
+	/* Add a delay of 2 seconds */
+	animation-delay: 5.6s !important;
+  }
+
+  #beer-bottle-5 {
+	background: url(../beercheer/images/beer-cheer-bottle-4.png) no-repeat;
+
+	/* Add a delay of 2 seconds */
+	animation-delay: 6.6s !important;
+  }
+  
+  @keyframes move-beer-bottle {
+	0% {
+	  /* Move the object off the left of the screen */
+	  transform: translateX(0vw - 120px);
+	}
+	100% {
+	  /* Move the object off the right of the screen */
+	  transform: translateX(calc(100vw + 90px));
+	}
+  }
+
+
+
+.moving-bottle.paused {
+	animation-play-state: paused !important;;
+}
+
+#conveyor-belt{
+	background-color:#babcbe;
+	background-image: url("../beercheer/images/conveyor-belt.png");
+	background-repeat: repeat;
+
+	width: 100vw;
+    height: 102px;
+	display: block;
+    position: absolute;
+    z-index: 10;
+    top: 680px;
+
+	animation: move-bg 4.3s linear infinite;
+	animation-iteration-count: infinite;
+  	animation-direction: normal;
+
+}
+
+@keyframes move-bg {
+	0% {
+	  background-position: 0 0;
+	}
+	100% {
+	  background-position: 100% 0;
+	}
+  }
+
+
+
+
+
+
+
+
+  .rainbow-text {
+	font-size: 1.5em;
+  background-image: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: bolder;
+  }
+
+
+
+
+  .responsive-video {
+	position: relative;
+	padding-bottom: 56.25%;
+	height: 0;
+	overflow: hidden;
+	}
+	
+	.responsive-video iframe,
+	.responsive-video object,
+	.responsive-video embed {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	}
+
+
+
+
+
+
+/* =Menu / Navigation
+----------------------------------------------- */
+ 
+.main-navigation {
+    clear: none;
+    display: block;
+    float: left;
+    width: 100%;
+}
+.main-navigation ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+.main-navigation li {
+    float: left;
+    position: relative;
+	margin-right:8%;
+}
+.main-navigation a {
+    display: block;
+    text-decoration: none;
+	color:#fff;
+	font-size: 1.2em;
+}
+
+.main-navigation a:hover {
+    color: #55c1f2;
+}
+.main-navigation li:last-child{margin-right:0;}
+
+.main-navigation a:visited {
+	color:#fff;
+}
+.main-navigation ul ul {
+    -moz-box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+    box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+    display: none;
+    float: left;
+    position: absolute;
+        top: 1.6em;
+        left: 0;
+	z-index: 99999;
+	background-color: #274289;
+}
+.main-navigation ul ul ul {
+    left: 100%;
+    top: 0;
+}
+.main-navigation ul ul a {
+    width: 200px;
+}
+.main-navigation ul ul li {
+	padding:.4em;
+}
+.main-navigation li:hover > a {
+}
+.main-navigation ul ul :hover > a {
+}
+.main-navigation ul ul a:hover {
+	color: #55c1f2;;
+}
+.main-navigation ul li:hover > ul {
+    display: block;
+}
+.main-navigation li.current_page_item a,
+.main-navigation li.current-menu-item a {
+}
+ 
+/* Top menu */
+.menu-toggle {
+    cursor: pointer;
+}
+.main-small-navigation .menu {
+    display: none;
+}
+
+.top-navigation ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+.top-navigation li {
+	float: left;
+}
+
+.top-navigation li:last-child{display:none;}
+
+#top-social,#top-nav{float:left;}
+#top-nav{margin:0 0 0 10px;color:#fff;}
+#top-nav ul li{margin:0 6px 0;}
+#top-nav a{font-size:12px;color:#fff;text-decoration:none;}
+#top-nav a:hover{color:#00acc8;}
+
+.button-outline{
+	float:right;
+	border:1px solid #fff;
+	margin:6px 0 0 14px;
+	padding:5px 10px;
+	color:#fff;
+	text-decoration:none;
+	font-size:14px;
+	display:inline-block;
+}
+.button-outline:visited{color:#fff;}
+.button-outline:hover{
+	background-color:#810808;
+	color:#fff;
+	cursor: pointer;
+}
+
+
+/*--------------------------------------------------------------
+## Links & Buttons
+--------------------------------------------------------------*/
+a {
+    color: #274289;
+    text-decoration: none;
+}
+
+a:visited {
+	color: #da6530;
+}
+
+a.button4:visited {
+	color: #cccccc;
+}
+
+a.link-button:visited {
+    color: #cccccc;
+}
+
+
+a:hover,
+a:focus,
+a:active {
+	color: #55c1f2
+}
+
+
+.img-bg {
+    height: 200px;
+    background-position: center center;
+    background-size: cover !important;
+    background-repeat: no-repeat;
+	position: relative;
+	border: 1px solid #fff;
+	text-align: center;
+}
+
+.img-bg h2{
+	font-size: 1.7em;
+	text-decoration:none;
+	color:#fff;
+	position: absolute;
+    width: 100%;
+	bottom: 0;
+	margin-bottom: 0;
+    padding: 10px 10px 20px;
+    background-color: rgba(0,0,0,0.6);
+	/*
+	-moz-box-shadow: 0 -4px 14px 10px rgba(0, 0, 0, 0.60);
+    -webkit-box-shadow: 0 -4px 14px 10px rgba(0, 0, 0, 0.60);
+	box-shadow: 0 -4px 14px 10px rgba(0, 0, 0, 0.60);
+	*/
+}
+
+.button {
+	background-color: #274289;
+	border: 0px;
+}
+
+.button:hover {
+    background-color: #007736;
+}
+
+.button:visited {
+    color: #fff;
+}
+
+.featured-cta .button, .widget .button{
+	background-color: #000;
+	border: 0px;
+}
+
+.featured-cta .button:hover, .widget .button:hover {
+	background-color: #b37312;
+}
+
+/*--------------------------------------------------------------
+# Structure & Content
+--------------------------------------------------------------*/
+#primary{
+	padding-left: 0px;
+	float:left;
+}
+.subpage #primary{
+	max-width:100%;
+}
+
+.subpage #primary .entry-content{
+	padding:.2em 2em;
+}
+
+.entry-content{
+	padding: 0 3em;
+}
+
+#secondary{
+	float:right;
+}
+
+.subpage #secondary {
+	width:400px;
+	padding: 2em;
+	margin-bottom: 40px;
+}
+
+.subpage #secondary .entry-content{
+	padding-left: 20px;
+	padding-right: 40px;
+}
+
+.subpage #secondary .entry-content{
+	padding: 40px 20px 40px 40px;
+}
+
+.subpage #primary.sticky-padding {
+    /*padding-top: 364px;*/
+}
+
+.flex-container{
+	display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    padding: 2em;
+}
+
+.full-width-col{
+	box-sizing:border-box;
+	width:100%;
+	padding:10px;
+}
+.one-half-col{
+	box-sizing:border-box;
+	width:46%;
+	float:left;
+	padding:10px;
+}
+.one-fourth-col{
+	box-sizing:border-box;
+	width:22%;
+	float:left;
+	padding:10px;
+}
+.one-third-col{
+	box-sizing:border-box;
+	width:28%;
+	padding:10px;
+	padding-bottom: 40px;
+}
+
+.red{
+	color:#cf0a2c;
+}
+.green{
+	color:#6cc049;
+}
+.purple{
+	color:#8b189b;
+}
+.orange{
+	color:#ff6b0b;
+}
+
+.center{
+	text-align: center;
+}
+
+.info-icon{display:inline-block;width:70px;height:70px;background-position:0 -26px;vertical-align: middle;margin-right:20px;}
+.info-text{color:#fff;text-transform:uppercase;font-size:28px;font-weight:bolder;vertical-align: middle;}
+
+.section-header-text{display:block;text-align: center;font-size:28px;font-weight:bolder;color:#545759;margin-bottom:14px;}
+
+#circle-icons{text-align:center;margin-bottom:20px;}
+.circle-icon{display:inline-block;width:130px;height:130px;vertical-align: middle;margin:0 10px;}
+
+.white-button{background-color:#fff;padding:5px;}
+.small-text{font-size: 12px;}
+
+.entry-content .full-width-img{width: 126%;margin-left: -13%;position: relative;max-width: inherit;}
+
+
+p {
+    word-spacing: .3em;
+}
+
+/*WAVE BORDER!!!*/
+/*https://stackoverflow.com/questions/33759102/wave-border-in-css*/
+.wave{
+	/*background:linear-gradient(to right, sandybrown, chocolate);*/
+	height: 25px;
+	position: relative;
+}
+.wave::before{
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-repeat: repeat;
+	height: 10px;
+	background-size: 20px 20px;
+	background-image:
+	radial-gradient(circle at 10px -5px, transparent 12px, #55c1f2 13px);
+}
+
+.wave-white{
+	background:
+	linear-gradient(to right, #55c1f2, #55c1f2);
+}
+
+.wave-white::before, .wave-white-transparent::before{
+	background-image:
+	radial-gradient(circle at 10px -5px, transparent 12px, #fff 13px);
+}
+
+.wave-white-transparent{
+	background:transparent;
+}
+
+article header {
+    padding: 0 2em;
+}
+
+
+/*---------widget styles----------------*/
+#secondary .widget.widget_cta .fa-icon{
+	font-size:3em;
+	color:#274289;					
+}
+.widget-button {
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+
+/*--------------------------------------------------------------
+# Home Page Styles
+--------------------------------------------------------------*/
+
+.home #primary, .page-template-page-home #primary, .page-template-page-landing #primary{width:100%;padding-left: 0px;}
+.home #secondary, .page-template-page-home #secondary, .page-template-page-landing #secondary{display:none;}
+
+.home .entry-header, .page-template-page-home .entry-header, .page-template-page-landing .entry-header{display:none;}
+.home h1, .page-template-page-home h1, .page-template-page-landing h1{text-transform:uppercase;text-align:center;font-size:30px;color:#23408e;}
+
+
+.textwidget{
+	margin-bottom: 32px;
+}
+
+
+.featured-cta .widget-title, .featured-cta h3{
+	font-size:3em;
+}
+.featured-cta img{
+	max-width:50%;
+}
+.featured-cta .textwidget{
+	font-size:1.2em;
+}
+
+
+#home-cta, .tri-cta-section{
+	display: flex; /* or inline-flex */
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	align-items: flex-start;
+	padding: 2em;
+}
+
+.tri-cta-section .fa-icon, .tri-cta-section h3{
+	color:#274289;
+}
+
+#home-cta .one-third-col, .tri-cta-section .one-third-col, #home-cta .one-fourth-col, .tri-cta-section .one-fourth-col{
+	/*border:1px solid #000;*/
+	text-align: center;
+	background-color: #fff;
+	margin: 0px 1em .8em;
+    flex: 1 1 auto;
+}
+
+#home-cta .one-third-col:hover, .tri-cta-section .one-third-col:hover, #home-cta .one-fourth-col:hover, .tri-cta-section .one-fourth-col:hover{
+	background-color: #e4f6ff;
+}
+
+#home-cta .one-third-col .fa-icon, .tri-cta-section .one-third-col .fa-icon ,#home-cta .one-fourth-col .fa-icon, .tri-cta-section .one-fourth-col .fa-icon{
+	font-size: 3em;
+}
+
+#home-cta.pattern, .tri-cta-section.pattern {
+	/*background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNiIgaGVpZ2h0PSI2Ij4KPHJlY3Qgd2lkdGg9IjYiIGhlaWdodD0iNiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjApIj48L3JlY3Q+CjxnIGlkPSJjIj4KPHJlY3Qgd2lkdGg9IjMiIGhlaWdodD0iMyIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjApIj48L3JlY3Q+CjxyZWN0IHk9IjEiIHdpZHRoPSIzIiBoZWlnaHQ9IjIiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4zKSI+PC9yZWN0Pgo8L2c+Cjx1c2UgeGxpbms6aHJlZj0iI2MiIHg9IjMiIHk9IjMiPjwvdXNlPgo8L3N2Zz4=");	
+	*/
+	background-image: none;
+	background-repeat: repeat;
+	height: 100%;
+    /*background-color: #552271;*/
+}
+
+
+
+.tri-cta-section .button{
+	border: none;
+    background: none;
+	color: #fff;
+	text-transform: unset;
+	background-color: #274289;
+}
+.tri-cta-section .button:hover{
+	background-color: #007736;
+}
+
+
+#home-content {
+    /*background-image: url("../bendbeerbottles/images/bendbeerbottles-options-team.jpg");*/
+    background-repeat: no-repeat;
+    background-size: cover;
+	background-position: center center;
+	padding-top: 0%;
+}
+
+
+.aqua-banner{
+	background: rgba(9, 202, 154, 0.3);
+	text-align: center;
+	padding:1em;
+}
+.aqua-banner a{
+	display: block;
+	font-size:2em;
+}
+.aqua-banner .button{
+	display: block;
+	width:75%;
+	margin: 20px auto;
+	font-size:1.4em;
+}
+
+#home-content .pattern {
+	background-image: none;
+	background: rgba(253,253,253,0.88);
+	background-repeat: repeat;
+	height:100%;
+}
+
+#testimonials{
+	background-color: #274289;
+}
+
+#testimonials h2{
+	color:#fff;
+}
+
+.testimonial{
+    padding-left: 60px;
+    padding-top: 18px;
+    font-style: italic;
+	position: relative;
+	color:#fff;
+}
+
+.testimonials-widget .testimonial:before,
+.testimonial:before {
+	color:#56c1f2;
+	font-family: FontAwesome;
+    content: "\f10d";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 44px;
+    font-style: normal;
+    line-height: 1;
+}
+
+
+#testimonials .name-title span, #testimonials .name-title span {
+	color:#56c1f2;
+    font-weight: 600;
+    text-align: right;
+    display: block;
+}
+
+
+#video-section {
+    background-image: url("../beercheer/images/pexels-photo-311039-small.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+#video-section .pattern{
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCI+CjxmaWx0ZXIgaWQ9Im4iIHg9IjAiIHk9IjAiPgo8ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC43IiBudW1PY3RhdmVzPSIxMCIgc3RpdGNoVGlsZXM9InN0aXRjaCI+PC9mZVR1cmJ1bGVuY2U+CjwvZmlsdGVyPgo8cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjUpIj48L3JlY3Q+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWx0ZXI9InVybCgjbikiIG9wYWNpdHk9IjAuNCI+PC9yZWN0Pgo8L3N2Zz4=");
+	height:100%;
+}
+
+#video-section .one-half-col {
+	font-size:1.4em;
+}
+
+video {
+	width: 100%    !important;
+	height: auto   !important;
+  }
+
+
+
+
+#download-packet{background-color:#274289;text-align:center;}
+
+.sponsor-text{min-height:500px;box-sizing:border-box;background-color:#cf0a2c;color:#fff;width:50%;float:left;padding: 60px 40px 60px 10%;}
+.sponsor-img-area{min-height:500px;box-sizing:border-box;background-color:#808184;color:#fff;width:50%;float:left;/*padding:60px 40px;*/}
+
+.sponsor-text h3{font-size:28px;text-transform:uppercase;}
+
+
+#pre-app{background-color:#274289;}
+
+.white-button{display: inline-block;padding: 6px 20px;color:#000;}
+
+.white-button:hover{
+	background-color:#274289;
+	color:#fff;
+	cursor: pointer;
+	border:1px solid #fff;
+	padding: 5px 19px;
+}
+
+.white-button .button-text{font-weight:bold;text-transform:uppercase;vertical-align:middle;margin-left:10px;}
+
+
+#pre-app .inner{text-align:center;}
+.pre-app-icon{display: inline-block;width:52px;height:70px;vertical-align:middle;background-position:-66px -28px;}
+.free-app-text{    
+	display: inline-block;
+    text-align: left;
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    vertical-align: middle;
+    margin-left: 40px;
+}
+.free-app-text a{
+	color:#56c1f2;
+}
+.free-app-text a:hover{
+	color:#df7333;
+}
+
+#pre-app .white-button:hover {
+    background-color: #d95f2c;
+}
+
+#full-section{position:relative;text-align:center;background-size:cover;background-position: center center;min-height:750px;}
+#full-section .story-text{position: absolute;width: 100%;bottom: 50%;padding:2em;}
+#full-section .story-text h3{margin: 0;font-size:5em;color:#fff;}
+#full-section .story-text p{color:#fff;font-size:1.4em;}
+#full-section .story-text .button-outline{float:none;}
+
+.email-signup{
+	text-align:center;color:#fff;
+
+	position: absolute;
+    width: 100%;
+	top: 10px;
+}
+
+.discord-button {
+    background-color: #7289DA;
+    border: none;
+    color: white!important;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-family: 'Roboto Medium', sans-serif;
+    border-radius: 15px;
+}
+
+a.discord-button:hover {
+    color: #00c5ff!important;
+}
+
+
+/*--------------------------------------------------------------
+# Subpage Page Styles
+--------------------------------------------------------------*/
+.subpage .entry-header h1{
+	color:#000;
+}
+
+
+/*--------------------------------------------------------------
+# Footer Styles
+--------------------------------------------------------------*/
+
+.footer-area{background-color:#b37312;color:#fff;}
+.footer-area h3{color:#fff;}
+.footer-area a{color:#6b6b6b;text-decoration:none;}
+#footer-sponsors{width:100%;border-bottom:1px solid #999;text-align:center;padding: 0 0 20px 0;margin-bottom: 40px;}
+#footer-sponsors a{display:inline;margin:0 2%; }
+#footer-sponsors img{width:200px; }
+
+.footer-box{box-sizing:border-box;width:25%;display:inline-block;float:left;padding:0 2%;color:#fff;}
+.footer-box ul{margin:0;padding:0;}
+.footer-box ul li{list-style:none;margin:10px 0;}
+
+.footer-box .fa {display: block;}
+
+.footer-box a{
+	color:#fdbb1c;
+}
+
+.footer-box.full {
+	width: 100%;
+	text-align: center;
+}
+
+
+li.footer-book-icon:before {font-family: 'FontAwesome';content: '\f02d';}
+li.footer-facebook-icon:before {font-family: 'FontAwesome';content: '\f09a';}
+li.footer-twitter-icon:before {font-family: 'FontAwesome';content: '\f099';}
+li.footer-plane-icon:before {font-family: 'FontAwesome';content: '\f1d8';}
+
+
+
+
+
+/*--------------------------------------------------------------
+# Form Styles
+--------------------------------------------------------------*/
+
+
+.bendbeerbottles-form .button{
+	background-color: #a58416;
+	color:#fff;
+	box-shadow: none;
+	border-radius: 0px;
+}
+.bendbeerbottles-form .button:hover{
+	background-color: #e3a50a;
+	box-shadow: none;
+}
+
+::-webkit-input-placeholder {
+	text-align: center;
+	color: #babcbe;
+ }
+ 
+ :-moz-placeholder { /* Firefox 18- */
+	text-align: center;  
+	color: #babcbe;
+ }
+ 
+ ::-moz-placeholder {  /* Firefox 19+ */
+	text-align: center;  
+	color: #babcbe;
+ }
+ 
+ :-ms-input-placeholder {  
+	text-align: center;
+	color: #babcbe; 
+ }
+
+ .signupBtn{
+	 border:1px solid #fff;
+	 background-color: #000;
+	 padding:.5em 1em;
+ }
+
+ .btn1{
+	width:260px;
+	height:85px;
+	margin:auto;
+}
+
+.button4{
+	color:#fff;
+	padding:10px 70px;
+	border:none;
+	outline:none;
+	font-family:'Michroma', sans-serif;
+	font-size:20px;
+	text-shadow:-2px 2px 0 rgba(0,0,0,0.2);
+	font-weight:700;
+	transition:all .1s linear;
+	background:linear-gradient(to bottom,#b37312,#794d0b);
+	box-shadow: -1px 0 1px #b37312, 0 1px 1px #b37312, -2px 1px 1px #b37312, -1px 2px 1px #b37312, -3px 2px 1px #584938, -2px 3px 1px #584938, -4px 3px 1px #584938, -3px 4px 1px #493c2e, -5px 4px 1px #493c2e, -4px 5px 1px #493c2e, -6px 5px 1px #493c2e;
+}
+.button4:active{
+	box-shadow:none;
+	-moz-transform:translate3d(-6px,6px,0);
+	-ms-transform:translate3d(-6px,6px,0);
+	-webkit-transform:translate3d(-6px,6px,0);
+	transform:translate3d(-6px,6px,0);
+}
+
+.link-button{
+	color:#fff;
+	padding:10px 20px;
+	border:none;
+	outline:none;
+	font-family:'Michroma', sans-serif;
+	font-size:16px;
+	text-shadow:-2px 2px 0 rgba(0,0,0,0.2);
+	font-weight:700;
+	transition:all .1s linear;
+	background:linear-gradient(to bottom,#b37312,#794d0b);
+	box-shadow: -1px 0 1px #b37312, 0 1px 1px #b37312, -2px 1px 1px #b37312, -1px 2px 1px #b37312, -3px 2px 1px #584938, -2px 3px 1px #584938, -4px 3px 1px #584938, -3px 4px 1px #493c2e, -5px 4px 1px #493c2e, -4px 5px 1px #493c2e, -6px 5px 1px #493c2e;
+}
+.link-button:active{
+	box-shadow:none;
+	-moz-transform:translate3d(-6px,6px,0);
+	-ms-transform:translate3d(-6px,6px,0);
+	-webkit-transform:translate3d(-6px,6px,0);
+	transform:translate3d(-6px,6px,0);
+}
+
+.signup-email{
+	width: 90%;
+    height: 2em;
+    font-size: 1.6em;
+	margin: 30px 0;
+	text-align: center;
+}
+
+
+
+@property --shimmer {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 33deg;
+}
+
+@keyframes shimmer {
+    0% {
+        --shimmer: 0deg;
+    }
+    100% {
+        --shimmer: 360deg;
+    }
+}
+
+@keyframes shine {
+    0% {
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+    }
+    55% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+@keyframes text {
+    0% {
+        background-position: 100% center;
+    }    
+    100% {
+        background-position: -100% center;
+    }    
+}
+
+.rainbow-button {
+	width:520px;
+	height:100px;
+	background-image: linear-gradient(90deg, #00C0FF 0%, #FFCF00 49%, #FC4F4F 80%, #00C0FF 100%);
+	border-radius:5px;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	text-transform:uppercase;
+	font-size:20px;
+	font-weight:bold;
+	padding: 0px 60px;
+  }
+  
+/*
+.rainbow-button::after {
+	content:attr(alt);
+	width:514px;
+	height:94px;
+	background-color:#191919;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+  }
+*/
+  
+  .rainbow-button:hover {
+	animation:slidebg 2s linear infinite;
+  }
+  
+  @keyframes slidebg {
+	to {
+	  background-position:20vw;
+	}
+  }
+
+/*--------------------------------------------------------------
+# Sidebars & Widgets
+--------------------------------------------------------------*/
+
+#secondary .widget.widget_cta{
+	border: 1px solid #000;
+	text-align: center;
+	background-color: #fff;
+	margin-bottom: .8em;
+	padding: 1.6em;
+}
+
+.widget-title{
+	font-size:1.4em;
+}
+
+
+
+
+
+
+/*--------------------------------------------------------------
+	# Rainbow Styles - https://codepen.io/jlengstorf/pen/WNPZrRv
+--------------------------------------------------------------*/
+
+
+:root {
+	--black: oklch(17.7% 0.105 262.48);
+	--purple: oklch(60% 0.37 294.7);
+	--orange: oklch(60% 0.37 64.65);
+	--yellow: oklch(60% 0.37 109.08);
+	--blue: oklch(60% 0.37 237.06);
+	--black-alpha-50: color-mix(in oklch, var(--black), transparent);
+}
+
+@property --gradient-angle {
+	inherits: false;
+	initial-value: 0deg;
+	syntax: "<angle>";
+}
+
+@keyframes spinbow {
+	to {
+		--gradient-angle: 360deg;
+	}
+}
+
+.rainbow-bg{
+	background: linear-gradient(60deg, #39e11e, #ffeb37, #f38334, #ea3131, #a30dff, #19b1ff, #39e11e);
+}
+
+.rainbow-border {
+	animation: spinbow 2s linear infinite;
+	background: linear-gradient(to bottom, var(--black), var(--black)) padding-box,
+		conic-gradient(
+				in oklch from var(--gradient-angle),
+				var(--purple),
+				var(--orange),
+				var(--yellow),
+				var(--blue),
+				var(--purple)
+			)
+			border-box;
+	border: 5px solid transparent;
+	border-radius: 20px;
+	position: relative;
+	width: 300px;
+	height: 200px;
+	z-index: 10;
+
+	&::before {
+		/*background: black;*/
+		border-radius: 15px;
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: 5;
+	}
+
+	&::after {
+		animation: spinbow 2s linear infinite;
+		background: conic-gradient(
+			in oklch from var(--gradient-angle),
+			var(--purple),
+			var(--orange),
+			var(--yellow),
+			var(--blue),
+			var(--purple)
+		);
+		border-radius: 15px;
+		content: "";
+		position: absolute;
+		inset: 0;
+		filter: blur(50px);
+		z-index: 1;
+	}
+}
+
+
+
+
+
+
+
+/*--------------------------------------------------------------
+# Responsive - Media Queries
+--------------------------------------------------------------*/
+
+@media screen and (max-width: 1244px) {
+
+	.subpage .header-area {
+		background-position-y: 0px;
+	}
+
+	/*--------------------------------------------------------------
+	# Structure Styles
+	--------------------------------------------------------------*/
+	#primary{
+		width: 100%;
+	}
+	.subpage #secondary {
+		width: 100%;
+	}
+	
+	/*--------------------------------------------------------------
+	# Content
+	--------------------------------------------------------------*/
+	#masthead {
+    	/*padding: 1em 2em 2em;*/
+	}
+	#top-bar {
+    	right: 20px;
+	}
+}
+
+@media screen and (max-width: 1120px) {
+
+	/*--------------------------------------------------------------
+	# Header Styles
+	--------------------------------------------------------------*/
+
+
+	#masthead .site-branding h1, #masthead .site-branding .site-title{
+		background: url(../beercheer/images/beer-cheer-logo-no-gear.png) no-repeat;
+		background-size: 900px 274px;
+		width: 900px;
+		height: 274px;
+		z-index: 9999;
+
+		clip: rect(0px, 900px, 172px, 0px);
+	}
+
+	.site-branding {
+		width: 900px;
+	}
+
+	.site-title-gear{
+
+		background-size: 280px 280px;
+		width: 280px;
+		height: 280px;
+		top: 20px;
+		left: 292px;
+
+	  }
+
+	  .header-area {
+		background-size: cover;
+	}
+
+	.site-title-gear-2{
+		background-size: 115px 115px;
+    	width: 115px;
+    	height: 115px;
+		top: 125px;
+    	left: 372px;
+	}
+}
+
+@media screen and (max-width: 960px) {
+
+	/*--------------------------------------------------------------
+	# Header Styles
+	--------------------------------------------------------------*/
+
+	#masthead .site-branding h1, #masthead .site-branding .site-title{
+		background: url(../beercheer/images/beer-cheer-logo-no-gear.png) no-repeat;
+		background-size: 700px 213px;
+		width: 700px;
+		height: 213px;
+		z-index: 9999;
+
+		clip: rect(0px, 900px, 134px, 0px);
+	}
+
+	.site-title {
+		margin: auto;
+	}
+	.site-branding {
+		float: none;
+		width:700px;
+	}
+
+	.site-title-gear{
+
+		background-size: 220px 220px;
+		width: 220px;
+		height: 220px;
+		top: 20px;
+		left: 226px;
+
+	  }
+
+	  .site-title-gear-2{
+		background-size: 90px 90px;
+    	width: 90px;
+    	height: 90px;
+		top: 102px;
+    	left: 289px;
+	}
+
+	#conveyor-belt{
+		top: 694px !important;
+		animation-iteration-count: infinite !important;
+		animation-direction: reverse !important;
+	
+	}
+
+	@keyframes move-conveyor-belt-small {
+		0% {
+		  background-position: 0 0;
+		}
+		100% {
+		  background-position: 100% 0;
+		}
+	}
+
+
+	#contact-info {
+		float: none;
+		margin: .5em auto;
+		width: 268px;
+	}
+	.circle-bg {
+		font-size: 1.3em;
+		padding: 0em 0.4em;
+	}
+
+	.telephone-num {
+		line-height: 1.4em;
+		font-size: 1em;
+	}
+	#navigation-band.sticky {
+		/*top: 120px;*/
+	}
+
+	.header-area{
+		background-size: cover;
+	}
+
+	.subpage #navigation-band.sticky {
+		/*top: -122px;*/
+	}
+
+	.featured-cta {
+		padding: 26% 1em 70%;
+	}
+	.subpage .header-area {
+		background-position-y: -10px;
+	}
+
+	/*--------------------------------------------------------------
+	# Structure Styles
+	--------------------------------------------------------------*/
+	.subpage #primary, .subpage #secondary {
+		float: none;
+		width: 100%;
+	}
+	.entry-content{
+		padding: 0em;
+	}
+	.subpage #primary .entry-content, .subpage #secondary .entry-content {
+		padding: 2em;
+	}
+
+	
+	/*--------------------------------------------------------------
+	# Content
+	--------------------------------------------------------------*/
+	.one-fourth-col{width:50%;}
+	
+	
+	/*--------------------------------------------------------------
+	# Home Page Styles
+	--------------------------------------------------------------*/
+
+	.sponsor-text, .sponsor-img{width:100%;float:none;}
+	.sponsor-img-area{width: 100%;background-position: top center;}
+
+	#full-section .story-text h3 {
+		font-size: 3em;
+	}
+
+}
+
+
+@media screen and (max-width: 800px) {
+
+	/*--------------------------------------------------------------
+	# Header Styles
+	--------------------------------------------------------------*/
+
+
+	#masthead .site-branding h1, #masthead .site-branding .site-title{
+		background: url(../beercheer/images/beer-cheer-logo-vert-no-gears.png) no-repeat;
+		background-size: 380px 411px;
+		width: 380px;
+		height: 411px;
+
+		clip: rect(0px, 701px, 758px, 0px);
+	}
+
+	.site-branding {
+		width: 380px;
+	}
+
+	.featured-cta .widget-title {
+		font-size: 2em;
+	}
+	.featured-cta img {
+		max-width: 100%;
+	}
+	.featured-cta {
+		padding: 54% 1em 70%;
+	}
+
+	.site-title-gear{
+		background-size: 340px 340px;
+		width: 340px;
+		height: 340px;
+		top: 26px;
+		left: 20px;
+	}
+
+	.site-title-gear-2{
+		background-size: 140px 140px;
+    	width: 140px;
+    	height: 140px;
+		top: 157px;
+		left: 120px;
+	}
+
+	.beer-bottle {
+		top: 466px;
+	}
+
+	.subpage .header-area {
+		background-position-y: 0px;
+	}
+
+	.subpage #navigation-band {
+    	/*margin-top: 310px;*/
+	}
+	.subpage #navigation-band.sticky {
+		/*top: -168px;*/
+	}
+
+	.subpage .header-area {
+		background-position-y: 0px;
+	}
+
+	
+	/*--------------------------------------------------------------
+	# Home Page Styles
+	--------------------------------------------------------------*/
+	
+	#tagline{box-sizing: border-box;width:100%;padding:0 50px;}
+	
+	.one-third-col{width:100%;float:none;}
+	.one-fourth-col{width:100%;float:none;}
+	#download-packet .inner{padding:20px 20px;}
+	.info-text {font-size: 16px;}
+	.facts-header{display:block;}
+	
+	#home-content .one-half-col {
+			width: 100%;
+	}	
+	#pre-app{padding: 20px;}
+	.free-app-text{margin:10px 0;text-align:center;}
+
+	#video-section .one-half-col {
+		width:100%;
+		text-align: center;
+	}
+
+	.aqua-banner a {
+		display: block;
+		font-size: 2em;
+	}
+
+	.aqua-banner .button {
+		width: 80%;
+		font-size: 1em;
+	}
+	.aqua-banner .one-half-col {
+		width: 100%;
+	}
+
+	
+	.footer-area {
+		text-align: center;
+	}
+	
+	.site-footer{padding: 2em 0;}
+	.footer-box {width: 50%;display: block;}
+
+
+}
+
+@media screen and (max-width: 660px) {
+	.featured-cta {
+		padding: 64% 1em 70%;
+	}
+}
+
+
+@media screen and (max-width: 480px) {
+
+	.featured-cta .button{
+		width: 100%;
+		display: block;
+		margin-top:1em;
+	}
+
+	.featured-cta .widget-title {
+		font-size: 1.5em;
+	}
+
+	.site-title-gear-2{
+		background-size: 110px 110px;
+    	width: 110px;
+    	height: 110px;
+		top: 129px;
+    	left: 95px;
+	}
+
+	.beer-bottle {
+		/* Define the animation */
+		animation: move-beer-bottle 5s linear infinite !important;
+	}
+	.beer-bottles .beer-bottle:nth-child(2n) {
+		display: none;
+	  }
+
+	#home-content {
+		/*padding-top: 40%;*/
+		background-position: top center;
+		background-size: contain;
+	}
+
+	.site-branding {
+		width: 300px;
+	}
+
+	.subpage #branding-band{
+		min-height:420px;
+	}
+
+	#masthead .site-branding h1, #masthead .site-branding .site-title{
+		background: url(../beercheer/images/beer-cheer-logo-vert-no-gears.png) no-repeat;
+		background-size: 300px 324px;
+		width: 300px;
+		height: 324px;
+	}
+
+	#navigation-band {
+		padding: 0;
+	}
+
+	.subpage #navigation-band.sticky {
+		/*top: -192px;*/
+	}
+
+	.site-title-gear{
+
+		background-size: 280px 280px;
+		width: 280px;
+		height: 280px;
+		top: 24px;
+		left: 8px;
+		
+	}
+
+	figure {
+		margin: 0px!important;
+	}
+
+	.gform_wrapper input:not([type=radio]):not([type=checkbox]):not([type=image]):not([type=file]) {
+		font-size: .8em;
+	}
+
+	.signup-email {
+		width: 100%;
+		height: 2em;
+		font-size: 1em;
+		text-align: center;
+	}
+	
+	/*--------------------------------------------------------------
+	# Footer
+	--------------------------------------------------------------*/
+	
+	.site-footer {padding: 2em 2em;}
+	.footer-box {width: 100%;}
+	#footer-sponsors a {display: block;margin: 10% 2%;}
+	
+}
