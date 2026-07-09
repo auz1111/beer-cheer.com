@@ -1,6 +1,8 @@
 export function initLegacyBubbleCanvas() {
   const largeHeader = document.getElementById('large-header')
   const canvas = document.getElementById('bubble-canvas')
+  const signupPanel = document.querySelector('.email-signup')
+  const signupContent = document.querySelector('.email-signup .widget_text')
 
   if (!largeHeader || !canvas) {
     return () => {}
@@ -17,9 +19,35 @@ export function initLegacyBubbleCanvas() {
     return () => {}
   }
 
+  const getResponsiveHeight = (viewportWidth) => {
+    if (viewportWidth <= 480) {
+      return 560
+    }
+
+    if (viewportWidth <= 800) {
+      return 520
+    }
+
+    if (viewportWidth <= 960) {
+      return 480
+    }
+
+    return 400
+  }
+
   const setCanvasSize = () => {
     width = window.innerWidth
-    height = 400
+    const baseHeight = getResponsiveHeight(width)
+    let contentHeight = 0
+
+    if (signupPanel && signupContent) {
+      const panelStyles = window.getComputedStyle(signupPanel)
+      const paddingTop = parseFloat(panelStyles.paddingTop || '0')
+      const paddingBottom = parseFloat(panelStyles.paddingBottom || '0')
+      contentHeight = Math.ceil(signupContent.scrollHeight + paddingTop + paddingBottom + 16)
+    }
+
+    height = Math.max(baseHeight, contentHeight)
     largeHeader.style.height = `${height}px`
     canvas.width = width
     canvas.height = height
