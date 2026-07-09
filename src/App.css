@@ -110,6 +110,12 @@
   animation: spin-gear-2 46s linear infinite;
 }
 
+.site-branding.interactive-gears .site-title-gear,
+.site-branding.interactive-gears .site-title-gear-2 {
+  animation: none;
+  will-change: transform;
+}
+
 .beer-bottle {
   background-size: 90px 300px !important;
   width: 90px;

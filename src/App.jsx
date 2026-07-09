@@ -150,6 +150,10 @@ function getLoginErrorMessage(response, data, err) {
 }
 
 function HomePage() {
+  const logoPressedRef = useRef(false)
+  const gearOneRef = useRef(null)
+  const gearTwoRef = useRef(null)
+
   useEffect(() => {
     const cleanupBubble = initLegacyBubbleCanvas()
     const cleanupBottles = initLegacyBottleAnimations()
@@ -160,6 +164,49 @@ function HomePage() {
     }
   }, [])
 
+  useEffect(() => {
+    let frameId = null
+    let lastTime = performance.now()
+    let gearOneAngle = 0
+    let gearTwoAngle = 0
+    const degreesPerMs = 360 / 46000
+
+    const tick = (time) => {
+      const dt = time - lastTime
+      lastTime = time
+      const direction = logoPressedRef.current ? -1 : 1
+
+      gearOneAngle = (gearOneAngle + (direction * degreesPerMs * dt)) % 360
+      gearTwoAngle = (gearTwoAngle - (direction * degreesPerMs * dt)) % 360
+
+      if (gearOneRef.current) {
+        gearOneRef.current.style.transform = `rotate(${gearOneAngle}deg)`
+      }
+
+      if (gearTwoRef.current) {
+        gearTwoRef.current.style.transform = `rotate(${gearTwoAngle}deg)`
+      }
+
+      frameId = window.requestAnimationFrame(tick)
+    }
+
+    frameId = window.requestAnimationFrame(tick)
+
+    return () => {
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId)
+      }
+    }
+  }, [])
+
+  const handleLogoPressStart = () => {
+    logoPressedRef.current = true
+  }
+
+  const handleLogoPressEnd = () => {
+    logoPressedRef.current = false
+  }
+
   return (
     <div className="beer-cheer-site">
       <div className="header-area full">
@@ -167,14 +214,20 @@ function HomePage() {
           <div className="main-page">
             <header id="masthead" className="site-header" role="banner">
               <div id="branding-band">
-                <div className="site-branding">
+                <div
+                  className="site-branding interactive-gears"
+                  onPointerDown={handleLogoPressStart}
+                  onPointerUp={handleLogoPressEnd}
+                  onPointerLeave={handleLogoPressEnd}
+                  onPointerCancel={handleLogoPressEnd}
+                >
                   <p className="site-title">
-                    <a href="/" rel="home" aria-label="Beer Cheer home">
+                    <Link to="/" aria-label="Beer Cheer home">
                       <span className="logo-text">Beer Cheer</span>
-                    </a>
+                    </Link>
                   </p>
-                  <span className="site-title-gear"></span>
-                  <span className="site-title-gear-2"></span>
+                  <span ref={gearOneRef} className="site-title-gear"></span>
+                  <span ref={gearTwoRef} className="site-title-gear-2"></span>
                   <p className="site-description">A crafty little beer game.</p>
                 </div>
               </div>
@@ -312,9 +365,9 @@ function OpenTestingPage() {
               <div id="branding-band">
                 <div className="site-branding">
                   <p className="site-title">
-                    <a href="/" rel="home" aria-label="Beer Cheer home">
+                    <Link to="/" aria-label="Beer Cheer home">
                       <span className="logo-text">Beer Cheer</span>
-                    </a>
+                    </Link>
                   </p>
                   <span className="site-title-gear"></span>
                   <span className="site-title-gear-2"></span>
