@@ -1633,12 +1633,6 @@ function UnityPage() {
           />
         </Link>
 
-        <h1>Unity Web Version</h1>
-        <p>
-          Yes, you can host your Unity WebGL build on this site. This page is ready to load
-          your exported build from <strong>/unity-build/index.html</strong>.
-        </p>
-
         {status === 'checking' && <p>Checking for Unity build files...</p>}
 
         {status === 'ready' && (
