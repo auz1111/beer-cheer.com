@@ -256,14 +256,17 @@ function HomePage() {
                 </div>
               </div>
 
-              {/* 
+              
               <div className="featured-cta">
+                {/*
                 <h2 className="wp-block-heading">Play NOW!</h2>
+                */}
                 <p className="wp-block-paragraph">
-                  BEER * CHEER is on Google Play for Android.
+                  A crafty lil beer game.
                 </p>
+                
               </div>
-              */}
+              
             </header>
           </div>
         </div>
