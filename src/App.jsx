@@ -284,11 +284,26 @@ function HomePage() {
             <aside className="widget_text widget widget_custom_html">
               <h3 className="widget-title">Get The App On Google Play</h3>
               <div className="textwidget custom-html-widget">
-                Download BEER * CHEER for Android and start bottling your way to the
+                Download BEER * CHEER for IOS or Android and start bottling your way to the
                 highest score.
                 <br />
                 <br />
                 <div>
+                  <p className="has-text-align-center">
+                    <a
+                      href="https://apps.apple.com/us/app/beer-cheer/id6741873430"
+                      className="link-button button4 google-play-badge-link ios-app-store-link"
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label="Get it on iOS"
+                    >
+                      <img
+                        src="/branding/ios-badge.png"
+                        className="google-play-badge"
+                        alt="Get it on iOS"
+                      />
+                    </a>
+                  </p>
                   <p className="has-text-align-center">
                     <a
                       href="https://play.google.com/store/apps/details?id=com.pushupz.app"
