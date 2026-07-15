@@ -291,9 +291,7 @@ function HomePage() {
               <div className="textwidget custom-html-widget">
                 Download BEER * CHEER for IOS or Android and start bottling your way to the
                 highest score.
-                <br />
-                <br />
-                <div>
+                <div className="store-badge-stack">
                   <p className="has-text-align-center">
                     <a
                       href="https://apps.apple.com/us/app/beer-cheer/id6741873430"
