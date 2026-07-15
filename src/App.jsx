@@ -282,7 +282,7 @@ function HomePage() {
         <div className="email-signup">
           <div className="inner">
             <aside className="widget_text widget widget_custom_html">
-              <h3 className="widget-title">Get The App On Google Play</h3>
+              <h3 className="widget-title">Get The App!</h3>
               <div className="textwidget custom-html-widget">
                 Download BEER * CHEER for IOS or Android and start bottling your way to the
                 highest score.
