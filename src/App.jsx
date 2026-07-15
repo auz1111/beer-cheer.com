@@ -309,7 +309,7 @@ function HomePage() {
                   </p>
                   <p className="has-text-align-center">
                     <a
-                      href="https://play.google.com/store/apps/details?id=com.pushupz.app"
+                      href="https://play.google.com/store/apps/details?id=com.jeca.bendbeerbottles"
                       className="link-button button4 google-play-badge-link"
                       target="_blank"
                       rel="noreferrer"
