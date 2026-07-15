@@ -256,12 +256,14 @@ function HomePage() {
                 </div>
               </div>
 
+              {/* 
               <div className="featured-cta">
                 <h2 className="wp-block-heading">Play NOW!</h2>
                 <p className="wp-block-paragraph">
                   BEER * CHEER is on Google Play for Android.
                 </p>
               </div>
+              */}
             </header>
           </div>
         </div>
@@ -282,7 +284,7 @@ function HomePage() {
         <div className="email-signup">
           <div className="inner">
             <aside className="widget_text widget widget_custom_html">
-              <h3 className="widget-title">Get The App!</h3>
+              <h3 className="widget-title">Play NOW!</h3>
               <div className="textwidget custom-html-widget">
                 Download BEER * CHEER for IOS or Android and start bottling your way to the
                 highest score.
