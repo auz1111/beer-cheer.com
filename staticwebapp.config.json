@@ -1,72 +1,12 @@
 {
-  "routes": [
-    {
-      "route": "/unity-build/Build/*.wasm.gz",
-      "headers": {
-        "Content-Encoding": "gzip",
-        "Content-Type": "application/wasm"
-      }
-    },
-    {
-      "route": "/unity-build/Build/*.js.gz",
-      "headers": {
-        "Content-Encoding": "gzip",
-        "Content-Type": "application/javascript"
-      }
-    },
-    {
-      "route": "/unity-build/Build/*.data.gz",
-      "headers": {
-        "Content-Encoding": "gzip",
-        "Content-Type": "application/octet-stream"
-      }
-    },
-    {
-      "route": "/unity-build/StreamingAssets/aa/*.json",
-      "headers": {
-        "Content-Type": "application/json"
-      }
-    },
-    {
-      "route": "/unity-build/StreamingAssets/aa/*.bin",
-      "headers": {
-        "Content-Type": "application/octet-stream"
-      }
-    },
-    {
-      "route": "/unity-build/StreamingAssets/aa/*.bundle",
-      "headers": {
-        "Content-Type": "application/octet-stream"
-      }
-    },
-    {
-      "route": "/unity-build/StreamingAssets/aa/*.hash",
-      "headers": {
-        "Content-Type": "text/plain; charset=utf-8"
-      }
-    },
-    {
-      "route": "/unity-build/StreamingAssets/aa/WebGL/*.bin",
-      "headers": {
-        "Content-Type": "application/octet-stream"
-      }
-    },
-    {
-      "route": "/unity-build/StreamingAssets/aa/WebGL/*.bundle",
-      "headers": {
-        "Content-Type": "application/octet-stream"
-      }
-    },
-    {
-      "route": "/unity-build/StreamingAssets/aa/WebGL/*.hash",
-      "headers": {
-        "Content-Type": "text/plain; charset=utf-8"
-      }
-    }
-  ],
+  "routes": [],
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/assets/*", "/legacy/*", "/api/*", "/unity-build/*"]
+    "exclude": [
+      "/assets/*",
+      "/legacy/*",
+      "/api/*"
+    ]
   },
   "responseOverrides": {
     "404": {
