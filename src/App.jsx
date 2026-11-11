@@ -2471,7 +2471,7 @@ function SiteFooter() {
           <Link to="/privacy-policy">Privacy Policy</Link> |{' '}
           <Link to="/terms-of-use">Terms of Use</Link> |{' '}
           <Link to="/blog">Blog</Link> |{' '}
-          <Link to="/unity">Unity</Link> |{' '}
+          <Link to="/play">Play</Link> |{' '}
           <a
             href="https://www.teepublic.com/user/beer-cheer"
             target="_blank"
@@ -2504,7 +2504,8 @@ function App() {
         <Route path="/admin" element={<AdminEditorPage />} />
         <Route path="/admin/blogs" element={<AdminBlogsPage />} />
         <Route path="/admin/blogs/:postId" element={<AdminBlogDetailsPage />} />
-        <Route path="/unity" element={<UnityPage />} />
+        <Route path="/play" element={<UnityPage />} />
+        <Route path="/unity" element={<Navigate to="/play" replace />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/terms-of-use" element={<TermsOfUsePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
