@@ -180,7 +180,9 @@ function RouteMeta() {
 
   useEffect(() => {
     const isAdmin = pathname === '/admin' || pathname.startsWith('/admin/')
-    const knownTitle = PAGE_TITLES[pathname]
+    // Blog sub-pages (archives, posts) are indexable; the page itself can refine document.title.
+    const isBlogSubpage = pathname.startsWith('/blog/')
+    const knownTitle = PAGE_TITLES[pathname] ?? (isBlogSubpage ? 'Blog | Beer Cheer' : undefined)
     const isNotFound = !knownTitle && !isAdmin && pathname !== '/unity'
 
     document.title = knownTitle ?? (isAdmin ? 'Admin | Beer Cheer' : 'Page not found | Beer Cheer')
