@@ -21,6 +21,9 @@ function signAdminToken() {
 }
 
 function getRequestToken(req) {
+  if (!req || !req.headers) {
+    return null
+  }
   const customToken = req.headers["x-admin-token"] || req.headers["X-Admin-Token"]
   if (customToken) {
     return customToken
@@ -61,6 +64,22 @@ function requireAdmin(context, req) {
   }
 }
 
+// Like requireAdmin, but never writes a response: returns the decoded admin token or null.
+function getAdmin(req) {
+  const secret = getJwtSecret()
+  const token = getRequestToken(req)
+  if (!secret || !token) {
+    return null
+  }
+
+  try {
+    const decoded = jwt.verify(token, secret, { algorithms: [JWT_ALGORITHM] })
+    return decoded.role === "admin" ? decoded : null
+  } catch {
+    return null
+  }
+}
+
 function safeEqual(a, b) {
   const hashA = crypto.createHash("sha256").update(String(a)).digest()
   const hashB = crypto.createHash("sha256").update(String(b)).digest()
@@ -78,6 +97,7 @@ function isAdminPasswordValid(password) {
 module.exports = {
   signAdminToken,
   requireAdmin,
+  getAdmin,
   isAdminPasswordValid,
   safeEqual
 }

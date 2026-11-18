@@ -80,6 +80,41 @@ function formatPublishDate(value) {
   }
 }
 
+// Archives of other blogs imported into the Beer Cheer blog (see api/tools/import-bend-beer-blog.js).
+const BLOG_SECTIONS = {
+  'bend-beer-blog': {
+    label: 'Bend Beer Blog',
+    tagline: 'Craft beer and breweries in Bend, Oregon, 2010 to 2015.',
+  },
+}
+
+const KIND_LABELS = {
+  post: 'Posts',
+  'beer-review': 'Beer Reviews',
+  brewery: 'Breweries',
+  page: 'Pages',
+}
+
+const KIND_ORDER = ['post', 'beer-review', 'brewery', 'page']
+
+function getSectionLabel(section) {
+  return BLOG_SECTIONS[section]?.label || section
+}
+
+function getKindLabel(kind) {
+  const label = KIND_LABELS[kind] || kind
+  // Singular for inline badges ("Beer Review", "Brewery").
+  return label === 'Breweries' ? 'Brewery' : label.replace(/s$/, '')
+}
+
+function formatPublishDay(value) {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) {
+    return value
+  }
+  return date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })
+}
+
 function escapeHtml(value) {
   return String(value || '')
     .replace(/&/g, '&amp;')
@@ -182,7 +217,10 @@ function RouteMeta() {
     const isAdmin = pathname === '/admin' || pathname.startsWith('/admin/')
     // Blog sub-pages (archives, posts) are indexable; the page itself can refine document.title.
     const isBlogSubpage = pathname.startsWith('/blog/')
-    const knownTitle = PAGE_TITLES[pathname] ?? (isBlogSubpage ? 'Blog | Beer Cheer' : undefined)
+    const blogSection = isBlogSubpage ? BLOG_SECTIONS[pathname.split('/')[2]] : undefined
+    const knownTitle =
+      PAGE_TITLES[pathname] ??
+      (blogSection ? `${blogSection.label} | Beer Cheer` : isBlogSubpage ? 'Blog | Beer Cheer' : undefined)
     const isNotFound = !knownTitle && !isAdmin && pathname !== '/unity'
 
     document.title = knownTitle ?? (isAdmin ? 'Admin | Beer Cheer' : 'Page not found | Beer Cheer')
@@ -1609,6 +1647,15 @@ function BlogPage() {
           <Link to="/admin/login" className="blog-admin-link">Admin Login</Link>
         </div>
 
+        <aside className="blog-archive-callout" aria-label="Blog archives">
+          {Object.entries(BLOG_SECTIONS).map(([key, section]) => (
+            <p key={key}>
+              <strong>From the archive:</strong>{' '}
+              <Link to={`/blog/${key}`}>{section.label}</Link>, {section.tagline}
+            </p>
+          ))}
+        </aside>
+
         {loading && <p>Loading posts...</p>}
         {error && <p className="blog-error">{error}</p>}
         {!loading && !error && posts.length === 0 && (
@@ -1652,6 +1699,172 @@ function BlogPage() {
               Next
             </button>
           </nav>
+        )}
+      </div>
+      <SiteFooter />
+    </div>
+  )
+}
+
+function useSectionPosts(section) {
+  const [state, setState] = useState({ posts: [], loading: true, error: '' })
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function load() {
+      setState({ posts: [], loading: true, error: '' })
+      try {
+        const token = localStorage.getItem(ADMIN_TOKEN_KEY)
+        const response = await fetch(
+          apiUrl(`/api/blog-posts?section=${encodeURIComponent(section)}`),
+          token ? { headers: { 'x-admin-token': token } } : undefined,
+        )
+        const data = await parseJsonSafe(response)
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to load posts')
+        }
+        if (!cancelled) {
+          setState({ posts: Array.isArray(data.posts) ? data.posts : [], loading: false, error: '' })
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setState({ posts: [], loading: false, error: err.message || 'Failed to load posts' })
+        }
+      }
+    }
+
+    load()
+    return () => {
+      cancelled = true
+    }
+  }, [section])
+
+  return state
+}
+
+function ArchiveHeader() {
+  return (
+    <Link to="/" className="legal-logo-link" aria-label="Back to Beer Cheer home">
+      <img
+        src="/legacy/images/beer-cheer-logo-no-gear.png"
+        alt="Beer Cheer"
+        className="legal-logo"
+      />
+    </Link>
+  )
+}
+
+function BlogSectionPage() {
+  const { section } = useParams()
+  const config = BLOG_SECTIONS[section]
+  const { posts, loading, error } = useSectionPosts(section)
+
+  if (!config) {
+    return <Navigate to="/blog" replace />
+  }
+
+  const groups = KIND_ORDER
+    .map((kind) => ({ kind, items: posts.filter((post) => (post.kind || 'post') === kind) }))
+    .filter((group) => group.items.length > 0)
+
+  return (
+    <div className="legal-page">
+      <div className="legal-inner">
+        <ArchiveHeader />
+        <p className="blog-back-link-row"><Link to="/blog">← Beer Cheer Blog</Link></p>
+
+        <div className="blog-header">
+          <h1>{config.label}</h1>
+        </div>
+        <p className="archive-tagline">
+          {config.tagline} These posts were originally published on {config.label} and keep their
+          original dates.
+        </p>
+
+        {loading && <p>Loading posts...</p>}
+        {error && <p className="blog-error">{error}</p>}
+        {!loading && !error && posts.length === 0 && <p>No posts in this archive yet.</p>}
+
+        {groups.map((group) => (
+          <section key={group.kind} className="archive-group">
+            <h2>{KIND_LABELS[group.kind] || group.kind}</h2>
+            <ul className="archive-list">
+              {group.items.map((post) => (
+                <li key={post.id} className="archive-list-item">
+                  <Link
+                    to={`/blog/${section}/${post.slug}`}
+                    dangerouslySetInnerHTML={{ __html: toRenderableHtml(post.title) }}
+                  />
+                  <span className="blog-date">
+                    {post.status === 'draft' && <strong>Draft · </strong>}
+                    {formatPublishDay(post.publishedAt)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+      <SiteFooter />
+    </div>
+  )
+}
+
+function BlogSectionPostPage() {
+  const { section, slug } = useParams()
+  const config = BLOG_SECTIONS[section]
+  const { posts, loading, error } = useSectionPosts(section)
+
+  if (!config) {
+    return <Navigate to="/blog" replace />
+  }
+
+  const post = posts.find((item) => item.slug === slug)
+  const comments = Array.isArray(post?.comments) ? post.comments : []
+
+  return (
+    <div className="legal-page">
+      <div className="legal-inner">
+        <ArchiveHeader />
+        <p className="blog-back-link-row">
+          <Link to={`/blog/${section}`}>← {config.label}</Link>
+        </p>
+
+        {loading && <p>Loading post...</p>}
+        {error && <p className="blog-error">{error}</p>}
+        {!loading && !error && !post && <p>Post not found.</p>}
+
+        {post && (
+          <article className="blog-card archive-post">
+            <h1 dangerouslySetInnerHTML={{ __html: toRenderableHtml(post.title) }} />
+            <p className="blog-date">
+              {post.status === 'draft' && <strong>Draft (admins only) · </strong>}
+              Originally published on {config.label}, {formatPublishDay(post.publishedAt)}
+              {post.kind && post.kind !== 'post' && ` · ${getKindLabel(post.kind)}`}
+            </p>
+            <div
+              className="blog-content"
+              dangerouslySetInnerHTML={{ __html: toRenderableHtml(post.content) }}
+            />
+
+            {comments.length > 0 && (
+              <section className="archive-comments" aria-label={`Comments from ${config.label}`}>
+                <h2>Comments from {config.label}</h2>
+                {comments.map((comment, index) => (
+                  <div key={`${comment.date}-${index}`} className="archive-comment">
+                    <p className="archive-comment-meta">
+                      <strong>{comment.author || 'Anonymous'}</strong> · {formatPublishDay(comment.date)}
+                    </p>
+                    <div
+                      className="blog-content"
+                      dangerouslySetInnerHTML={{ __html: toRenderableHtml(comment.content) }}
+                    />
+                  </div>
+                ))}
+              </section>
+            )}
+          </article>
         )}
       </div>
       <SiteFooter />
@@ -2026,7 +2239,9 @@ function AdminBlogsPage() {
           return
         }
 
-        const postsResponse = await fetch(apiUrl('/api/blog-posts'))
+        const postsResponse = await fetch(apiUrl('/api/blog-posts?all=1'), {
+          headers: { 'x-admin-token': token },
+        })
         const postsData = await parseJsonSafe(postsResponse)
 
         if (!postsResponse.ok) {
@@ -2123,9 +2338,15 @@ function AdminBlogsPage() {
                 <article key={post.id} className="admin-blog-list-item">
                   <div className="admin-blog-list-top">
                     <div className="admin-blog-list-heading">
-                      <h2 className="admin-blog-list-title">{post.title || '(Untitled)'}</h2>
+                      <h2
+                        className="admin-blog-list-title"
+                        dangerouslySetInnerHTML={{ __html: toRenderableHtml(post.title) || '(Untitled)' }}
+                      />
                       <p className="admin-blog-list-date">
-                        Published {formatPublishDate(post.publishedAt)}
+                        {post.status === 'draft' ? 'Draft, dated ' : 'Published '}
+                        {formatPublishDate(post.publishedAt)}
+                        {post.section && ` · ${getSectionLabel(post.section)}`}
+                        {post.kind && post.kind !== 'post' && ` · ${getKindLabel(post.kind)}`}
                       </p>
                     </div>
                     <div className="admin-blog-list-controls">
@@ -2209,6 +2430,8 @@ function AdminBlogDetailsPage() {
   const [loadingPost, setLoadingPost] = useState(true)
   const [title, setTitle] = useState('')
   const [excerpt, setExcerpt] = useState('')
+  // Only set for posts that carry a status (imported archives); null = no status control.
+  const [status, setStatus] = useState(null)
   const [content, setContent] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [message, setMessage] = useState('')
@@ -2331,7 +2554,9 @@ function AdminBlogDetailsPage() {
           return
         }
 
-        const postsResponse = await fetch(apiUrl('/api/blog-posts'))
+        const postsResponse = await fetch(apiUrl('/api/blog-posts?all=1'), {
+          headers: { 'x-admin-token': token },
+        })
         const postsData = await parseJsonSafe(postsResponse)
 
         if (!postsResponse.ok) {
@@ -2348,6 +2573,7 @@ function AdminBlogDetailsPage() {
         if (!cancelled) {
           setTitle(selectedPost.title || '')
           setExcerpt(selectedPost.excerpt || '')
+          setStatus(selectedPost.status || null)
           setContent(selectedPost.content || '')
           setAuthChecked(true)
           setIsAuthed(true)
@@ -2400,6 +2626,7 @@ function AdminBlogDetailsPage() {
           title,
           excerpt,
           content,
+          ...(status ? { status } : {}),
         }),
       })
 
@@ -2484,6 +2711,20 @@ function AdminBlogDetailsPage() {
               )}
               {!editorError && !editorReady && <p className="admin-editor-note">Loading editor...</p>}
               {editorError && <p className="blog-error">{editorError}</p>}
+
+              {status && (
+                <>
+                  <label htmlFor="update-post-status">Visibility</label>
+                  <select
+                    id="update-post-status"
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                  >
+                    <option value="publish">Published (public)</option>
+                    <option value="draft">Draft (admins only)</option>
+                  </select>
+                </>
+              )}
 
               <button type="submit" className="blog-btn" disabled={submitting}>
                 {submitting ? 'Updating...' : 'Update Blog'}
@@ -2577,6 +2818,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/beer-cheer-open-testing" element={<OpenTestingPage />} />
         <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog/:section" element={<BlogSectionPage />} />
+        <Route path="/blog/:section/:slug" element={<BlogSectionPostPage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin" element={<AdminEditorPage />} />
         <Route path="/admin/blogs" element={<AdminBlogsPage />} />

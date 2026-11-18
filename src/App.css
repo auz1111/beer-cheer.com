@@ -1687,3 +1687,188 @@
     padding: 0;
   }
 }
+
+/* Blog archives (imported blogs, e.g. /blog/bend-beer-blog) */
+.blog-archive-callout {
+  border: 1px solid rgba(244, 211, 143, 0.35);
+  padding: 0.6rem 0.9rem;
+  margin: 1rem 0;
+}
+
+.blog-archive-callout p {
+  margin: 0 !important;
+}
+
+.blog-archive-callout a,
+.archive-list a {
+  color: #ffd88a;
+}
+
+.archive-tagline {
+  margin-bottom: 1.5rem !important;
+}
+
+.archive-group {
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  margin-top: 1.25rem;
+  padding-top: 0.5rem;
+}
+
+.archive-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.archive-list-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.archive-list-item .blog-date {
+  margin: 0 !important;
+}
+
+.archive-post .blog-content::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.archive-post .alignleft {
+  float: left;
+  margin: 0.25rem 1rem 0.75rem 0;
+}
+
+.archive-post .alignright {
+  float: right;
+  margin: 0.25rem 0 0.75rem 1rem;
+}
+
+.archive-post .aligncenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.archive-post .wp-caption {
+  max-width: 100%;
+}
+
+.archive-post .wp-caption.alignleft,
+.archive-post .wp-caption.alignright {
+  max-width: min(300px, 45%);
+}
+
+.archive-post figcaption {
+  font-size: 0.85rem;
+  opacity: 0.85;
+  margin-top: 0.25rem;
+}
+
+.archive-featured img {
+  max-height: 320px;
+  width: auto;
+}
+
+.archive-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 0.5rem;
+  margin: 1rem 0;
+  clear: both;
+}
+
+.archive-gallery img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.archive-embed {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  margin: 1rem 0;
+  clear: both;
+}
+
+.archive-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.archive-review,
+.archive-brewery {
+  clear: both;
+  border: 1px solid rgba(244, 211, 143, 0.35);
+  padding: 0.75rem 1rem;
+  margin: 1.25rem 0;
+}
+
+.archive-review h3,
+.archive-brewery h3 {
+  margin-top: 0 !important;
+}
+
+.archive-review dt {
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.archive-review dd {
+  margin: 0;
+}
+
+.archive-brewery ul {
+  list-style: none;
+  padding: 0;
+}
+
+.archive-note {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.archive-stars {
+  color: #f4d38f;
+  letter-spacing: 0.05em;
+}
+
+.archive-score {
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+@media (max-width: 600px) {
+  .archive-post .alignleft,
+  .archive-post .alignright,
+  .archive-post .wp-caption.alignleft,
+  .archive-post .wp-caption.alignright {
+    float: none;
+    max-width: 100%;
+    margin: 0.5rem 0;
+  }
+}
+
+.archive-comments {
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  margin-top: 2rem;
+  padding-top: 0.5rem;
+}
+
+.archive-comment {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.5rem 0;
+}
+
+.archive-comment-meta {
+  margin: 0 0 0.25rem !important;
+  font-size: 0.9rem;
+}
