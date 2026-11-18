@@ -50,6 +50,25 @@ function requireAdmin(context, req) {
   }
 }
 
+// Like requireAdmin, but never writes a response: returns the decoded admin token or null.
+function getAdmin(req) {
+  const headers = (req && req.headers) || {}
+  const customToken = headers['x-admin-token'] || headers['X-Admin-Token']
+  const authHeader = headers.authorization || headers.Authorization || ''
+  const token = customToken || (authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : '')
+
+  if (!token) {
+    return null
+  }
+
+  try {
+    const decoded = jwt.verify(token, getJwtSecret())
+    return decoded.role === "admin" ? decoded : null
+  } catch {
+    return null
+  }
+}
+
 function isAdminPasswordValid(password) {
   const expected = process.env.ADMIN_PASSWORD
   if (!expected) {
@@ -61,5 +80,6 @@ function isAdminPasswordValid(password) {
 module.exports = {
   signAdminToken,
   requireAdmin,
+  getAdmin,
   isAdminPasswordValid
 }

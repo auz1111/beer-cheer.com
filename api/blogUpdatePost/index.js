@@ -17,7 +17,11 @@ module.exports = async function (context, req) {
     return
   }
 
-  const { id, title, excerpt, content } = req.body || {}
+  const { id, title, excerpt, content, status } = req.body || {}
+
+  if (status !== undefined && status !== "draft" && status !== "publish") {
+    return json(context, 400, { message: "status must be draft or publish" })
+  }
 
   if (!id || !title || !content) {
     return json(context, 400, { message: "id, title and content are required" })
@@ -35,7 +39,11 @@ module.exports = async function (context, req) {
     const updatedPost = {
       ...existingPost,
       title: String(title).trim(),
-      slug: slugify(title) || existingPost.slug || String(id),
+      // Archived (sectioned) posts keep their imported slug so their URLs don't change.
+      slug: existingPost.section
+        ? existingPost.slug
+        : slugify(title) || existingPost.slug || String(id),
+      ...(status !== undefined ? { status } : {}),
       excerpt: String(excerpt || "").trim(),
       content: String(content).trim(),
       updatedAt: new Date().toISOString(),
