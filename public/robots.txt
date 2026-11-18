@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin
+Disallow: /api/
+
+Sitemap: https://www.beer-cheer.com/sitemap.xml
