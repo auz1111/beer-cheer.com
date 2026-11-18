@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { BrowserRouter, Link, Navigate, Route, Routes, useParams } from 'react-router-dom'
 import './App.css'
 import 'quill/dist/quill.snow.css'
+import { sanitizeHtml } from './sanitizeHtml'
 import { initLegacyBubbleCanvas } from './legacy/bubble'
 import { initLegacyBottleAnimations } from './legacy/bottles'
 
@@ -134,7 +135,7 @@ function toRenderableHtml(value) {
 
   // Legacy imported posts already contain rendered HTML; new admin posts are often plain text.
   if (/[<][a-z!/]/i.test(trimmed)) {
-    return raw
+    return sanitizeHtml(raw)
   }
 
   return escapeHtml(raw).replace(/\r?\n/g, '<br />')
@@ -2361,6 +2362,8 @@ function AdminBlogDetailsPage() {
   const [editorError, setEditorError] = useState('')
   const editorHostRef = useRef(null)
   const quillRef = useRef(null)
+  // Last HTML the editor emitted, so the sync effect below doesn't paste it straight back in.
+  const lastEditorHtmlRef = useRef(null)
 
   useEffect(() => {
     let disposed = false
@@ -2375,15 +2378,10 @@ function AdminBlogDetailsPage() {
       }
 
       try {
-        await import('quill/dist/quill.js')
+        const { default: Quill } = await import('quill')
 
         if (disposed || !editorHostRef.current) {
           return
-        }
-
-        const Quill = window.Quill
-        if (typeof Quill !== 'function') {
-          throw new Error('Quill constructor is unavailable on window')
         }
 
         // React StrictMode can mount/unmount twice in dev; clear stale editor DOM before re-init.
@@ -2404,7 +2402,11 @@ function AdminBlogDetailsPage() {
         })
 
         editor.on('text-change', () => {
-          setContent(editor.root.innerHTML)
+          // Quill 2 stores bullet lists as <ol><li data-list="bullet">; getSemanticHTML() gives real
+          // <ul>/<ol> markup for the public blog. 2.0.3 also turns every space into &nbsp;, so undo that.
+          const html = editor.getLength() <= 1 ? '' : editor.getSemanticHTML().replace(/&nbsp;/g, ' ')
+          lastEditorHtmlRef.current = html
+          setContent(html)
         })
 
         quillRef.current = editor
@@ -2434,15 +2436,14 @@ function AdminBlogDetailsPage() {
       return
     }
 
-    const current = quillRef.current.root.innerHTML
     const next = content || ''
-    if (current !== next) {
-      try {
-        quillRef.current.clipboard.dangerouslyPasteHTML(0, next, 'silent')
-      } catch {
-        quillRef.current.root.innerHTML = next
-      }
+    if (next === lastEditorHtmlRef.current) {
+      return
     }
+
+    lastEditorHtmlRef.current = next
+    // Replaces the whole document (the old (0, html) form inserted in front of existing text).
+    quillRef.current.clipboard.dangerouslyPasteHTML(next, 'silent')
   }, [content, editorReady])
 
   useEffect(() => {
