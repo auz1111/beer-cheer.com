@@ -211,7 +211,9 @@ function setHeadTag(selector, create, attrs) {
 
 // Keeps the document title, canonical URL and robots tag in sync with the current route.
 function RouteMeta() {
-  const { pathname } = useLocation()
+  const { pathname: rawPathname } = useLocation()
+  // React Router serves /play/ the same as /play, so meta (and the canonical URL) use the slash-less form.
+  const pathname = rawPathname.replace(/\/+$/, '') || '/'
 
   useEffect(() => {
     const isAdmin = pathname === '/admin' || pathname.startsWith('/admin/')
