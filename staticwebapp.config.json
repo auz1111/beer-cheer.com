@@ -1,16 +1,34 @@
 {
-  "routes": [],
-  "navigationFallback": {
-    "rewrite": "/index.html",
-    "exclude": [
-      "/assets/*",
-      "/legacy/*",
-      "/api/*"
-    ]
-  },
+  "routes": [
+    { "route": "/unity", "redirect": "/play", "statusCode": 301 },
+    { "route": "/unity/*", "redirect": "/play", "statusCode": 301 },
+
+    { "route": "/", "rewrite": "/index.html" },
+    { "route": "/play", "rewrite": "/index.html" },
+    { "route": "/blog", "rewrite": "/index.html" },
+    { "route": "/blog/*", "rewrite": "/index.html" },
+    { "route": "/beer-cheer-open-testing", "rewrite": "/index.html" },
+    { "route": "/privacy-policy", "rewrite": "/index.html" },
+    { "route": "/terms-of-use", "rewrite": "/index.html" },
+    {
+      "route": "/admin",
+      "rewrite": "/index.html",
+      "headers": { "X-Robots-Tag": "noindex, nofollow" }
+    },
+    {
+      "route": "/admin/*",
+      "rewrite": "/index.html",
+      "headers": { "X-Robots-Tag": "noindex, nofollow" }
+    }
+  ],
   "responseOverrides": {
     "404": {
-      "rewrite": "/index.html"
+      "rewrite": "/index.html",
+      "statusCode": 404
     }
+  },
+  "globalHeaders": {
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
   }
 }

@@ -26,3 +26,6 @@ dist-ssr
 # Unity WebGL exports (generated build artifacts)
 public/unity-build/
 public/unity-build-2/
+
+# scratch files
+.tmp-*

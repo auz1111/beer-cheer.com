@@ -1,43 +1,57 @@
+const crypto = require("crypto")
 const jwt = require("jsonwebtoken")
 const { json } = require("./response")
 
+const JWT_ALGORITHM = "HS256"
+
+// No fallback: if JWT_SECRET is missing, admin auth is disabled rather than signed with a guessable key.
 function getJwtSecret() {
-  return process.env.JWT_SECRET || process.env.ADMIN_PASSWORD || "local-dev-secret-change-me"
+  return process.env.JWT_SECRET || null
 }
 
 function signAdminToken() {
-  return jwt.sign({ role: "admin" }, getJwtSecret(), {
+  const secret = getJwtSecret()
+  if (!secret) {
+    return null
+  }
+  return jwt.sign({ role: "admin" }, secret, {
+    algorithm: JWT_ALGORITHM,
     expiresIn: "7d"
   })
 }
 
-function requireAdmin(context, req) {
-  const customToken = req.headers['x-admin-token'] || req.headers['X-Admin-Token']
+function getRequestToken(req) {
+  if (!req || !req.headers) {
+    return null
+  }
+  const customToken = req.headers["x-admin-token"] || req.headers["X-Admin-Token"]
   if (customToken) {
-    try {
-      const decoded = jwt.verify(customToken, getJwtSecret())
-      if (decoded.role !== "admin") {
-        json(context, 403, { message: "Forbidden" })
-        return null
-      }
-
-      return decoded
-    } catch {
-      json(context, 401, { message: "Invalid token" })
-      return null
-    }
+    return customToken
   }
 
   const authHeader = req.headers.authorization || req.headers.Authorization
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    return authHeader.slice("Bearer ".length)
+  }
+
+  return null
+}
+
+function requireAdmin(context, req) {
+  const secret = getJwtSecret()
+  if (!secret) {
+    json(context, 503, { message: "Admin auth is not configured on the server" })
+    return null
+  }
+
+  const token = getRequestToken(req)
+  if (!token) {
     json(context, 401, { message: "Missing bearer token" })
     return null
   }
 
-  const token = authHeader.slice("Bearer ".length)
-
   try {
-    const decoded = jwt.verify(token, getJwtSecret())
+    const decoded = jwt.verify(token, secret, { algorithms: [JWT_ALGORITHM] })
     if (decoded.role !== "admin") {
       json(context, 403, { message: "Forbidden" })
       return null
@@ -52,21 +66,24 @@ function requireAdmin(context, req) {
 
 // Like requireAdmin, but never writes a response: returns the decoded admin token or null.
 function getAdmin(req) {
-  const headers = (req && req.headers) || {}
-  const customToken = headers['x-admin-token'] || headers['X-Admin-Token']
-  const authHeader = headers.authorization || headers.Authorization || ''
-  const token = customToken || (authHeader.startsWith("Bearer ") ? authHeader.slice("Bearer ".length) : '')
-
-  if (!token) {
+  const secret = getJwtSecret()
+  const token = getRequestToken(req)
+  if (!secret || !token) {
     return null
   }
 
   try {
-    const decoded = jwt.verify(token, getJwtSecret())
+    const decoded = jwt.verify(token, secret, { algorithms: [JWT_ALGORITHM] })
     return decoded.role === "admin" ? decoded : null
   } catch {
     return null
   }
+}
+
+function safeEqual(a, b) {
+  const hashA = crypto.createHash("sha256").update(String(a)).digest()
+  const hashB = crypto.createHash("sha256").update(String(b)).digest()
+  return crypto.timingSafeEqual(hashA, hashB)
 }
 
 function isAdminPasswordValid(password) {
@@ -74,12 +91,13 @@ function isAdminPasswordValid(password) {
   if (!expected) {
     return false
   }
-  return password === expected
+  return safeEqual(password, expected)
 }
 
 module.exports = {
   signAdminToken,
   requireAdmin,
   getAdmin,
-  isAdminPasswordValid
+  isAdminPasswordValid,
+  safeEqual
 }

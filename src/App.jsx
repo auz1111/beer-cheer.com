@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { BrowserRouter, Link, Navigate, Route, Routes, useParams } from 'react-router-dom'
+import { BrowserRouter, Link, Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import './App.css'
 import 'quill/dist/quill.snow.css'
 import { initLegacyBubbleCanvas } from './legacy/bubble'
@@ -182,6 +182,87 @@ function getLoginErrorMessage(response, data, err) {
   }
 
   return err?.message || 'Login failed. Please try again.'
+}
+
+const SITE_ORIGIN = 'https://www.beer-cheer.com'
+const DEFAULT_TITLE = 'Beer Cheer: a crafty lil beer game'
+
+const PAGE_TITLES = {
+  '/': DEFAULT_TITLE,
+  '/play': 'Play Beer Cheer in your browser | Beer Cheer',
+  '/blog': 'Dev blog | Beer Cheer',
+  '/beer-cheer-open-testing': 'Android open testing | Beer Cheer',
+  '/privacy-policy': 'Privacy Policy | Beer Cheer',
+  '/terms-of-use': 'Terms of Use | Beer Cheer',
+}
+
+function setHeadTag(selector, create, attrs) {
+  let el = document.head.querySelector(selector)
+  if (!attrs) {
+    el?.remove()
+    return
+  }
+  if (!el) {
+    el = create()
+    document.head.appendChild(el)
+  }
+  Object.entries(attrs).forEach(([key, value]) => el.setAttribute(key, value))
+}
+
+// Keeps the document title, canonical URL and robots tag in sync with the current route.
+function RouteMeta() {
+  const { pathname: rawPathname } = useLocation()
+  // React Router serves /play/ the same as /play, so meta (and the canonical URL) use the slash-less form.
+  const pathname = rawPathname.replace(/\/+$/, '') || '/'
+
+  useEffect(() => {
+    const isAdmin = pathname === '/admin' || pathname.startsWith('/admin/')
+    // Blog sub-pages (archives, posts) are indexable; the page itself can refine document.title.
+    const isBlogSubpage = pathname.startsWith('/blog/')
+    const blogSection = isBlogSubpage ? BLOG_SECTIONS[pathname.split('/')[2]] : undefined
+    const knownTitle =
+      PAGE_TITLES[pathname] ??
+      (blogSection ? `${blogSection.label} | Beer Cheer` : isBlogSubpage ? 'Blog | Beer Cheer' : undefined)
+    const isNotFound = !knownTitle && !isAdmin && pathname !== '/unity'
+
+    document.title = knownTitle ?? (isAdmin ? 'Admin | Beer Cheer' : 'Page not found | Beer Cheer')
+
+    setHeadTag(
+      'link[rel="canonical"]',
+      () => document.createElement('link'),
+      knownTitle ? { rel: 'canonical', href: SITE_ORIGIN + pathname } : null,
+    )
+    setHeadTag(
+      'meta[name="robots"]',
+      () => document.createElement('meta'),
+      isAdmin || isNotFound ? { name: 'robots', content: 'noindex, nofollow' } : null,
+    )
+  }, [pathname])
+
+  return null
+}
+
+function NotFoundPage() {
+  return (
+    <div className="legal-page">
+      <div className="legal-inner not-found">
+        <Link to="/" className="legal-logo-link" aria-label="Back to Beer Cheer home">
+          <img
+            src="/legacy/images/beer-cheer-logo-no-gear.png"
+            alt="Beer Cheer"
+            className="legal-logo"
+          />
+        </Link>
+        <h1>This bottle fell off the line</h1>
+        <p>We couldn&apos;t find that page. It may have moved when the site was rebuilt.</p>
+        <p>
+          <Link to="/">Go to the home page</Link> · <Link to="/play">Play the game</Link> ·{' '}
+          <Link to="/blog">Read the dev blog</Link>
+        </p>
+      </div>
+      <SiteFooter />
+    </div>
+  )
 }
 
 function HomePage() {
@@ -2734,6 +2815,7 @@ function SiteFooter() {
 function App() {
   return (
     <BrowserRouter>
+      <RouteMeta />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/beer-cheer-open-testing" element={<OpenTestingPage />} />
@@ -2748,7 +2830,7 @@ function App() {
         <Route path="/unity" element={<Navigate to="/play" replace />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/terms-of-use" element={<TermsOfUsePage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   )
